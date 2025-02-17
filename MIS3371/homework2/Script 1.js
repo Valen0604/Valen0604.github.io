@@ -1,10 +1,10 @@
 /*
     Program name: Script_1.js
     Author: Valentino Javier Salerni Longo
-    Date created: 02/01/2025
+    Date created: 02/17/2025
     Date last edited:
     Version: 1.0
-    Description: Script that shows the current date for homework 1. */
+    Description: Script that shows the current date for homework 2. */
 
 const d = new Date();
 
@@ -12,23 +12,31 @@ let year = d.getFullYear();
 let month = d.getMonth() + 1;
 let day = d.getDate();
 
-document.getElementById ("date").innerHTML = day + "/" + month + "/" + year;
-/*
-function preview() {
-    var formcontents = document.getElementById("signup");
-    var formoutput;
-    var datatype;
-    var i;
-    formoutput = "<table class='output'><th>Dataname</th><th>Type</th><th>Value</th>";
+document.getElementById("date").innerHTML = day + "/" + month + "/" + year;
 
-    for(i = 0; i < formcontents.elements.length; i++) {
-        element = formcontents.elements[i];
-        if (element.type != "submit" && element.type !== "button") {
-            formoutput += "<tr><td>" + element.name + "</td><td>" 
-            + element.type + "</td><td>" + element.value + "</td></tr>";
-        }
+/* Obtained from https://www.geeksforgeeks.org/password-matching-using-javascript/ */
+
+function checkPassword(form) {
+    password1 = form.password.value;
+    password2 = form.password2.value;
+
+    if(password1 == "")
+        alert("Please enter a password.");
+    else if(password2 == "")
+        alert("Please enter the password again.");
+    else if(password1 != password2){
+        alert("The passwords do not match. Please try again.");
+        return false;
     }
-    formoutput += "</table>";
+    else {
+        return true;
+    }
+}
+/* From: https://www.w3schools.com/howto/howto_js_rangeslider.asp */
+var slider = document.getElementById("pain");
+var output = document.getElementById("pain_value");
+output.innerHTML = slider.value;
 
-    document.getElementById("preview").innerHTML = formoutput;
-}*/
+slider.oninput = function() {
+    output.innerHTML = this.value;
+}

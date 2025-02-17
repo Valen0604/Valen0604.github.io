@@ -42,7 +42,7 @@
     </div>
     <hr>
     <div id="body">
-        <form name = "signup" action="Thank_You.html">
+        <form name = "signup" action="Thank_You.html" onSubmit = "return checkPassword(this)">
             <table class="form" align="center" width="75%">
                 <tbody>
                     <tr class="form">
@@ -344,10 +344,10 @@
                     <tr>
                         <td align="left" width="40%" colspan="2">
                             <label for="pain">
-                                From 1 to 10, how would you rate your pain?
+                                Rate your pain from 1 to 10
                             </label>
                         </td>
-                        <td colspan="4">1&nbsp;
+                        <td colspan="5">1&nbsp;
                             <input type="range" 
                             id="pain" 
                             name="pain" 
@@ -357,6 +357,9 @@
                             step="1"
                             style="width: 90%;"
                             title="Use the scroll bar to select your pain level, 1 being low and 1- high."> 10
+                        </td>
+                        <td>
+                            Value: <span id="pain_value"></span>
                         </td>
                     </tr>
                     <tr>
@@ -369,11 +372,14 @@
                             <input type="text" 
                             size="25" 
                             maxlength="30" 
+                            minlength="5"
                             id="userID" 
                             name="userID" 
                             required
                             placeholder="Required"
-                            title="Please enter your desired User ID, must be at least 5 characters, no spaces.">
+                            title="Please enter your desired User ID, must be at least 5 characters, 
+                            no spaces, first character must not be a number."
+                            pattern="^[a-zA-Z][a-zA-Z0-9]{5,30}$">
                         </td>
                     </tr>
                     <tr>
@@ -391,7 +397,8 @@
                             name="password" 
                             required
                             placeholder="Required"
-                            title="Please enter your password, must be at least 8 characters and meet all the conditions">
+                            title="Please enter your password, must be at least 8 characters and meet all the conditions"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,30}">
                         </td>
                         <td align="left">
                             <label for="password2">

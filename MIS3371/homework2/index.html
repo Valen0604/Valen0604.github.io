@@ -2,7 +2,7 @@
 <!-- 
     Program name: patient-form.html
     Author: Valentino Javier Salerni Longo
-    Date created: 02/17/2025
+    Date created: 01/30/2025
     Date last edited:
     Version: 1.1
     Description: Form for patient intake -->
@@ -11,7 +11,7 @@
 
 <head>
     <title>
-        Homework 2 Valentino Salerni
+        Homework 1 Valentino Salerni
     </title>
     <!-- Load CSS -->
     <link rel="stylesheet" type="text/css" href="Stylesheet 1.css">
@@ -42,7 +42,7 @@
     </div>
     <hr>
     <div id="body">
-        <form name = "signup" action="Thank_You.html" onSubmit = "return checkPassword(this)">
+        <form name = "signup" action="Thank_You.html">
             <table class="form" align="center" width="75%">
                 <tbody>
                     <tr class="form">
@@ -342,7 +342,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td align="left" width="40%" colspan="2">
+                        <td align="left" width="100%" colspan="2">
                             <label for="pain">
                                 Rate your pain from 1 to 10
                             </label>
@@ -355,11 +355,9 @@
                             max="10" 
                             value="5" 
                             step="1"
-                            style="width: 90%;"
+                            style="width: 80%;"
                             title="Use the scroll bar to select your pain level, 1 being low and 1- high."> 10
-                        </td>
-                        <td>
-                            Value: <span id="pain_value"></span>
+                            &nbsp;&nbsp; <span id="pain_value"></span>
                         </td>
                     </tr>
                     <tr>
@@ -398,7 +396,18 @@
                             required
                             placeholder="Required"
                             title="Please enter your password, must be at least 8 characters and meet all the conditions"
-                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,30}">
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,30}"
+                            oninput="checkPassword()"
+                            onblur="checkPassword()"
+                            onclick="showConditions()">
+                            <div id="conditions" class="conditions">
+                                <div id="pass_userid">❌ Password contains user ID</div>
+                                <div id="pass_upper">❌ Password does not contain uppercase</div>
+                                <div id="pass_lower">❌ Password does not contain lowercase</div>
+                                <div id="pass_number">❌ Password does not contain a number</div>
+                                <div id="pass_special">❌ Password does not contain a special character</div>
+                                <div id="pass_length">❌ Password is not at least 8 characters</div>
+                            </div>
                         </td>
                         <td align="left">
                             <label for="password2">
@@ -413,7 +422,13 @@
                             name="password2" 
                             required
                             placeholder="Required"
-                            title="Please enter your password again">
+                            title="Please enter your password again"
+                            oninput="checkPasswordsMatch()"
+                            onblur="checkPasswordsMatch()"
+                            onclick="showConditions2()">
+                            <div id="match" class="conditions2">
+                                <div id="pass_match">❌ Passwords do not match</div>
+                            </div>
                         </td>
                     </tr>
                     <tr>

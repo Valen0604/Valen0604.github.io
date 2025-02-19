@@ -134,4 +134,5 @@ function validate(){
     }
 }
 
-/* Revisar toda esta porqueria ya me canse de hacerlo */
+/* Revisar toda esta porqueria ya me canse de hacerlo
+El form se envia cuando no deberia */

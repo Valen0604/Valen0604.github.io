@@ -3,7 +3,8 @@
     Author: Valentino Salerni
     Date Created: 01/31/2025
     Date last edited:
-    Description: Stylesheet for homework 1. */
+    Version: 1.0
+    Description: Stylesheet for homework 2. */
 
 html, body {
     margin: 0;
@@ -58,4 +59,19 @@ a {
 }
 a:visited {
     color: rgb(85, 85, 85);
+}
+
+.conditions, .conditions2 {
+    display: none;
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    width: 369px;
+    color: rgb(204, 0, 0);
+    font-family: "Georgia";
+    overflow: auto;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.show {
+    display: block;
 }

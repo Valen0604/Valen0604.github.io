@@ -4,7 +4,7 @@
     Author: Valentino Javier Salerni Longo
     Date created: 01/30/2025
     Date last edited:
-    Version: 1.1
+    Version: 1.2
     Description: Form for patient intake -->
 
 <html>
@@ -42,7 +42,7 @@
     </div>
     <hr>
     <div id="body">
-        <form name = "signup" action="Thank_You.html">
+        <form name = "signup" action="Thank_You.html" onsubmit="return validate();">
             <table class="form" align="center" width="75%">
                 <tbody>
                     <tr class="form">
@@ -398,8 +398,8 @@
                             title="Please enter your password, must be at least 8 characters and meet all the conditions"
                             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,30}"
                             oninput="checkPassword()"
-                            onblur="checkPassword()"
-                            onclick="showConditions()">
+                            onblur="showConditions()"
+                            onfocus="showConditions()">
                             <div id="conditions" class="conditions">
                                 <div id="pass_userid">❌ Password contains user ID</div>
                                 <div id="pass_upper">❌ Password does not contain uppercase</div>
@@ -424,8 +424,8 @@
                             placeholder="Required"
                             title="Please enter your password again"
                             oninput="checkPasswordsMatch()"
-                            onblur="checkPasswordsMatch()"
-                            onclick="showConditions2()">
+                            onblur="showConditions2()"
+                            onfocus="showConditions2()">
                             <div id="match" class="conditions2">
                                 <div id="pass_match">❌ Passwords do not match</div>
                             </div>

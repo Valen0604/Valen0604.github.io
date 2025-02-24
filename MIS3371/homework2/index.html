@@ -67,7 +67,10 @@
                                 placeholder="Required" 
                                 Title="Please enter your First Name"
                                 pattern="^([A-Za-z'-]){1,30}$"
-                                onblur="checkErrors()">
+                                onblur="checkErrors()"
+                                aria-describedby="firstNameError"
+                                aria-invalid="false">
+                                <div id="firstNameError" role="alert" class="error">Only letters, apostrophes or dashes.</div>
                             </td>
                             <td align="left">
                                 <label for="middleinitial">
@@ -98,7 +101,10 @@
                                 placeholder="Required" 
                                 title="Please enter your Last Name"
                                 pattern="^([A-Za-z2-5-])+$"
-                                onblur="checkErrors()">
+                                onblur="checkErrors()"
+                                aria-describedby="lastNameError"
+                                aria-invalid="false">
+                                <div id="lastNameError" role="alert" class="error">Only letters, numbers or dashes.</div>
                             </td>
                         </tr>
     
@@ -135,7 +141,10 @@
                                 pattern="^([0-9]{3}-[0-9]{2}-[0-9]{4}|[0-9]{9})$" 
                                 required
                                 title="Please enter your Social Security Number, must be in the format 000-00-0000"
-                                onblur="checkErrors()">
+                                onblur="checkErrors()"
+                                aria-describedby="ssnNameError"
+                                aria-invalid="false">
+                                <div id="ssnError" role="alert" class="error">Only numbers.</div>
                             </td>
                         </tr>
                         <tr class="form">
@@ -269,7 +278,10 @@
                                 placeholder="Required"
                                 pattern="^([0-9]{5}|[0-9]{5}-[0-9]{4})$"
                                 title="Please enter your ZIP Code, must be at least 5 characters"
-                                onblur="checkErrors()">
+                                onblur="checkErrors()"
+                                aria-describedby="zipError"
+                                aria-invalid="false">
+                                <div id="zipError" role="alert" class="error">Only numbers.</div>
                             </td>
                         </tr>
                         <tr class="form">
@@ -287,7 +299,10 @@
                                 required
                                 placeholder="Required" 
                                 title="Please enter your Email, must include an @ and a ."
-                                onblur="checkErrors()">
+                                onblur="checkErrors()"
+                                aria-describedby="emailError"
+                                aria-invalid="false">
+                                <div id="emailError" role="alert" class="error">Must include an @ and a . domain.</div>
                             </td>
                         </tr>
                         <tr class="form">
@@ -378,7 +393,7 @@
                                     Desired User ID
                                 </label>
                             </td>
-                            <td colspan="6">
+                            <td colspan="1">
                                 <input type="text" 
                                 size="25" 
                                 maxlength="30" 
@@ -390,7 +405,12 @@
                                 title="Please enter your desired User ID, must be at least 5 characters, 
                                 no spaces, first character must not be a number." 
                                 pattern="^[a-zA-Z][a-zA-Z0-9]{4,29}$"
-                                onblur="checkErrors()">
+                                onblur="checkErrors()"
+                                aria-describedby="userIDError"
+                                aria-invalid="false">
+                            </td>
+                            <td colspan="5">
+                                <div id="userIDError" role="alert" class="error">At least 5 characters, no spaces, first character not a number.</div>
                             </td>
                         </tr>
                         <tr>

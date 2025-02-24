@@ -3,7 +3,7 @@
     Author: Valentino Salerni
     Date Created: 01/31/2025
     Date last edited:
-    Version: 1.4
+    Version: 1.5
     Description: Stylesheet for homework 2. */
 
 html, body {
@@ -105,9 +105,6 @@ a:visited {
     transform: scale(0.8);
     animation: fadeInUp 0.5s ease-out forwards;
 }
-.popup-box td {
-    border-bottom: 2px solid rgb(200,200,200);
-}
 .table-container {
     display: flex;
     flex-direction: column;
@@ -145,4 +142,3 @@ a:visited {
     display: flex;
     opacity: 1;
 }
-

@@ -46,7 +46,8 @@ var lowercase = false;
 var number = false;
 var special = false
 var minLength = false;
-const specialCharacters = /[!@#$%^&*()\-+={}[\]:;"'<>,.?\/|\\]/;
+const specialCharactersAllowed = /[!@#$%^&*()\-+={}[\]:;<>,.?\/|\\]/;
+const specialCharactersForbidden = /["']/;
 document.getElementById("password").addEventListener("input", checkPassword);
 function checkPassword() {
     var allMet = true;
@@ -98,13 +99,19 @@ function checkPassword() {
         pass_number.innerHTML = "✅ Password contains numbers";
         number = true;
     }
-    if (specialCharacters.test(password)) {
+    if (specialCharactersAllowed.test(password)) {
         pass_special.setAttribute("style", "color: rgb(0, 128, 0)");
         pass_special.innerHTML = "✅ Password contains special characters";
         special = true;
     } else {
         pass_special.setAttribute("style", "color: rgb(204, 0, 0)");
         pass_special.innerHTML = "❌ Password does not contain special characters";
+        special = false;
+        allMet = false;
+    }
+    if(specialCharactersForbidden.test(password)) {
+        pass_special.setAttribute("style", "color: rgb(204, 0, 0)");
+        pass_special.innerHTML = "❌ Password cannot contain quotes";
         special = false;
         allMet = false;
     }
@@ -221,23 +228,30 @@ const minDate = minD.toISOString().split("T")[0];
 birthDate.setAttribute("min", minDate);
 
 // Check for errors in the whole form
-
+// Accesibility errors obtained from: https://www.w3schools.com/accessibility/accessibility_errors.php
 function checkErrors() {
     var hasErrors = false;
     const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email", "userID"];
     const requirements = [/^[A-Za-z'-]+$/, /^[A-Za-z2-5-]+$/, /^([0-9]{3}-[0-9]{2}-[0-9]{4}|[0-9]{9})$/, 
         /^([0-9]{5}|[0-9]{5}-[0-9]{4})$/, /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, /^[a-zA-Z][a-zA-Z0-9]{4,29}$/];
+    const errorID = ["firstNameError", "lastNameError", "ssnError", "zipError", "emailError", "userIDError"];
     var i;
     for (i = 0; i < IDs.length; i++) {
         var input = document.getElementById(IDs[i]).value;
+        var err = document.getElementById(errorID[i]);
+        var inputElement = document.getElementById(IDs[i]);
         if (input == "") {
-            document.getElementById(IDs[i]).style.borderColor = ""; 
+            inputElement.style.borderColor = ""; 
             hasErrors = true;
         } else if (!requirements[i].test(input)) {
-            document.getElementById(IDs[i]).style.borderColor = "red";
+            inputElement.style.borderColor = "red";
             hasErrors = true;
+            err.style.display = "block";
+            inputElement.setAttribute("aria-invalid", "true");
         } else {
             document.getElementById(IDs[i]).style.borderColor = "";
+            err.style.display = "none";
+            inputElement.setAttribute("aria-invalid", "false");
         }
     }
     return hasErrors;

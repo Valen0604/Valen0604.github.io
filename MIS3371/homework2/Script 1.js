@@ -3,7 +3,7 @@
     Author: Valentino Javier Salerni Longo
     Date created: 02/17/2025
     Date last edited:
-    Version: 1.4
+    Version: 1.6
     Description: Script for homework 2. */
 
 const d = new Date();
@@ -40,17 +40,16 @@ slider.oninput = function () {
 
 // Update dropbox and validate password conditions
 // Can probably be done with a loop but I cannot be bothered to do it rn
-var userID = false;
+var userIDcondition = false;
 var uppercase = false;
 var lowercase = false;
 var number = false;
 var special = false
 var minLength = false;
-var allMet = true;
 const specialCharacters = /[!@#$%^&*()\-+={}[\]:;"'<>,.?\/|\\]/;
 document.getElementById("password").addEventListener("input", checkPassword);
 function checkPassword() {
-    allMet = true;
+    var allMet = true;
     var password = document.getElementById("password").value;
     var userID = document.getElementById("userID").value;
     var pass_userid = document.getElementById("pass_userid");
@@ -62,15 +61,17 @@ function checkPassword() {
     if (!(password.includes(userID))) {
         pass_userid.setAttribute("style", "color: rgb(0, 128, 0)");
         pass_userid.innerHTML = "✅ Password does not contain user ID";
-        userID = true;
+        userIDcondition = true;
     } else {
         pass_userid.setAttribute("style", "color: rgb(204, 0, 0)");
         pass_userid.innerHTML = "❌ Password contains user ID";
+        userIDcondition = false;
         allMet = false;
     }
     if (password.search(/[A-Z]/) < 0) {
         pass_upper.setAttribute("style", "color: rgb(204, 0, 0)");
         pass_upper.innerHTML = "❌ Password does not contain uppercase letters";
+        uppercase = false
         allMet = false;
     } else {
         pass_upper.setAttribute("style", "color: rgb(0, 128, 0)");
@@ -80,6 +81,7 @@ function checkPassword() {
     if (password.search(/[a-z]/) < 0) {
         pass_lower.setAttribute("style", "color: rgb(204, 0, 0)");
         pass_lower.innerHTML = "❌ Password does not contain lowercase letters";
+        lowercase = false;
         allMet = false;
     } else {
         pass_lower.setAttribute("style", "color: rgb(0, 128, 0)");
@@ -89,25 +91,27 @@ function checkPassword() {
     if (password.search(/[0-9]/) < 0) {
         pass_number.setAttribute("style", "color: rgb(204, 0, 0)");
         pass_number.innerHTML = "❌ Password does not contain numbers";
+        number = false;
         allMet = false;
     } else {
         pass_number.setAttribute("style", "color: rgb(0, 128, 0)");
         pass_number.innerHTML = "✅ Password contains numbers";
         number = true;
     }
-    if (password.search(specialCharacters) < 0) {
-        pass_special.setAttribute("style", "color: rgb(204, 0, 0)");
-        pass_special.innerHTML = "❌ Password does not contain special characters";
-        allMet = false;
-    }
-    else {
+    if (specialCharacters.test(password)) {
         pass_special.setAttribute("style", "color: rgb(0, 128, 0)");
         pass_special.innerHTML = "✅ Password contains special characters";
         special = true;
+    } else {
+        pass_special.setAttribute("style", "color: rgb(204, 0, 0)");
+        pass_special.innerHTML = "❌ Password does not contain special characters";
+        special = false;
+        allMet = false;
     }
     if (password.length < 8) {
         pass_length.setAttribute("style", "color: rgb(204, 0, 0)");
         pass_length.innerHTML = "❌ Password is less than 8 characters";
+        minLength = false;
         allMet = false;
     }
     else {
@@ -115,9 +119,11 @@ function checkPassword() {
         pass_length.innerHTML = "✅ Password is at least 8 characters";
         minLength = true;
     }
+    return allMet;
 }
 // Dropbox showing password conditions
 function showConditions() {
+    var allMet = checkPassword();
     var passwordField = document.getElementById("password");
     document.getElementById("conditions").classList.toggle("show");
 
@@ -147,10 +153,13 @@ function showConditions2() {
 }
 // Check all conditions are met
 function validate() {
-    var alertShown = "";
-    if (!(allMet && match)) {
-        alertShown += "Passwords do not match\n";
+    var hasErrors = checkErrors();
+    var passwordConditions = checkPassword();
+    if (!passwordConditions || hasErrors || !match) {
+        alert("Check all of your inputs");
+        return false;
     }
+    return true;
 }
 
 // Preview functionality
@@ -181,7 +190,11 @@ function preview() {
                 break;
             default:
                 formOutput = formOutput + "<tr><td align='left'>" + formContents.elements[i].name + "</td>";
-                formOutput = formOutput + "<td>" + formContents.elements[i].value + "</td></tr>";
+                if(formContents.elements[i].value == ""){
+                formOutput = formOutput + "<td> Please fill out this field </td></tr>"
+                } else {
+                formOutput = formOutput + "<td>" + formContents.elements[i].value + "</td></tr>"; 
+                }
         }
     }
     if (formOutput.length > 0) {
@@ -202,6 +215,30 @@ const birthDate = document.getElementById("birthdate");
 const maxDate = d.toISOString().split("T")[0];
 birthDate.setAttribute("max", maxDate);
 
-const minDate = new Date(d.setFullYear(d.getFullYear() - 120)).toISOString().split("T")[0];
+const minD = new Date(d);
+minD.setFullYear(d.getFullYear() - 120);
+const minDate = minD.toISOString().split("T")[0];
 birthDate.setAttribute("min", minDate);
 
+// Check for errors in the whole form
+
+function checkErrors() {
+    var hasErrors = false;
+    const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email", "userID"];
+    const requirements = [/^[A-Za-z'-]+$/, /^[A-Za-z2-5-]+$/, /^([0-9]{3}-[0-9]{2}-[0-9]{4}|[0-9]{9})$/, 
+        /^([0-9]{5}|[0-9]{5}-[0-9]{4})$/, /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, /^[a-zA-Z][a-zA-Z0-9]{4,29}$/];
+    var i;
+    for (i = 0; i < IDs.length; i++) {
+        var input = document.getElementById(IDs[i]).value;
+        if (input == "") {
+            document.getElementById(IDs[i]).style.borderColor = ""; 
+            hasErrors = true;
+        } else if (!requirements[i].test(input)) {
+            document.getElementById(IDs[i]).style.borderColor = "red";
+            hasErrors = true;
+        } else {
+            document.getElementById(IDs[i]).style.borderColor = "";
+        }
+    }
+    return hasErrors;
+}

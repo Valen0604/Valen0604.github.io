@@ -16,8 +16,8 @@ document.getElementById("date").innerHTML = day + "/" + month + "/" + year;
 // Obtained from https://www.geeksforgeeks.org/password-matching-using-javascript/ 
 // Check passwords match
 var pass_match = document.getElementById("match");
-var match = false;
 function checkPasswordsMatch() {
+    var match = false;
     var password1 = document.getElementById("password").value;
     var password2 = document.getElementById("password2").value;
     if (password1 == password2) {
@@ -28,6 +28,7 @@ function checkPasswordsMatch() {
         pass_match.innerHTML = "❌Passwords do not match";
         pass_match.setAttribute("style", "color: rgb(204, 0, 0)");
     }
+    return match;
 }
 /* From: https://www.w3schools.com/howto/howto_js_rangeslider.asp */
 var slider = document.getElementById("pain");
@@ -133,10 +134,10 @@ function showConditions() {
     var allMet = checkPassword();
     var passwordField = document.getElementById("password");
     document.getElementById("conditions").classList.toggle("show");
-
     passwordField.onblur = function () {
+        var passStillMatch = checkPasswordsMatch();
         document.getElementById("conditions").classList.remove("show");
-        if (!allMet) {
+        if (!allMet || !passStillMatch) {
             document.getElementById("password").style.borderColor = "red";
         } else {
             document.getElementById("password").style.borderColor = "";
@@ -150,16 +151,19 @@ function showConditions2() {
     document.getElementById("match").classList.toggle("show");
 
     passwordField2.onblur = function () {
+        var match = checkPasswordsMatch();
         document.getElementById("match").classList.remove("show")
         if (!match) {
             document.getElementById("password2").style.borderColor = "red";
         } else {
             document.getElementById("password2").style.borderColor = "";
+            document.getElementById("password").style.borderColor = "";
         }
     }
 }
 // Check all conditions are met
 function validate() {
+    var match = checkPasswordsMatch();
     var hasErrors = checkErrors();
     var passwordConditions = checkPassword();
     if (!passwordConditions || hasErrors || !match) {
@@ -231,10 +235,11 @@ birthDate.setAttribute("min", minDate);
 // Accesibility errors obtained from: https://www.w3schools.com/accessibility/accessibility_errors.php
 function checkErrors() {
     var hasErrors = false;
-    const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email", "userID"];
+    const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email", "userID", "password", "password2"];
     const requirements = [/^[A-Za-z'-]+$/, /^[A-Za-z2-5-]+$/, /^([0-9]{3}-[0-9]{2}-[0-9]{4}|[0-9]{9})$/, 
-        /^([0-9]{5}|[0-9]{5}-[0-9]{4})$/, /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, /^[a-zA-Z][a-zA-Z0-9]{4,29}$/];
-    const errorID = ["firstNameError", "lastNameError", "ssnError", "zipError", "emailError", "userIDError"];
+        /^([0-9]{5}|[0-9]{5}-[0-9]{4})$/, /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, /^[a-zA-Z][a-zA-Z0-9]{4,29}$/,
+        /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/, /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/];
+    const errorID = ["firstNameError", "lastNameError", "ssnError", "zipError", "emailError", "userIDError", "pass1Error", "pass2Error"];
     var i;
     for (i = 0; i < IDs.length; i++) {
         var input = document.getElementById(IDs[i]).value;

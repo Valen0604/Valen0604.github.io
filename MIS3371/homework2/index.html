@@ -430,9 +430,12 @@
                                 placeholder="Required"
                                 title="Please enter your password, must be at least 8 characters and meet all the conditions"
                                 pattern="^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$" 
-                                oninput="checkPassword()"
-                                onblur="showConditions()" 
-                                onfocus="showConditions()">
+                                oninput="checkPassword(); checkErrors();"
+                                onblur="showConditions(); checkErrors();" 
+                                onfocus="showConditions()"
+                                aria-describedby="pass1Error"
+                                aria-invalid="false">
+                                <div id="pass1Error" role="alert" class="error">Check password fulfills conditions and matches.</div>
     
                                 <div id="conditions" class="conditions">
                                     <div id="pass_userid">❌ Password contains user ID</div>
@@ -457,12 +460,15 @@
                                 required
                                 placeholder="Required" 
                                 title="Please enter your password again"
-                                oninput="checkPasswordsMatch()" 
-                                onblur="showConditions2()" 
-                                onfocus="showConditions2()">
+                                oninput="checkPasswordsMatch(); checkErrors();" 
+                                onblur="showConditions2(); checkErrors();" 
+                                onfocus="showConditions2()"
+                                aria-describedby="pass2Error"
+                                aria-invalid="false">
                                 <div id="match" class="conditions2">
                                     <div id="pass_match">❌ Passwords do not match</div>
                                 </div>
+                                <div id="pass2Error" role="alert" class="error">Check password fulfills conditions and matches.</div>
                             </td>
                         </tr>
                         <tr>

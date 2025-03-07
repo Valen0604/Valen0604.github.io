@@ -4,7 +4,7 @@
     Author: Valentino Javier Salerni Longo
     Date created: 01/30/2025
     Date last edited:
-    Version: 1.6
+    Version: 1.7
     Description: Form for patient intake -->
 
     <html>
@@ -68,6 +68,7 @@
                                 Title="Please enter your First Name"
                                 pattern="^([A-Za-z'-]){1,30}$"
                                 onblur="checkErrors()"
+                                oninput="checkErrors()"
                                 aria-describedby="firstNameError"
                                 aria-invalid="false">
                                 <div id="firstNameError" role="alert" class="error">Only letters, apostrophes or dashes.</div>
@@ -94,6 +95,7 @@
                             <td>
                                 <input type="text" 
                                 size="25" 
+                                minlength="1"
                                 maxlength="30" 
                                 id="lastname" 
                                 name="Last Name" 
@@ -102,6 +104,7 @@
                                 title="Please enter your Last Name"
                                 pattern="^([A-Za-z2-5-])+$"
                                 onblur="checkErrors()"
+                                oninput="checkErrors()"
                                 aria-describedby="lastNameError"
                                 aria-invalid="false">
                                 <div id="lastNameError" role="alert" class="error">Only letters, numbers or dashes.</div>
@@ -142,6 +145,7 @@
                                 required
                                 title="Please enter your Social Security Number, must be in the format 000-00-0000"
                                 onblur="checkErrors()"
+                                oninput="checkErrors()"
                                 aria-describedby="ssnNameError"
                                 aria-invalid="false">
                                 <div id="ssnError" role="alert" class="error">Only numbers.</div>
@@ -277,8 +281,9 @@
                                 required
                                 placeholder="Required"
                                 pattern="^([0-9]{5}|[0-9]{5}-[0-9]{4})$"
-                                title="Please enter your ZIP Code, must be at least 5 characters"
+                                title="Please enter your ZIP Code, must be at least 5 characters, only numbers"
                                 onblur="checkErrors()"
+                                oninput="checkErrors()"
                                 aria-describedby="zipError"
                                 aria-invalid="false">
                                 <div id="zipError" role="alert" class="error">Only numbers.</div>
@@ -300,6 +305,7 @@
                                 placeholder="Required" 
                                 title="Please enter your Email, must include an @ and a ."
                                 onblur="checkErrors()"
+                                oninput="checkErrors()"
                                 aria-describedby="emailError"
                                 aria-invalid="false">
                                 <div id="emailError" role="alert" class="error">Must include an @ and a . domain.</div>
@@ -358,7 +364,7 @@
                                 <label for="no">No </label>
                                 <input type="radio" id="no" name="Previous Customer?" value="No">
                             </td>
-                            <td align="left" width="25%">
+                            <td align="left" width="25%" colspan="2">
                                 Do you have insurance?
                             </td>
                             <td align="left">
@@ -406,8 +412,12 @@
                                 no spaces, first character must not be a number." 
                                 pattern="^[a-zA-Z][a-zA-Z0-9]{4,29}$"
                                 onblur="checkErrors()"
+                                oninput="checkErrors(); makeLowerCase()"
                                 aria-describedby="userIDError"
                                 aria-invalid="false">
+                            </td>
+                            <td>
+                                User ID: <span id="convertedID"></span>
                             </td>
                             <td colspan="5">
                                 <div id="userIDError" role="alert" class="error">At least 5 characters, no spaces, first character not a number.</div>

@@ -3,7 +3,7 @@
     Author: Valentino Javier Salerni Longo
     Date created: 02/17/2025
     Date last edited:
-    Version: 1.6
+    Version: 1.7
     Description: Script for homework 2. */
 
 const d = new Date();
@@ -17,9 +17,9 @@ document.getElementById("date").innerHTML = day + "/" + month + "/" + year;
 // Check passwords match
 var pass_match = document.getElementById("match");
 function checkPasswordsMatch() {
-    var match = false;
-    var password1 = document.getElementById("password").value;
-    var password2 = document.getElementById("password2").value;
+    let match = false;
+    let password1 = document.getElementById("password").value;
+    let password2 = document.getElementById("password2").value;
     if (password1 == password2) {
         pass_match.innerHTML = "✅Passwords match";
         pass_match.setAttribute("style", "color: rgb(0, 128, 0)");
@@ -41,25 +41,25 @@ slider.oninput = function () {
 
 // Update dropbox and validate password conditions
 // Can probably be done with a loop but I cannot be bothered to do it rn
-var userIDcondition = false;
-var uppercase = false;
-var lowercase = false;
-var number = false;
-var special = false
-var minLength = false;
+let userIDcondition = false;
+let uppercase = false;
+let lowercase = false;
+let number = false;
+let special = false
+let minLength = false;
 const specialCharactersAllowed = /[!@#$%^&*()\-+={}[\]:;<>,.?\/|\\]/;
 const specialCharactersForbidden = /["']/;
 document.getElementById("password").addEventListener("input", checkPassword);
 function checkPassword() {
     var allMet = true;
-    var password = document.getElementById("password").value;
-    var userID = document.getElementById("userID").value;
-    var pass_userid = document.getElementById("pass_userid");
-    var pass_upper = document.getElementById("pass_upper");
-    var pass_lower = document.getElementById("pass_lower");
-    var pass_number = document.getElementById("pass_number");
-    var pass_special = document.getElementById("pass_special");
-    var pass_length = document.getElementById("pass_length");
+    let password = document.getElementById("password").value;
+    let userID = document.getElementById("userID").value;
+    let pass_userid = document.getElementById("pass_userid");
+    let pass_upper = document.getElementById("pass_upper");
+    let pass_lower = document.getElementById("pass_lower");
+    let pass_number = document.getElementById("pass_number");
+    let pass_special = document.getElementById("pass_special");
+    let pass_length = document.getElementById("pass_length");
     if (!(password.includes(userID))) {
         pass_userid.setAttribute("style", "color: rgb(0, 128, 0)");
         pass_userid.innerHTML = "✅ Password does not contain user ID";
@@ -131,8 +131,8 @@ function checkPassword() {
 }
 // Dropbox showing password conditions
 function showConditions() {
-    var allMet = checkPassword();
-    var passwordField = document.getElementById("password");
+    let allMet = checkPassword();
+    let passwordField = document.getElementById("password");
     document.getElementById("conditions").classList.toggle("show");
     passwordField.onblur = function () {
         var passStillMatch = checkPasswordsMatch();
@@ -147,7 +147,7 @@ function showConditions() {
 
 // Again as I couldnt figure out how to do it for both separately
 function showConditions2() {
-    var passwordField2 = document.getElementById("password2");
+    let passwordField2 = document.getElementById("password2");
     document.getElementById("match").classList.toggle("show");
 
     passwordField2.onblur = function () {
@@ -163,9 +163,9 @@ function showConditions2() {
 }
 // Check all conditions are met
 function validate() {
-    var match = checkPasswordsMatch();
-    var hasErrors = checkErrors();
-    var passwordConditions = checkPassword();
+    let match = checkPasswordsMatch();
+    let hasErrors = checkErrors();
+    let passwordConditions = checkPassword();
     if (!passwordConditions || hasErrors || !match) {
         alert("Check all of your inputs");
         return false;
@@ -177,11 +177,11 @@ function validate() {
 // All popup build info obtained from: https://www.geeksforgeeks.org/how-to-create-a-popup-form-using-html-css-and-javascript/
 const overlay = document.getElementById('popupOverlay');
 function preview() {
-    var formContents = document.getElementById("signup");
-    var formOutput = '<div class="popup-box">';
+    let formContents = document.getElementById("signup");
+    let formOutput = '<div class="popup-box">';
     formOutput = formOutput + "<table class='table-container'><th>Field</th><th>Value</th>";
-    var dataType;
-    var i;
+    let dataType;
+    let i;
     for (i = 0; i < formContents.length; i++) {
         dataType = formContents.elements[i].type;
         switch (dataType) {
@@ -242,9 +242,9 @@ function checkErrors() {
     const errorID = ["firstNameError", "lastNameError", "ssnError", "zipError", "emailError", "userIDError", "pass1Error", "pass2Error"];
     var i;
     for (i = 0; i < IDs.length; i++) {
-        var input = document.getElementById(IDs[i]).value;
-        var err = document.getElementById(errorID[i]);
-        var inputElement = document.getElementById(IDs[i]);
+        let input = document.getElementById(IDs[i]).value;
+        let err = document.getElementById(errorID[i]);
+        let inputElement = document.getElementById(IDs[i]);
         if (input == "") {
             inputElement.style.borderColor = ""; 
             hasErrors = true;
@@ -260,4 +260,10 @@ function checkErrors() {
         }
     }
     return hasErrors;
+}
+
+function makeLowerCase(){
+    let userID = document.getElementById("userID").value;
+    let displayID = userID.toLowerCase();
+    document.getElementById("convertedID").innerHTML = displayID;
 }

@@ -2,9 +2,9 @@
 <!-- 
     Program name: patient-form.html
     Author: Valentino Javier Salerni Longo
-    Date created: 04/05/2025
+    Date created: 03/17/2025
     Date last edited:
-    Version: 1.5
+    Version: 1.0
     Description: Form for patient intake -->
 
 <html>
@@ -71,7 +71,8 @@
                         </td>
                         <td>
                             <input type="text" size="1" maxlength="1" id="middleinitial" name="Middle Initial"
-                                Title="Please enter your Middle Initial" pattern="^([A-Za-z])$">
+                                Title="Please enter your Middle Initial" pattern="^([A-Za-z])$" 
+                                oninput="checkOptionalFields()">
                         </td>
                         <td align="left">
                             <label for="lastname">
@@ -149,8 +150,9 @@
                         </td>
                         <td colspan=8>
                             <input type="text" size="50%" minlength="2" maxlength="30" id="address2"
-                                name="Second Address Line"
-                                title="Please enter the rest of your Address, must be at least 2 characters">
+                                name="Second Address Line" oninput="checkOptionalFields()"
+                                title="Please enter the rest of your Address, must be at least 2 characters"aria-describedby="address1Error" aria-invalid="false">
+                                <div id="address2Error" role="alert" class="error">Only letters or numbers.</div>
                         </td>
                     </tr>
                     <tr class="form">
@@ -401,7 +403,7 @@
                     <tr>
                         <td colspan="8">
                             <center>
-                                <input type="submit" value="Submit" disabled>
+                                <input type="submit" value="Submit" hidden>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="button" value="Preview" onclick="preview()">
 

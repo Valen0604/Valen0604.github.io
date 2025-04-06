@@ -259,7 +259,7 @@ function checkErrors() {
          /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/, 
          /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/,
          /^[A-Za-z'-]+$/,
-         /^[A-Za-z 0-9'-]+$/,
+         /^[A-Za-z0-9 '-]+$/,
          /^([0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{10})$/
         ];
     const errorID = ["firstNameError", "lastNameError", "ssnError", "zipError",

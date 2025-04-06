@@ -1,9 +1,9 @@
 /*
     Program name: Script_1.js
     Author: Valentino Javier Salerni Longo
-    Date created: 03/17/2025
+    Date created: 04/05/2025
     Date last edited:
-    Version: 1.7
+    Version: 1.5
     Description: Script for homework 3. */
 
 const d = new Date();

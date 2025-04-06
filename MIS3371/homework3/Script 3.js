@@ -1,9 +1,9 @@
 /*
     Program name: Script_1.js
     Author: Valentino Javier Salerni Longo
-    Date created: 04/05/2025
+    Date created: 03/17/2025
     Date last edited:
-    Version: 1.5
+    Version: 1.7
     Description: Script for homework 3. */
 
 const d = new Date();
@@ -259,7 +259,7 @@ function checkErrors() {
          /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/, 
          /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/,
          /^[A-Za-z'-]+$/,
-         /^[A-Za-z0-9'-]+$/,
+         /^[A-Za-z 0-9'-]+$/,
          /^([0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{10})$/
         ];
     const errorID = ["firstNameError", "lastNameError", "ssnError", "zipError",

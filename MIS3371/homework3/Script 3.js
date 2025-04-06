@@ -311,7 +311,7 @@ function removeRedBorder(){
 
 checkOptionalFields = function() {
     let input = ["address2", "middleinitial"];
-    const requirements = [/^[A-Za-z0-9' -]+$/, /^[A-Z]+$/];
+    const requirements = [/^[A-Za-z0-9' -]+$/, /^[A-Za-z]+$/];
     const errorID = ["address2Error"];
     for(i = 0; i < input.length; i++){
         let inputElement = document.getElementById(input[i]);

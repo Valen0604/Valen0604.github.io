@@ -166,6 +166,7 @@ function validate() {
     let match = checkPasswordsMatch();
     let hasErrors = checkErrors();
     let passwordConditions = checkPassword();
+    let optionalFields = checkOptionalFields();
     let formContents = document.getElementById("signup");
     for(i = 0; i < formContents.length; i++){
         let id = formContents.elements[i].id;
@@ -175,15 +176,18 @@ function validate() {
             inputElement.style.borderColor = "red";
             hasErrors = true;
         }
+        else if(inputElement.style.borderColor == "red"){
+            hasErrors = true;
+        }
         else {
             inputElement.style.borderColor = "";
         }
     }
-    if (!passwordConditions || hasErrors || !match) {
-        
+    if (!passwordConditions || hasErrors || !match || !optionalFields) {
+        document.querySelector("input[type='submit']").hidden = true;
         return false;
     }
-    document.querySelector("input[type='submit']").disabled = false;
+    document.querySelector("input[type='submit']").hidden = false;
     return true;
 }
 
@@ -259,7 +263,7 @@ function checkErrors() {
          /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/, 
          /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/,
          /^[A-Za-z'-]+$/,
-         /^[A-Za-z0-9 '-]+$/,
+         /^[A-Za-z0-9' -]+$/,
          /^([0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{10})$/
         ];
     const errorID = ["firstNameError", "lastNameError", "ssnError", "zipError",
@@ -303,4 +307,23 @@ function removeRedBorder(){
             inputElement.style.borderColor = "";
         }
     }
+}
+
+checkOptionalFields = function() {
+    let input = ["address2", "middleinitial"];
+    const requirements = [/^[A-Za-z0-9' -]+$/, /^[A-Z]+$/];
+    const errorID = ["address2Error"];
+    for(i = 0; i < input.length; i++){
+        let inputElement = document.getElementById(input[i]);
+        let err = document.getElementById(errorID[i]);
+        if(inputElement.value !== "" && !requirements[i].test(inputElement.value)){
+            inputElement.style.borderColor = "red";
+            err.style.display = "block";
+            inputElement.setAttribute("aria-invalid", "true");
+            return false;
+        } else {
+            inputElement.style.borderColor = "";
+        }
+    }
+    return true;
 }

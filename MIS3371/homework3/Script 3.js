@@ -110,7 +110,7 @@ function checkPassword() {
         special = false;
         allMet = false;
     }
-    if(specialCharactersForbidden.test(password)) {
+    if (specialCharactersForbidden.test(password)) {
         pass_special.setAttribute("style", "color: rgb(204, 0, 0)");
         pass_special.innerHTML = "❌ Password cannot contain quotes";
         special = false;
@@ -168,15 +168,15 @@ function validate() {
     let passwordConditions = checkPassword();
     let optionalFields = checkOptionalFields();
     let formContents = document.getElementById("signup");
-    for(i = 0; i < formContents.length; i++){
+    for (i = 0; i < formContents.length; i++) {
         let id = formContents.elements[i].id;
         let inputElement = document.getElementById(id);
-        if(!id) continue;
-        if(inputElement.value == "" && inputElement.hasAttribute("required"))  {
+        if (!id) continue;
+        if (inputElement.value == "" && inputElement.hasAttribute("required")) {
             inputElement.style.borderColor = "red";
             hasErrors = true;
         }
-        else if(inputElement.style.borderColor == "red"){
+        else if (inputElement.style.borderColor == "red") {
             hasErrors = true;
         }
         else {
@@ -219,10 +219,10 @@ function preview() {
                 break;
             default:
                 formOutput = formOutput + "<tr><td align='left'>" + formContents.elements[i].name + "</td>";
-                if(formContents.elements[i].value == ""){
-                formOutput = formOutput + "<td> Please fill out this field </td></tr>"
+                if (formContents.elements[i].value == "") {
+                    formOutput = formOutput + "<td> Please fill out this field </td></tr>"
                 } else {
-                formOutput = formOutput + "<td>" + formContents.elements[i].value + "</td></tr>"; 
+                    formOutput = formOutput + "<td>" + formContents.elements[i].value + "</td></tr>";
                 }
         }
     }
@@ -254,28 +254,30 @@ birthDate.setAttribute("min", minDate);
 function checkErrors() {
     var hasErrors = false;
     const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
-         "userID", "password", "password2", "city", "address1", "phone"];
+        "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
+        "socialsecurity3"];
     const requirements = [/^[A-Za-z'-]+$/, /^[A-Za-z2-5-]+$/,
-         /^([0-9]{3}-[0-9]{2}-[0-9]{4}|[0-9]{9})$/, 
-         /^([0-9]{5}|[0-9]{5}-[0-9]{4})$/,
-         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 
-         /^[a-zA-Z][a-zA-Z0-9]{4,29}$/,
-         /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/, 
-         /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/,
-         /^[A-Za-z'-]+$/,
-         /^[A-Za-z0-9' -]+$/,
-         /^([0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{10})$/
-        ];
+        /^([0-9]{3})$/,
+        /^([0-9]{5}|[0-9]{5}-[0-9]{4})$/,
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        /^[a-zA-Z][a-zA-Z0-9]{4,29}$/,
+        /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/,
+        /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/,
+        /^[A-Za-z'-]+$/,
+        /^[A-Za-z0-9' -]+$/,
+        /^([0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{10})$/,
+        /^([0-9]{2})$/, /^([0-9]{4})$/
+    ];
     const errorID = ["firstNameError", "lastNameError", "ssnError", "zipError",
-         "emailError", "userIDError", "pass1Error", "pass2Error", "cityError",
-         "address1Error", "phoneError"];
+        "emailError", "userIDError", "pass1Error", "pass2Error", "cityError",
+        "address1Error", "phoneError", "ssnError", "ssnError"];
     var i;
     for (i = 0; i < IDs.length; i++) {
         let input = document.getElementById(IDs[i]).value;
         let err = document.getElementById(errorID[i]);
         let inputElement = document.getElementById(IDs[i]);
         if (input == "") {
-            inputElement.style.borderColor = "red"; 
+            inputElement.style.borderColor = "red";
             hasErrors = true;
         } else if (!requirements[i].test(input)) {
             inputElement.style.borderColor = "red";
@@ -288,20 +290,24 @@ function checkErrors() {
             inputElement.setAttribute("aria-invalid", "false");
         }
     }
+    if(hasErrors) {
+        document.querySelector("input[type='submit']").hidden = true;
+        return false;
+    }
     return hasErrors;
 }
 
-function makeLowerCase(){
+function makeLowerCase() {
     let userID = document.getElementById("userID").value;
     let displayID = userID.toLowerCase();
     document.getElementById("convertedID").innerHTML = displayID;
 }
 
-function removeRedBorder(){
+function removeRedBorder() {
     let input = ["state", "birthdate"];
-    for(i = 0; i < input.length; i++){
+    for (i = 0; i < input.length; i++) {
         let inputElement = document.getElementById(input[i]);
-        if(inputElement.value == ""){
+        if (inputElement.value == "") {
             inputElement.style.borderColor = "red";
         } else {
             inputElement.style.borderColor = "";
@@ -309,21 +315,32 @@ function removeRedBorder(){
     }
 }
 
-checkOptionalFields = function() {
+checkOptionalFields = function () {
     let input = ["address2", "middleinitial"];
-    const requirements = [/^[A-Za-z0-9' -]+$/, /^[A-Za-z]+$/];
-    const errorID = ["address2Error"];
-    for(i = 0; i < input.length; i++){
+    const requirements = [/^[A-Za-z0-9' -]+$/, /^[A-Z]+$/];
+    const errorID = ["address2Error", "middleInitialError"];
+    for (i = 0; i < input.length; i++) {
         let inputElement = document.getElementById(input[i]);
         let err = document.getElementById(errorID[i]);
-        if(inputElement.value !== "" && !requirements[i].test(inputElement.value)){
+        if (inputElement.value !== "" && !requirements[i].test(inputElement.value)) {
             inputElement.style.borderColor = "red";
             err.style.display = "block";
             inputElement.setAttribute("aria-invalid", "true");
             return false;
         } else {
             inputElement.style.borderColor = "";
+            err.style.display = "none";
+            inputElement.setAttribute("aria-invalid", "false");
         }
     }
     return true;
+}
+// from https://www.youtube.com/watch?v=cOsuSrN8BJI&ab_channel=kudvenkat
+function moveCursor(from, to){
+    var lenght = from.value.length;
+    var maxLength = from.getAttribute("maxlength");
+
+    if( lenght == maxLength){
+        document.getElementById(to).focus();
+    }
 }

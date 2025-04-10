@@ -1,7 +1,7 @@
 /*
     Program name: Stylesheet_1.css
     Author: Valentino Salerni
-    Date Created: 04/05/2025
+    Date Created: 03/17/2025
     Date last edited:
     Version: 1.5
     Description: Stylesheet for homework 3. */
@@ -151,3 +151,9 @@ a:visited {
     color: red;
     font-size: smaller;
 }
+
+.ssn {
+    width: 100px;
+    padding: 3px;
+    box-sizing: border-box;
+  }

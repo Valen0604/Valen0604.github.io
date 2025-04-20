@@ -1,0 +1,193 @@
+/*
+    Program name: Stylesheet_1.css
+    Author: Valentino Salerni
+    Date Created: 04/19/2025
+    Date last edited:
+    Version: 1.0
+    Description: Stylesheet for homework 4. */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+h1 {
+    font-size: 5em;
+    color: rgb(34, 34, 102);
+    text-align: center;
+    font-family: 'Georgia';
+}
+h2 {
+    font-size: 2em;
+    color: rgb(34, 34, 102);
+    text-align: center;
+    font-family: 'Georgia';
+}
+th {
+    color: rgb(34, 34, 102);
+    border-bottom: 2px solid rgb(200,200,200);
+}
+th, td {
+    padding: 5px;
+}
+#header, #footer table {
+    border: none;
+}
+html {
+    height: 100%;
+    background-color: rgb(231, 231, 223);
+    background-image: linear-gradient(115deg,  rgb(190, 210, 207) 7%, rgb(236, 235, 226) 17%, 
+    rgb(236, 235, 226) 83%, rgb(190, 210, 207) 93%);
+}
+
+hr {
+    border: 1px solid rgb(200,200,200);
+    background: rgb(236, 235, 226);
+    color: rgb(236, 235, 226);
+    height: 0px;
+    margin: 0;
+}
+label, p, td {
+    color: rgb(51, 51, 51);
+    font-size: 16px;
+    font-family: 'Georgia';
+}
+a {
+    color: rgb(34, 102, 102);
+}
+a:visited {
+    color: rgb(85, 85, 85);
+}
+.password-container{
+    position: relative;
+}
+.conditions, .conditions2 {
+    display: none;
+    position: absolute;
+    background-color: rgb(240, 240, 240);
+    width: 369px;
+    color: rgb(204, 0, 0);
+    font-family: "Georgia";
+    overflow: auto;
+    box-shadow: 0px -10px 20px 0px rgba(0,0,0,0.3);
+    bottom: 100%;
+    z-index: 100;
+}
+.conditions div, .conditions2 div {
+    padding: 12px, 16px;
+}
+
+.show {
+    display: block;
+}
+
+.overlay-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.popup-box {
+    background: #fff;
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    width: 50%;
+    text-align: center;
+    opacity: 0;
+    transform: scale(0.8);
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+.table-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-close-popup {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-close-popup {
+    margin-top: 12px;
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+/* Keyframes for fadeInUp animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for popup */
+.overlay-container.show {
+    display: flex;
+    opacity: 1;
+}
+
+.error{
+    display: none;
+    color: red;
+    font-size: smaller;
+}
+
+.ssn {
+    width: 100px;
+    padding: 3px;
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; 
+    height: 100vh; 
+}
+
+iframe {
+    border: none; 
+    width: 100%; 
+    background: transparent;
+}
+#form {
+    height: 100%; 
+    background: transparent;
+}
+
+#footer {
+    position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: rgb(186, 185, 176);
+   text-align: center;
+}
+#header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: transparent;
+}

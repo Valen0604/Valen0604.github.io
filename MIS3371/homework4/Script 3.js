@@ -368,9 +368,14 @@ function setCookie(cname,cvalue,exdays) {
   }
   
   function checkCookie() {
-    let user = getCookie("name");
-    console.log("cookie: " + user);
-    if (user != "") {
-      alert("Welcome again " + user);
-    } 
-  }
+        let user = getCookie("name");
+        console.log("cookie: " + user);
+        if (user != "") {
+          let response = confirm("Welcome again " + user + "\nDo you want to continue?");
+            if (response == true) {
+                document.getElementById("firstname").innerHTML = user;
+            } else {
+                document.getElementById("firstname").innerHTML = "";
+            }
+        } 
+      }

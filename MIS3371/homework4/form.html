@@ -46,7 +46,7 @@
                             <input type="text" size="25" minlength="1" maxlength="30" id="firstname" name="First Name"
                                 required placeholder="Required" Title="Please enter your First Name"
                                 pattern="^([A-Za-z'-]){1,30}$" 
-                                onblur="setCookie('name', this.value, 30); checkErrors()" 
+                                onblur="setCookie('name', this.value, 1); checkErrors()" 
                                 oninput="checkErrors()"
                                 aria-describedby="firstNameError" aria-invalid="false">
                             <div id="firstNameError" role="alert" class="error">Only letters, apostrophes or dashes.

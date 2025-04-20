@@ -376,6 +376,7 @@ function setCookie(cname,cvalue,exdays) {
                 document.getElementById("firstname").value = user;
             } else {
                 document.getElementById("firstname").value = "";
+                setCookie("name", "", -1);
             }
         } 
       }

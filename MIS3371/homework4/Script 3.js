@@ -373,9 +373,9 @@ function setCookie(cname,cvalue,exdays) {
         if (user != "") {
           let response = confirm("Welcome again " + user + "\nDo you want to continue?");
             if (response == true) {
-                document.getElementById("firstname").innerHTML = user;
+                document.getElementById("firstname").value = user;
             } else {
-                document.getElementById("firstname").innerHTML = "";
+                document.getElementById("firstname").value = "";
             }
         } 
       }

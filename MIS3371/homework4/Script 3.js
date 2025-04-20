@@ -378,5 +378,7 @@ function setCookie(cname,cvalue,exdays) {
                 document.getElementById("firstname").value = "";
                 setCookie("name", "", -1);
             }
-        } 
+        } else {
+            alert("Welcome new user!");
+        }
       }

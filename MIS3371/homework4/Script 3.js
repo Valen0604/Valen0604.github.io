@@ -370,19 +370,20 @@ function getCookie(cname) {
 function checkCookie() {
     let user = getCookie("firstname");
     console.log("cookie: " + user);
+    let IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
+        "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
+        "socialsecurity3"];
     if (user != "") {
         let response = confirm("Welcome again " + user + "\nDo you want to continue?");
         if (response == true) {
-            let IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
-                "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
-                "socialsecurity3"];
             for (i = 0; i < IDs.length; i++) {
                 value = getCookie(IDs[i]);
                 document.getElementById(IDs[i]).value = value;
             }
         } else {
-            document.getElementById("firstname").value = "";
-            setCookie("firstname", "", -1);
+            for (i = 0; i < IDs.length; i++) {
+                setCookie(IDs[i], "", -1);
+            }
         }
     } else {
         alert("Welcome new user!");

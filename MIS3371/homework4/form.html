@@ -4,7 +4,7 @@
     Author: Valentino Javier Salerni Longo
     Date created: 04/19/2025
     Date last edited:
-    Version: 1.0
+    Version: 1.3
     Description: Form for patient intake -->
 
 <html>
@@ -46,7 +46,7 @@
                             <input type="text" size="25" minlength="1" maxlength="30" id="firstname" name="First Name"
                                 required placeholder="Required" Title="Please enter your First Name"
                                 pattern="^([A-Za-z'-]){1,30}$" 
-                                onblur="setCookie('name', this.value, 1); checkErrors()" 
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()" 
                                 oninput="checkErrors()"
                                 aria-describedby="firstNameError" aria-invalid="false">
                             <div id="firstNameError" role="alert" class="error">Only letters, apostrophes or dashes.
@@ -72,7 +72,8 @@
                         <td>
                             <input type="text" size="25" minlength="1" maxlength="30" id="lastname" name="Last Name"
                                 required placeholder="Required" title="Please enter your Last Name"
-                                pattern="^([A-Za-z2-5-])+$" onblur="checkErrors()" oninput="checkErrors()"
+                                pattern="^([A-Za-z2-5-])+$" 
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()" oninput="checkErrors()"
                                 aria-describedby="lastNameError" aria-invalid="false">
                             <div id="lastNameError" role="alert" class="error">Only letters, numbers or dashes.</div>
                         </td>
@@ -100,21 +101,24 @@
                                 name="Social Security Number" placeholder="000"
                                 pattern="^([0-9]{3})$" class="ssn"
                                 title="Please enter your Social Security Number, must be in the format 000-00-0000"
-                                onblur="checkErrors()" oninput="checkErrors()" aria-describedby="ssnNameError"
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()" 
+                                oninput="checkErrors()" aria-describedby="ssnNameError"
                                 aria-invalid="false" required onkeyup="moveCursor(this, 'socialsecurity2')">
                                 -
                                 <input type="password" size="20" minlength="2" maxlength="2" id="socialsecurity2"
                                 name="Social Security Number" placeholder="00"
                                 pattern="^([0-9]{2})$" class="ssn"
                                 title="Please enter your Social Security Number, must be in the format 000-00-0000"
-                                onblur="checkErrors()" oninput="checkErrors()" aria-describedby="ssnNameError"
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()"
+                                 oninput="checkErrors()" aria-describedby="ssnNameError"
                                 aria-invalid="false" required onkeyup="moveCursor(this, 'socialsecurity3')">
                                 -
                                 <input type="password" size="20" minlength="4" maxlength="4" id="socialsecurity3"
                                 name="Social Security Number" placeholder="0000"
                                 pattern="^([0-9]{4})$" class="ssn"
                                 title="Please enter your Social Security Number, must be in the format 000-00-0000"
-                                onblur="checkErrors()" oninput="checkErrors()" aria-describedby="ssnNameError"
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()" 
+                                oninput="checkErrors()" aria-describedby="ssnNameError"
                                 aria-invalid="false" required>
 
                             <div id="ssnError" role="alert" class="error">Only numbers, must have 9 characters.</div>
@@ -128,7 +132,8 @@
                             <input type="tel" size="20" minlength="10" maxlength="15" id="phone" name="Phone Number"
                                 required placeholder="Required" pattern="^([0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{10})$"
                                 title="Please enter your Phone Number, must be in the format 000-000-0000"
-                                onblur="checkErrors()" oninput="checkErrors()" aria-describedby="phoneError"
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()" 
+                                oninput="checkErrors()" aria-describedby="phoneError"
                                 aria-invalid="false">
                             <div id="phoneError" role="alert" class="error">Only numbers, must have 10 characters.</div>
                     </tr>
@@ -140,7 +145,8 @@
                         </td>
                         <td colspan=8>
                             <input type="text" size="50%" minlength="2" maxlength="30" id="address1"
-                                name="First Address Line" required placeholder="Required" onblur="checkErrors()"
+                                name="First Address Line" required placeholder="Required" 
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()"
                                 oninput="checkErrors()"
                                 title="Please enter your Address, must be at least 2 characters"
                                 aria-describedby="address1Error" aria-invalid="false">
@@ -169,7 +175,8 @@
                         <td>
                             <input type="text" size="20" minlength="2" maxlength="30" id="city" name="City" required
                                 placeholder="Required" title="Please enter your City, must be at least 2 characters"
-                                onblur="checkErrors()" oninput="checkErrors()"aria-describedby="cityError"
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()" 
+                                oninput="checkErrors()"aria-describedby="cityError"
                                 aria-invalid="false">
                             <div id="cityError" role="alert" class="error">Only letters</div>
                         </td>
@@ -245,7 +252,8 @@
                             <input type="text" size="20" minlength="5" maxlength="10" id="zip" name="ZIP" required
                                 placeholder="Required" pattern="^([0-9]{5}|[0-9]{5}-[0-9]{4})$"
                                 title="Please enter your ZIP Code, must be at least 5 characters, only numbers"
-                                onblur="checkErrors()" oninput="checkErrors()" aria-describedby="zipError"
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()" 
+                                oninput="checkErrors()" aria-describedby="zipError"
                                 aria-invalid="false">
                             <div id="zipError" role="alert" class="error">Only numbers.</div>
                         </td>
@@ -259,7 +267,8 @@
                         <td colspan="5">
                             <input type="email" size="80%" maxlength="100" id="email" name="Email" required
                                 placeholder="Required" title="Please enter your Email, must include an @ and a ."
-                                onblur="checkErrors()" oninput="checkErrors()" aria-describedby="emailError"
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()" 
+                                oninput="checkErrors()" aria-describedby="emailError"
                                 aria-invalid="false">
                             <div id="emailError" role="alert" class="error">Must include an @ and a . domain.</div>
                         </td>
@@ -347,7 +356,8 @@
                             <input type="text" size="25" maxlength="30" minlength="5" id="userID" name="User ID"
                                 required placeholder="Required" title="Please enter your desired User ID, must be at least 5 characters, 
                                 no spaces, first character must not be a number." pattern="^[a-zA-Z][a-zA-Z0-9]{4,29}$"
-                                onblur="checkErrors()" oninput="checkErrors(); makeLowerCase()"
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()" 
+                                oninput="checkErrors(); makeLowerCase()"
                                 aria-describedby="userIDError" aria-invalid="false">
                         </td>
                         <td colspan="2">
@@ -370,7 +380,8 @@
                                     name="Password" required placeholder="Required"
                                     title="Please enter your password, must be at least 8 characters and meet all the conditions"
                                     pattern="^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$"
-                                    oninput="checkPassword(); checkErrors();" onblur="showConditions(); checkErrors();"
+                                    oninput="checkPassword(); checkErrors();" 
+                                    onblur="setCookie(this.id, this.value, 1); showConditions(); checkErrors();"
                                     onfocus="showConditions()" aria-describedby="pass1Error" aria-invalid="false">
                                 <div id="pass1Error" role="alert" class="error">Check password fulfills conditions and
                                     matches.</div>
@@ -395,7 +406,8 @@
                                 <input type="password" size="50" maxlength="30" id="password2" name="Retyped Password"
                                     required placeholder="Required" title="Please enter your password again"
                                     oninput="checkPasswordsMatch(); checkErrors();"
-                                    onblur="showConditions2(); checkErrors();" onfocus="showConditions2()"
+                                    onblur="setCookie(this.id, this.value, 1); showConditions2(); checkErrors();" 
+                                    onfocus="showConditions2()"
                                     aria-describedby="pass2Error" aria-invalid="false">
                                 <div id="match" class="conditions2">
                                     <div id="pass_match">❌ Passwords do not match</div>

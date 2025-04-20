@@ -3,7 +3,7 @@
     Author: Valentino Javier Salerni Longo
     Date created: 04/19/2025
     Date last edited:
-    Version: 1.0
+    Version: 1.3
     Description: Script for homework 4. */
 
 const d = new Date();
@@ -289,7 +289,7 @@ function checkErrors() {
             inputElement.setAttribute("aria-invalid", "false");
         }
     }
-    if(hasErrors) {
+    if (hasErrors) {
         document.querySelector("input[type='submit']").hidden = true;
         return false;
     }
@@ -335,50 +335,56 @@ checkOptionalFields = function () {
     return true;
 }
 // from https://www.youtube.com/watch?v=cOsuSrN8BJI&ab_channel=kudvenkat
-function moveCursor(from, to){
+function moveCursor(from, to) {
     var lenght = from.value.length;
     var maxLength = from.getAttribute("maxlength");
 
-    if( lenght == maxLength){
+    if (lenght == maxLength) {
         document.getElementById(to).focus();
     }
 }
 // from https://www.w3schools.com/js/tryit.asp?filename=tryjs_cookie_username
-function setCookie(cname,cvalue,exdays) {
+function setCookie(cname, cvalue, exdays) {
     const d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     let expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-  }
-  
-  function getCookie(cname) {
+}
+
+function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);
     let ca = decodedCookie.split(';');
-    for(let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') {
-        c = c.substring(1);
-      }
-      if (c.indexOf(name) == 0) {
-        return c.substring(name.length, c.length);
-      }
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
     }
     return "";
-  }
-  
-  function checkCookie() {
-        let user = getCookie("name");
-        console.log("cookie: " + user);
-        if (user != "") {
-          let response = confirm("Welcome again " + user + "\nDo you want to continue?");
-            if (response == true) {
-                document.getElementById("firstname").value = user;
-            } else {
-                document.getElementById("firstname").value = "";
-                setCookie("name", "", -1);
+}
+
+function checkCookie() {
+    let user = getCookie("firstname");
+    console.log("cookie: " + user);
+    if (user != "") {
+        let response = confirm("Welcome again " + user + "\nDo you want to continue?");
+        if (response == true) {
+            let IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
+                "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
+                "socialsecurity3"];
+            for (i = 0; i < IDs.length; i++) {
+                value = getCookie(IDs[i]);
+                document.getElementById(IDs[i]).value = value;
             }
         } else {
-            alert("Welcome new user!");
+            document.getElementById("firstname").value = "";
+            setCookie("firstname", "", -1);
         }
-      }
+    } else {
+        alert("Welcome new user!");
+    }
+}

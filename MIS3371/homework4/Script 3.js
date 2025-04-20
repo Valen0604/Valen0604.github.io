@@ -383,6 +383,7 @@ function checkCookie() {
         } else {
             for (i = 0; i < IDs.length; i++) {
                 setCookie(IDs[i], "", -1);
+                console.log("cookie deleted: " + IDs[i] + " = " + getCookie(IDs[i]));
             }
         }
     } else {

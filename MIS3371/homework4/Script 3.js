@@ -348,7 +348,6 @@ function setCookie(cname, cvalue, exdays) {
     let checkbox = document.getElementById("remember").checked;
     if (checkbox == false) {
         document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        return;
     } else {
     const d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));

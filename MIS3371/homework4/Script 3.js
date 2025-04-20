@@ -368,7 +368,7 @@ function setCookie(cname,cvalue,exdays) {
   }
   
   function checkCookie() {
-    let user = getCookie("username");
+    let user = getCookie("name");
     if (user != "") {
       alert("Welcome again " + user);
     } 

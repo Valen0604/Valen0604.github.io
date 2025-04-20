@@ -381,9 +381,8 @@ function checkCookie() {
                 document.getElementById(IDs[i]).value = value;
             }
         } else {
-            for (i = 0; i < IDs.length; i++) {
-                setCookie(IDs[i], "", -1);
-                console.log("cookie deleted: " + IDs[i] + " = " + getCookie(IDs[i]));
+            for (let i = 0; i < IDs.length; i++) {
+                document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
             }
         }
     } else {

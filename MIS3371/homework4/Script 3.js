@@ -3,7 +3,7 @@
     Author: Valentino Javier Salerni Longo
     Date created: 04/19/2025
     Date last edited:
-    Version: 1.3
+    Version: 1.4
     Description: Script for homework 4. */
 
 const d = new Date();
@@ -392,5 +392,21 @@ function checkCookie() {
         }
     } else {
         alert("Welcome new user!");
+    }
+}
+
+function expireCookie() {
+    let IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
+        "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
+        "socialsecurity3"];
+    if (document.getElementById("remember").checked == false) {
+        for (let i = 0; i < IDs.length; i++) {
+            document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        }
+    } else {
+        for (let i = 0; i < IDs.length; i++) {
+            let value = document.getElementById(IDs[i]).value;
+            setCookie(IDs[i], value, 1);
+        }
     }
 }

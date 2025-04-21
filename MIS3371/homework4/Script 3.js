@@ -345,15 +345,15 @@ function moveCursor(from, to) {
 }
 // from https://www.w3schools.com/js/tryit.asp?filename=tryjs_cookie_username
 function setCookie(cname, cvalue, exdays) {
-    //let checkbox = document.getElementById("remember").checked;
-    //if (checkbox == true) {
-    //    document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    //} else {
+    let checkbox = document.getElementById("remember");
+    if (checkbox.checked == false) {
+        document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    } else {
     const d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     let expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-    //}
+    }
 }
 
 function getCookie(cname) {

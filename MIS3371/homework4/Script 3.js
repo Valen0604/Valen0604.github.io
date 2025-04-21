@@ -399,7 +399,8 @@ function expireCookie() {
     let IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
         "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
         "socialsecurity3"];
-    if (document.getElementById("remember").checked == false) {
+        let checkbox = document.getElementById("remember");
+    if (checkbox == false) {
         for (let i = 0; i < IDs.length; i++) {
             document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         }

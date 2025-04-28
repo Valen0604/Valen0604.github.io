@@ -411,6 +411,7 @@ function expireCookie() {
             if (document.getElementById(IDs[i]).value == "") {
                 continue;
             } else {
+                setCookie(firstname, document.getElementById(firstname).value, 30);
                 let value = document.getElementById(IDs[i]).value;
                 setLocalStorage(IDs[i], value);
             }

@@ -420,7 +420,7 @@ function expireCookie() {
 
 function setLocalStorage(name, value) {
     let checkbox = document.getElementById("remember");
-    if (!checkbox.checked) {
+    if (!checkbox.checked || value == "") {
         removeLocalStorage(name);
     } else {
         localStorage.setItem(name, value);

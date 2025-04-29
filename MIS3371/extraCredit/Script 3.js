@@ -11,7 +11,7 @@ const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
     "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
     "socialsecurity3"];
 
-
+ 
 const d = new Date();
 
 let year = d.getFullYear();

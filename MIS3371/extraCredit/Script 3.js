@@ -347,3 +347,60 @@ function moveCursor(from, to) {
         document.getElementById(to).focus();
     }
 }
+// from https://www.w3schools.com/js/tryit.asp?filename=tryjs_cookie_username
+function setCookie(cname, cvalue, exdays) {
+    let checkbox = document.getElementById("remember");
+    if (checkbox.checked == false) {
+        document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        removeLocalStorage(cname);
+    } else if (cvalue == "") {
+        document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        removeLocalStorage(cname);
+    } else {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
+        if (cname == "firstname") {
+            document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/;";
+        }
+        setLocalStorage(cname, cvalue);
+    }
+}
+
+function expireCookie() {
+    let checkbox = document.getElementById("remember");
+    if (!checkbox.checked) {
+        for (let i = 0; i < IDs.length; i++) {
+            document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            removeLocalStorage(IDs[i]);
+        }
+    } else {
+        for (let i = 0; i < IDs.length; i++) {
+            if (document.getElementById(IDs[i]).value == "") {
+                document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                removeLocalStorage(IDs[i]);
+            } else {
+                let value = document.getElementById(IDs[i]).value;
+                setLocalStorage(IDs[i], value);
+                setCookie("firstname", document.getElementById("firstname").value, 30);
+            }
+        }
+    }
+}
+
+function setLocalStorage(name, value) {
+    let checkbox = document.getElementById("remember");
+    if (!checkbox.checked || value == "") {
+        removeLocalStorage(name);
+    } else {
+        localStorage.setItem(name, value);
+    }
+}
+
+function getLocalStorage(name) {
+    return localStorage.getItem(name);
+}
+
+function removeLocalStorage(name) {
+    localStorage.removeItem(name);
+}

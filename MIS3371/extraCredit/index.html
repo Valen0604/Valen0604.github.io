@@ -4,7 +4,7 @@
     Author: Valentino Javier Salerni Longo
     Date created: 04/28/2025
     Date last edited:
-    Version: 1.0
+    Version: 1.1
     Description: Form for patient intake -->
 
 <html>
@@ -35,6 +35,14 @@
                     <td valign="bottom" align="center" width="25%">
                         <p id="date">
                         </p>
+                        <div id="myModal" class="modal">
+                            <div class="modal-content">
+                                <p id="content"></p>
+                                <div id="modalClose">
+                                    <input type="button" value="Close" class="btn-close-popup" onclick="removeModal()">
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             </tbody>
@@ -54,6 +62,8 @@
                     </td>
                 </tr>
             </tbody>
-        </span>
+        </table>
+    </span>
 </body>
+
 </html>

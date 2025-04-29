@@ -16,6 +16,9 @@ document.getElementById("date").innerHTML = day2 + "/" + month2 + "/" + year2;
 // from https://www.w3schools.com/js/tryit.asp?filename=tryjs_cookie_username
 
 var response;
+const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
+    "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
+    "socialsecurity3"];
 
 function setCookie(cname, cvalue, exdays) {
     let checkbox = document.getElementById("remember");
@@ -103,4 +106,21 @@ function updateResponse(caller) {
     } else if (whoCalled == "modalAccept") {
         response = true;
     }
+}
+
+function setLocalStorage(name, value) {
+    let checkbox = document.getElementById("remember");
+    if (!checkbox.checked || value == "") {
+        removeLocalStorage(name);
+    } else {
+        localStorage.setItem(name, value);
+    }
+}
+
+function getLocalStorage(name) {
+    return localStorage.getItem(name);
+}
+
+function removeLocalStorage(name) {
+    localStorage.removeItem(name);
 }

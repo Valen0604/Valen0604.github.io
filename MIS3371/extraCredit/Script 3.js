@@ -11,7 +11,7 @@ const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
     "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
     "socialsecurity3"];
 
- 
+
 const d = new Date();
 
 let year = d.getFullYear();
@@ -348,7 +348,7 @@ function moveCursor(from, to) {
     }
 }
 // from https://www.w3schools.com/js/tryit.asp?filename=tryjs_cookie_username
-function setCookie(cname, cvalue, exdays) {
+ function setCookie(cname, cvalue, exdays) {
     let checkbox = document.getElementById("remember");
     if (checkbox.checked == false) {
         document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
@@ -387,7 +387,7 @@ function checkCookie() {
     let user = getCookie("firstname");
     console.log("cookie: " + user);
     if (user != "") {
-        openModal("Welcome again " + user + "\nDo you want to continue?");
+        parent.openModal("Welcome again " + user + "\nDo you want to continue?");
         if (response == true) {
             for (i = 0; i < IDs.length; i++) {
                 value = getLocalStorage(IDs[i]);
@@ -400,7 +400,7 @@ function checkCookie() {
             }
         }
     } else {
-        openModal("Welcome to the form! Please fill out the fields and click on submit when you are done.");
+        parent.openModal("Welcome to the form! Please fill out the fields and click on submit when you are done.");
     }
 }
 
@@ -441,3 +441,18 @@ function getLocalStorage(name) {
 function removeLocalStorage(name) {
     localStorage.removeItem(name);
 }
+
+function openModal(message) {
+    var modal = document.getElementById("myModal");
+    var modalContent = document.getElementById("content");
+    modalContent.innerHTML = message;
+    modal.style.display = "block";
+}
+
+function removeModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+}
+
+window.openModal = openModal;
+window.removeModal = removeModal;

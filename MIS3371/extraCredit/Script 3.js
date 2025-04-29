@@ -425,6 +425,7 @@ function setLocalStorage(name, value) {
         removeLocalStorage(name);
     } else {
         localStorage.setItem(name, value);
+        setCookie(firstname, document.getElementById(firstname).value, 30);
     }
 }
 

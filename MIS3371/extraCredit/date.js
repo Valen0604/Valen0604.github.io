@@ -5,22 +5,10 @@
     Date last edited:
     Version: 1.0
     Description: Date Script. */
-const d = new Date();
+const a = new Date();
 
-let year = d.getFullYear();
-let month = d.getMonth() + 1;
-let day = d.getDate();
+let year2 = a.getFullYear();
+let month2 = a.getMonth() + 1;
+let day2 = a.getDate();
 
-document.getElementById("date").innerHTML = day + "/" + month + "/" + year;
-
-function openModal(message) {
-    var modal = document.getElementById("myModal");
-    var modalContent = document.getElementById("content");
-    modalContent.innerHTML = message;
-    modal.style.display = "block";
-}
-
-function removeModal() {
-    var modal = document.getElementById("myModal");
-    modal.style.display = "none";
-}
+document.getElementById("date").innerHTML = day2 + "/" + month2 + "/" + year2;

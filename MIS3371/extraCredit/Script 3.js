@@ -419,7 +419,7 @@ function expireCookie() {
             } else {
                 let value = document.getElementById(IDs[i]).value;
                 setLocalStorage(IDs[i], value);
-                setCookie(IDs[i], value, 30);
+                setCookie("firstname", getElementById("firsname").value, 30);
             }
         }
     }

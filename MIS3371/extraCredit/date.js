@@ -12,3 +12,15 @@ let month = d.getMonth() + 1;
 let day = d.getDate();
 
 document.getElementById("date").innerHTML = day + "/" + month + "/" + year;
+
+function openModal(message) {
+    var modal = document.getElementById("myModal");
+    var modalContent = document.getElementById("content");
+    modalContent.innerHTML = message;
+    modal.style.display = "block";
+}
+
+function removeModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+}

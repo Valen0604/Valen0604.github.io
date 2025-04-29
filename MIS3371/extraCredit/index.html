@@ -19,7 +19,7 @@
     <script defer src="date.js"></script>
 </head>
 
-<body>
+<body onload="checkCookie()">
     <span id="header">
         <table width="100%" border="0">
             <tbody>
@@ -36,7 +36,7 @@
                         <p id="date">
                         </p>
                         <div id="myModal" class="modal">
-                            <div class="modal-content">
+                            <div class="modal-content" id="modalContent">
                                 <p id="content"></p>
                                 <div id="modalClose">
                                     <input type="button" value="Close" class="btn-close-popup" onclick="removeModal()">

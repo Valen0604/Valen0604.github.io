@@ -73,44 +73,6 @@ function checkCookie() {
     }
 }
 
-function expireCookie() {
-    let checkbox = document.getElementById("remember");
-    if (!checkbox.checked) {
-        for (let i = 0; i < IDs.length; i++) {
-            document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            removeLocalStorage(IDs[i]);
-        }
-    } else {
-        for (let i = 0; i < IDs.length; i++) {
-            if (document.getElementById(IDs[i]).value == "") {
-                document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                removeLocalStorage(IDs[i]);
-            } else {
-                let value = document.getElementById(IDs[i]).value;
-                setLocalStorage(IDs[i], value);
-                setCookie("firstname", document.getElementById("firstname").value, 30);
-            }
-        }
-    }
-}
-
-function setLocalStorage(name, value) {
-    let checkbox = document.getElementById("remember");
-    if (!checkbox.checked || value == "") {
-        removeLocalStorage(name);
-    } else {
-        localStorage.setItem(name, value);
-    }
-}
-
-function getLocalStorage(name) {
-    return localStorage.getItem(name);
-}
-
-function removeLocalStorage(name) {
-    localStorage.removeItem(name);
-}
-
 function openModal(message) {
     var modal = document.getElementById("myModal");
     var modalContent = document.getElementById("content");

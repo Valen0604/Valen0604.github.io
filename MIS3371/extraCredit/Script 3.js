@@ -441,15 +441,3 @@ function getLocalStorage(name) {
 function removeLocalStorage(name) {
     localStorage.removeItem(name);
 }
-
-function openModal(message) {
-    var modal = document.getElementById("myModal");
-    var modalContent = document.getElementById("content");
-    modalContent.innerHTML = message;
-    modal.style.display = "block";
-}
-
-function removeModal() {
-    var modal = document.getElementById("myModal");
-    modal.style.display = "none";
-}

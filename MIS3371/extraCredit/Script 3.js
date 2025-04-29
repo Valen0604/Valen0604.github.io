@@ -350,7 +350,7 @@ function moveCursor(from, to) {
 // from https://www.w3schools.com/js/tryit.asp?filename=tryjs_cookie_username
 function setCookie(cname, cvalue, exdays) {
     let checkbox = document.getElementById("remember");
-    if (checkbox.checked == false) {
+    if (checkbox.checked == false || cvalue == "") {
         document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         removeLocalStorage(cname);
     } else {

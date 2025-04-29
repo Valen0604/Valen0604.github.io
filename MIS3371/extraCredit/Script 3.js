@@ -387,7 +387,7 @@ function checkCookie() {
     let user = getCookie("firstname");
     console.log("cookie: " + user);
     if (user != "") {
-        parent.openModal("Welcome again " + user + "\nDo you want to continue?");
+        openModal("Welcome again " + user + "\nDo you want to continue?");
         if (response == true) {
             for (i = 0; i < IDs.length; i++) {
                 value = getLocalStorage(IDs[i]);
@@ -400,7 +400,7 @@ function checkCookie() {
             }
         }
     } else {
-        parent.openModal("Welcome to the form! Please fill out the fields and click on submit when you are done.");
+        openModal("Welcome to the form! Please fill out the fields and click on submit when you are done.");
     }
 }
 

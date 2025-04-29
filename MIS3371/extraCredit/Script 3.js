@@ -424,8 +424,7 @@ function setLocalStorage(name, value) {
     if (!checkbox.checked || value == "") {
         removeLocalStorage(name);
     } else {
-        localStorage.setItem(name, value);
-        setCookie(firstname, document.getElementById(firstname).value, 30);
+        localStorage.setItem(name, value);  
     }
 }
 

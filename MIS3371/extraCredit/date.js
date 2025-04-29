@@ -85,8 +85,7 @@ function openModal(message) {
     } else {
         var div = document.getElementById("modalContent");
         div.innerHTML = "";
-        div.innerHTML = '<p id="content"></p>;'
-        modalContent.innerHTML = message;
+        div.innerHTML = '<p id="content">' + message + '</p>'
         div.innerHTML += '<div id="modalClose"><input type="button" value="No" class="btn-close-popup" onclick="removeModal(); updateResponse(this.id)"></div>';
         div.innerHTML += '<div id="modalAccept"><input type="button" value="Yes" class="btn-accept-popup" onclick="removeModal(); updateResponse(this.id)"></div>';
         div.innerHTML += '<div id="modalContent"></div>';

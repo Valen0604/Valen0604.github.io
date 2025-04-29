@@ -59,7 +59,7 @@ function checkCookie() {
     let user = getCookie("firstname");
     console.log("cookie: " + user);
     if (user != "") {
-        parent.openModal("Welcome again " + user + "\nDo you want to continue?");
+        parent.openModal("Welcome again " + user + ", do you want to continue from where you left off?");
         if (response == true) {
             for (i = 0; i < IDs.length; i++) {
                 value = getLocalStorage(IDs[i]);
@@ -87,8 +87,10 @@ function openModal(message) {
         div.innerHTML = "";
         div.innerHTML = '<p id="content">' + message + '</p>'
         div.innerHTML += '<div id="modalClose"><input type="button" value="No" class="btn-close-popup" onclick="removeModal(); updateResponse(this.id)"></div>';
-        div.innerHTML += '<div id="modalAccept"><input type="button" value="Yes" class="btn-accept-popup" onclick="removeModal(); updateResponse(this.id)"></div>';
-        div.innerHTML += '<div id="modalContent"></div>';
+        div.innerHTML += '<table id="modalTable">';
+        div.innerHTML += '<tr><td>';
+        div.innerHTML += '<div id="modalAccept"><input type="button" value="Yes" class="btn-accept-popup" onclick="removeModal(); updateResponse(this.id)"></div></td>';
+        div.innerHTML += '<td><div id="modalContent"></div></td></tr>';
         modal.style.display = "block";
     }
 }

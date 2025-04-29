@@ -409,7 +409,8 @@ function expireCookie() {
     } else {
         for (let i = 0; i < IDs.length; i++) {
             if (document.getElementById(IDs[i]).value == "") {
-                continue;
+                document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                removeLocalStorage(IDs[i]);
             } else {
                 let value = document.getElementById(IDs[i]).value;
                 setLocalStorage(IDs[i], value);

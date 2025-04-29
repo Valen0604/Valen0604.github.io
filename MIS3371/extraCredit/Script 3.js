@@ -4,7 +4,7 @@
     Date created: 04/19/2025
     Date last edited:
     Version: 1.3
-    Description: Script for homework 4. */
+    Description: Script for extra credit */
 
 
 const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
@@ -258,7 +258,7 @@ birthDate.setAttribute("min", minDate);
 // Accesibility errors obtained from: https://www.w3schools.com/accessibility/accessibility_errors.php
 function checkErrors() {
     var hasErrors = false;
-    
+
     const requirements = [/^[A-Za-z'-]+$/, /^[A-Za-z2-5-]+$/,
         /^([0-9]{3})$/,
         /^([0-9]{5}|[0-9]{5}-[0-9]{4})$/,
@@ -387,7 +387,7 @@ function checkCookie() {
     let user = getCookie("firstname");
     console.log("cookie: " + user);
     if (user != "") {
-        let response = confirm("Welcome again " + user + "\nDo you want to continue?");
+        parent.openModal("Welcome again " + user + "\nDo you want to continue?");
         if (response == true) {
             for (i = 0; i < IDs.length; i++) {
                 value = getLocalStorage(IDs[i]);
@@ -400,7 +400,7 @@ function checkCookie() {
             }
         }
     } else {
-        alert("Welcome new user!");
+        parent.openModal("Welcome to the form! Please fill out the fields and click on submit when you are done.");
     }
 }
 
@@ -419,7 +419,7 @@ function expireCookie() {
             } else {
                 let value = document.getElementById(IDs[i]).value;
                 setLocalStorage(IDs[i], value);
-                setCookie("firstname", getElementById("firsname").value, 30);
+                setCookie("firstname", document.getElementById("firstname").value, 30);
             }
         }
     }
@@ -430,7 +430,7 @@ function setLocalStorage(name, value) {
     if (!checkbox.checked || value == "") {
         removeLocalStorage(name);
     } else {
-        localStorage.setItem(name, value);  
+        localStorage.setItem(name, value);
     }
 }
 
@@ -440,4 +440,16 @@ function getLocalStorage(name) {
 
 function removeLocalStorage(name) {
     localStorage.removeItem(name);
+}
+
+function openModal(message) {
+    var modal = document.getElementById("myModal");
+    var modalContent = document.getElementById("content");
+    modalContent.innerHTML = message;
+    modal.style.display = "block";
+}
+
+function removeModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
 }

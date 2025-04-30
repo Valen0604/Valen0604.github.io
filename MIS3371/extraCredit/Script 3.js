@@ -9,7 +9,7 @@
 
 const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
     "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
-    "socialsecurity3"];
+    "socialsecurity3", "phone2", "phone3"];
 
 
 const d = new Date();
@@ -205,6 +205,7 @@ function preview() {
     formOutput = formOutput + "<table class='table-container'><th>Field</th><th>Value</th>";
     let dataType;
     let i;
+    let text = "";
     for (i = 0; i < formContents.length; i++) {
         dataType = formContents.elements[i].type;
         const fieldID = formContents.elements[i].id;
@@ -214,6 +215,10 @@ function preview() {
 
         if (formContents.elements[i].name == "g-recaptcha-response") {
             continue;
+        }
+
+        if (fieldID == "phone" || fieldID == "phone2") {
+            text += formContents.elements[i].value + "-";
         }
 
         switch (dataType) {
@@ -230,6 +235,13 @@ function preview() {
                 }
                 break;
             case "button": case "submit": case "reset":
+                break;
+            case "tel":
+                if (fieldID == "phone3") {
+                    text += formContents.elements[i].value;
+                    formOutput = formOutput + "<tr><td align='left'>" + formContents.elements[i].name + "</td>";
+                    formOutput = formOutput + "<td>" + text + "</td></tr>";
+                }
                 break;
             default:
                 formOutput = formOutput + "<tr><td align='left'>" + formContents.elements[i].name + "</td>";
@@ -290,12 +302,15 @@ function checkErrors() {
         /^((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,30})$/,
         /^[A-Za-z'-]+$/,
         /^[A-Za-z0-9' -]+$/,
-        /^([0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{10})$/,
-        /^([0-9]{2})$/, /^([0-9]{4})$/
+        /^([0-9]{3})$/,
+        /^([0-9]{2})$/, /^([0-9]{4})$/,
+        /^([0-9]{3})$/,
+        /^([0-9]{4})$/,
     ];
     const errorID = ["firstNameError", "lastNameError", "ssnError", "zipError",
         "emailError", "userIDError", "pass1Error", "pass2Error", "cityError",
-        "address1Error", "phoneError", "ssnError", "ssnError"];
+        "address1Error", "phoneError", "ssnError", "ssnError", "phoneError",
+        "phoneError"];
     var i;
     for (i = 0; i < IDs.length; i++) {
         let input = document.getElementById(IDs[i]).value;
@@ -504,3 +519,73 @@ grecaptcha.ready(function () {
         sitekey: "6Lfl7ygrAAAAAHtSLQeUqtAkCmsMJWrvXctqaNcu"
     });
 });
+
+function removeHidden(id1, id2, id3, id4) {
+    let input1 = document.getElementById(id1);
+    let input2 = document.getElementById(id2);
+    let input3 = document.getElementById(id3);
+    let buttonText = document.getElementById(id4);
+    if (input1.type == "password") {
+        input1.type = "text";
+        input2.type = "text";
+        input3.type = "text";
+        buttonText.value = " Hide ";
+    }
+    else {
+        input1.type = "password";
+        input2.type = "password";
+        input3.type = "password";
+        buttonText.value = "Show";
+    }
+}
+
+function removeHidden2(id1, id2) {
+    let input1 = document.getElementById(id1);
+    let buttonText = document.getElementById(id2);
+    if (input1.type == "password") {
+        input1.type = "text";
+        buttonText.value = " Hide ";
+    }
+    else {
+        input1.type = "password";
+        buttonText.value = "Show";
+    }
+}
+
+// from https://stackoverflow.com/questions/667555/how-to-detect-idle-time-in-javascript
+
+window.onload = function () {
+    inactivityTime();
+}
+
+var inactivityTime = function () {
+    var time;
+    window.addEventListener('load', resetTimer, true);
+    var events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'onclick'];
+    events.forEach(function (name) {
+        document.addEventListener(name, resetTimer, true);
+    });
+
+    function logout() {
+        alert("You are now logged out.")
+        let checkbox = document.getElementById("remember");
+        checkbox.checked = false;
+        expireCookie();
+        location.href = "form.html";
+    }
+
+    function resetTimer() {
+        clearTimeout(time);
+        time = setTimeout(logout, 1000 * 60 * 10); // 10 minutes
+        // 1000 milliseconds = 1 second
+    }
+};
+
+/* ADDITIONAL ENHANCEMENTS
+
+    1. Added a show button on any obscured field.
+    2. Added autotab on the phone number fields.
+    3. Added a timeout so cookies are cleared and the form is 
+    reset after 10 minutes of inactivity
+
+*/

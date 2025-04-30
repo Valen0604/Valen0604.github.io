@@ -19,6 +19,7 @@ var response = true;
 const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
     "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
     "socialsecurity3"];
+const iframe = document.getElementById("iframe");
 
 function getCookie(cname) {
     let name = cname + "=";
@@ -75,11 +76,11 @@ function updateResponse(caller) {
     var whoCalled = caller;
     if (whoCalled == "modalClose") {
         for (let i = 0; i < IDs.length; i++) {
-            setCookie(IDs[i], getLocalStorage(IDs[i]), -1);
+            iframe.contentWindow.setCookie(IDs[i], getLocalStorage(IDs[i]), -1);
         }
     } else if (whoCalled == "modalAccept") {
         for (i = 0; i < IDs.length; i++) {
-            setCookie(IDs[i], getLocalStorage(IDs[i]), 1);
+            iframe.contentWindow.setCookie(IDs[i], getLocalStorage(IDs[i]), 1);
         }
     }
 }

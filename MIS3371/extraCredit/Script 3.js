@@ -212,6 +212,10 @@ function preview() {
             continue;
         }
 
+        if (formContents.elements[i].name == "g-recaptcha-response") {
+            continue;
+        }
+
         switch (dataType) {
             case "checkbox":
                 if (formContents.elements[i].checked) {

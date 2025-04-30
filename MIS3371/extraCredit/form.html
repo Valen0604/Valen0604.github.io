@@ -43,7 +43,7 @@
             <table class="form" align="center" width="75%">
                 <tbody>
                     <tr class="form">
-                        <th class="form" colspan="8">
+                        <th class="form" colspan="7">
                             Set up a new account
                         </th>
                     </tr>
@@ -107,8 +107,8 @@
                                 Social Security Number
                             </label>
                         </td>
-                        <td colspan="2">
-                            <input type="password" size="20" minlength="3" maxlength="3" id="socialsecurity"
+                        <td colspan=2>
+                            <input type="password" size="5" minlength="3" maxlength="3" id="socialsecurity"
                                 name="Social Security Number" placeholder="000"
                                 pattern="^([0-9]{3})$" class="ssn"
                                 title="Please enter your Social Security Number, must be in the format 000-00-0000"
@@ -116,7 +116,7 @@
                                 oninput="checkErrors()" aria-describedby="ssnNameError"
                                 aria-invalid="false" required onkeyup="moveCursor(this, 'socialsecurity2')">
                                 -
-                                <input type="password" size="20" minlength="2" maxlength="2" id="socialsecurity2"
+                                <input type="password" size="5" minlength="2" maxlength="2" id="socialsecurity2"
                                 name="Social Security Number" placeholder="00"
                                 pattern="^([0-9]{2})$" class="ssn"
                                 title="Please enter your Social Security Number, must be in the format 000-00-0000"
@@ -124,29 +124,48 @@
                                  oninput="checkErrors()" aria-describedby="ssnNameError"
                                 aria-invalid="false" required onkeyup="moveCursor(this, 'socialsecurity3')">
                                 -
-                                <input type="password" size="20" minlength="4" maxlength="4" id="socialsecurity3"
+                                <input type="password" size="5" minlength="4" maxlength="4" id="socialsecurity3"
                                 name="Social Security Number" placeholder="0000"
                                 pattern="^([0-9]{4})$" class="ssn"
                                 title="Please enter your Social Security Number, must be in the format 000-00-0000"
                                 onblur="setCookie(this.id, this.value, 1); checkErrors()" 
                                 oninput="checkErrors()" aria-describedby="ssnNameError"
                                 aria-invalid="false" required>
-
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <div id="ssnError" role="alert" class="error">Only numbers, must have 9 characters.</div>
+                        </td>
+                        <td>
+                            <input type="button" class="show" id="show" value="Show" 
+                            onclick="removeHidden('socialsecurity', 'socialsecurity2', 'socialsecurity3', this.id)">
                         </td>
                         <td align="left">
                             <label for="phone">
                                 Phone Number
                             </label>
                         </td>
-                        <td>
-                            <input type="tel" size="20" minlength="10" maxlength="15" id="phone" name="Phone Number"
-                                required placeholder="Required" pattern="^([0-9]{3}-[0-9]{3}-[0-9]{4}|[0-9]{10})$"
+                        <td colspan="2">
+                            (
+                            <input type="tel" size="5" minlength="1" maxlength="3" id="phone" name="Phone Number"
+                                required placeholder="Required" pattern="^([0-9]{3})$"
+                                title="Please enter your Phone Number, must be in the format 000-000-0000"
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()" 
+                                oninput="checkErrors()" aria-describedby="phoneError"
+                                aria-invalid="false" onkeyup="moveCursor(this, 'phone2')">
+                            ) 
+                            <input type="tel" size="5" minlength="1" maxlength="3" id="phone2"
+                                name="Phone Number" required placeholder="Required" pattern="^([0-9]{3})$"
+                                title="Please enter your Phone Number, must be in the format 000-000-0000"
+                                onblur="setCookie(this.id, this.value, 1); checkErrors()" 
+                                oninput="checkErrors()" aria-describedby="phoneError"
+                                aria-invalid="false" onkeyup="moveCursor(this, 'phone3')"> -
+                            <input type="tel" size="5" minlength="1" maxlength="4" id="phone3"
+                                name="Phone Number" required placeholder="Required" pattern="^([0-9]{4})$"
                                 title="Please enter your Phone Number, must be in the format 000-000-0000"
                                 onblur="setCookie(this.id, this.value, 1); checkErrors()" 
                                 oninput="checkErrors()" aria-describedby="phoneError"
                                 aria-invalid="false">
                             <div id="phoneError" role="alert" class="error">Only numbers, must have 10 characters.</div>
+                            
                     </tr>
                     <tr class="form">
                         <td align="left">
@@ -407,6 +426,10 @@
                                 </div>
                             </div>
                         </td>
+                        <td>
+                            <input type="button" class="show" id="show2" value="Show" 
+                            onclick="removeHidden2('password', this.id)">
+                        </td>
                         <td align="left">
                             <label for="password2">
                                 Confirm Password
@@ -426,6 +449,10 @@
                                 <div id="pass2Error" role="alert" class="error">Check password fulfills conditions and
                                     matches.</div>
                             </div>
+                        </td>
+                        <td>
+                            <input type="button" class="show" id="show3" value="Show" 
+                            onclick="removeHidden2('password2', this.id)">
                         </td>
                     </tr>
                     <tr>
@@ -450,7 +477,7 @@
                                 <input type="checkbox" class="remember" id="remember" name="remember" checked="true" onclick="expireCookie()">
                                 <div> </div>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <div class="g-recaptcha" data-sitekey="6Ldq6ikrAAAAACSuhMCvGLYKY3afBhNZygF9IBci" id="container"></div>
+                               <div class="g-recaptcha" data-sitekey="6Ldq6ikrAAAAACSuhMCvGLYKY3afBhNZygF9IBci" id="container"></div> 
                             </center>
                         </td>
                     </tr>

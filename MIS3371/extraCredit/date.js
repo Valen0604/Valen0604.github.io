@@ -94,11 +94,11 @@ function updateResponse(caller) {
     var whoCalled = caller;
     if (whoCalled == "modalClose") {
         for (let i = 0; i < IDs.length; i++) {
-            setCookie(IDs[i], document.getElementById(IDs[i]).value, -1);
+            setCookie(IDs[i], getLocalStorage(IDs[i]), -1);
         }
     } else if (whoCalled == "modalAccept") {
         for (i = 0; i < IDs.length; i++) {
-            setCookie(IDs[i], document.getElementById(IDs[i]).value, 1);
+            setCookie(IDs[i], getLocalStorage(IDs[i]), 1);
         }
     }
 }

@@ -8,7 +8,7 @@
     Description: Form for patient intake -->
 
 <html>
- 
+
 <head>
     <title>
         Form
@@ -27,6 +27,15 @@
 </head>
 
 <body>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content" id="modalContent">
+            <p id="content"></p>
+            <div id="modalClose">
+                <input type="button" value="Close" class="btn-close-popup" onclick="removeModal()">
+            </div>
+        </div>
+    </div>
 
     <span id="body">
         <form name="signup" action="Thank_You.html" id="signup">

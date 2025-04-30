@@ -444,11 +444,15 @@ function updateResponse(caller) {
     var whoCalled = caller;
     if (whoCalled == "modalClose") {
         for (let i = 0; i < IDs.length; i++) {
-            setCookie(IDs[i], getLocalStorage(IDs[i]), -1);
+            setCookie(IDs[i], "", -1);
+            removeLocalStorage(IDs[i]);
         }
     } else if (whoCalled == "modalAccept") {
         for (i = 0; i < IDs.length; i++) {
-            setCookie(IDs[i], getLocalStorage(IDs[i]), 1);
+            let value = getLocalStorage(IDs[i]);
+            if (value) {
+            setCookie(IDs[i], value, 1);
+            }
         }
     }
 }

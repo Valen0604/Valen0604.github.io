@@ -475,13 +475,11 @@ function removeLocalStorage(name) {
     localStorage.removeItem(name);
 }
 //from Google
-
-  // If reCAPTCHA is still loading, grecaptcha will be undefined.
-  grecaptcha.ready(function(){
+grecaptcha.ready(function () {
     grecaptcha.render("container", {
-      sitekey: "6Lfl7ygrAAAAAHtSLQeUqtAkCmsMJWrvXctqaNcu"
+        sitekey: "6Lfl7ygrAAAAAHtSLQeUqtAkCmsMJWrvXctqaNcu"
     });
-  });
 
-const token = document.querySelector('textarea[name="g-recaptcha-response"]').value;
-console.log("reCAPTCHA token:", token);
+    const token = document.querySelector('textarea[name="g-recaptcha-response"]').value;
+    console.log("reCAPTCHA token:", token);
+});

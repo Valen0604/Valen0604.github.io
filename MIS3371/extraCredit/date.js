@@ -100,7 +100,11 @@ function updateResponse(caller) {
     } else if (whoCalled == "modalAccept") {
         for (i = 0; i < IDs.length; i++) {
             value = getLocalStorage(IDs[i]);
+            if (value == null || value == "") {
+                next;
+            } else {
             document.getElementById(IDs[i]).value = value;
+            }
         }
     }
 }

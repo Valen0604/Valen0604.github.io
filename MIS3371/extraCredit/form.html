@@ -435,8 +435,8 @@
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="button" value="Preview" onclick="preview()">
 
-                                <div id="popupOverlay" class="overlay-container">
-                                    <div class="popup-box">
+                                <div id="previewModal" class="modal">
+                                    <div class="modal-content" id="previewModalContent"></div>">
 
                                     </div>
                                 </div>
@@ -447,11 +447,10 @@
                                 <input type="reset" value="Reset">
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <label for="remember">Remember me</label>
-                                <input type="checkbox" id="remember" name="remember" checked="true" onclick="expireCookie()">
+                                <input type="checkbox" class="remember" id="remember" name="remember" checked="true" onclick="expireCookie()">
                                 <div> </div>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 <div class="g-recaptcha" data-sitekey="6Ldq6ikrAAAAACSuhMCvGLYKY3afBhNZygF9IBci" id="container"></div>
-
                             </center>
                         </td>
                     </tr>

@@ -474,20 +474,11 @@ function getLocalStorage(name) {
 function removeLocalStorage(name) {
     localStorage.removeItem(name);
 }
-//from https://www.youtube.com/watch?v=CKoCRQPfvaY&ab_channel=OpenJavaScript
-const form = document.querySelector("form");
+//from Google
 
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const captchaResponse = grecaptcha.getResponse();
-
-    if(!captchaResponse.lenght > 0) {
-        throw new Error("Captcha not completed");
-    }
-
-});
-
-function removeLocalStorage(name) {
-    localStorage.removeItem(name);
-}
+  // If reCAPTCHA is still loading, grecaptcha will be undefined.
+  grecaptcha.ready(function(){
+    grecaptcha.render("container", {
+      sitekey: "6Lfl7ygrAAAAAHtSLQeUqtAkCmsMJWrvXctqaNcu"
+    });
+  });

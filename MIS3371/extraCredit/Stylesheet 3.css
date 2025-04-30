@@ -220,3 +220,14 @@ iframe {
     text-decoration: none;
     cursor: pointer;
   }
+
+  .btn-accept-popup {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-top: 12px;
+    background-color: #2ecc71; /* Green */
+    color: #fff;
+}

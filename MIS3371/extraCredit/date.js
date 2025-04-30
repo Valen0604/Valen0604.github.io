@@ -59,19 +59,18 @@ function checkCookie() {
     let user = getCookie("firstname");
     console.log("cookie: " + user);
     if (user != "") {
-        openModal("Welcome again " + user + ", do you want to continue from where you left off?", function (response) {
-            if (response == true) {
-                for (i = 0; i < IDs.length; i++) {
-                    value = getLocalStorage(IDs[i]);
-                    document.getElementById(IDs[i]).value = value;
-                }
-            } else {
-                for (let i = 0; i < IDs.length; i++) {
-                    document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                    removeLocalStorage(IDs[i]);
-                }
+        openModal("Welcome again " + user + ", do you want to continue from where you left off?");
+        if (response == true) {
+            for (i = 0; i < IDs.length; i++) {
+                value = getLocalStorage(IDs[i]);
+                document.getElementById(IDs[i]).value = value;
             }
-        });
+        } else {
+            for (let i = 0; i < IDs.length; i++) {
+                document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                removeLocalStorage(IDs[i]);
+            }
+        }
     } else {
         openModal("Welcome to the form! Please fill out the fields and click on submit when you are done.");
     }
@@ -80,9 +79,9 @@ function checkCookie() {
 function openModal(message) {
     var modal = document.getElementById("myModal");
     var modalContent = document.getElementById("content");
-    if (message == "Welcome to the form! Please fill out the fields and click on submit when you are done.") {
-        modalContent.innerHTML = message;
-        modal.style.display = "block";
+    if(message == "Welcome to the form! Please fill out the fields and click on submit when you are done."){
+    modalContent.innerHTML = message;
+    modal.style.display = "block";
     } else {
         var div = document.getElementById("modalContent");
         div.innerHTML = ""; // Clear existing content
@@ -94,9 +93,6 @@ function openModal(message) {
                 <input type="button" value="Yes" class="btn-accept-popup" onclick="handleModalResponse(true)">
             </div>`;
         modal.style.display = "block";
-        window.handleModalResponse = function (userResponse) {
-            callback(userResponse);
-        };
     }
 }
 
@@ -109,8 +105,10 @@ function updateResponse(caller) {
     var whoCalled = caller;
     if (whoCalled == "modalClose") {
         response = false;
+        checkCookie();
     } else if (whoCalled == "modalAccept") {
         response = true;
+        checkCookie();
     }
 }
 
@@ -130,3 +128,4 @@ function getLocalStorage(name) {
 function removeLocalStorage(name) {
     localStorage.removeItem(name);
 }
+

@@ -84,14 +84,20 @@ function openModal(message) {
     modal.style.display = "block";
     } else {
         var div = document.getElementById("modalContent");
-        div.innerHTML = "";
-        div.innerHTML = '<p id="content">' + message + '</p>'
-        div.innerHTML += '<div id="modalClose"><input type="button" value="No" class="btn-close-popup" onclick="removeModal(); updateResponse(this.id)"></div>';
-        div.innerHTML += '<table id="modalTable">';
-        div.innerHTML += '<tr><td>';
-        div.innerHTML += '<div id="modalAccept"><input type="button" value="Yes" class="btn-accept-popup" onclick="removeModal(); updateResponse(this.id)"></div></td>';
-        div.innerHTML += '<td><div id="modalContent"></div></td></tr>';
+        div.innerHTML = ""; // Clear existing content
+        div.innerHTML = `<p id="content">${message}</p>`;
+        div.innerHTML += `
+            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+                <input type="button" value="No" class="btn-close-popup" onclick="handleModalResponse(false)">
+                <input type="button" value="Yes" class="btn-accept-popup" onclick="handleModalResponse(true)">
+            </div>`;
         modal.style.display = "block";
+        window.handleModalResponse = function (response) {
+            removeModal(); // Close the modal
+            if (typeof callback === "function") {
+                callback(response);
+            }
+        };
     }
 }
 
@@ -125,3 +131,5 @@ function getLocalStorage(name) {
 function removeLocalStorage(name) {
     localStorage.removeItem(name);
 }
+
+

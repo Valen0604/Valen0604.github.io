@@ -94,17 +94,11 @@ function updateResponse(caller) {
     var whoCalled = caller;
     if (whoCalled == "modalClose") {
         for (let i = 0; i < IDs.length; i++) {
-            document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            removeLocalStorage(IDs[i]);
+            setCookie(IDs[i], document.getElementById(IDs[i]).value, -1);
         }
     } else if (whoCalled == "modalAccept") {
         for (i = 0; i < IDs.length; i++) {
-            value = getLocalStorage(IDs[i]);
-            if (value == null || value == "") {
-                next;
-            } else {
-            document.getElementById(IDs[i]).value = value;
-            }
+            setCookie(IDs[i], document.getElementById(IDs[i]).value, 1);
         }
     }
 }

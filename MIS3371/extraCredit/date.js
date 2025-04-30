@@ -15,7 +15,7 @@ document.getElementById("date").innerHTML = day2 + "/" + month2 + "/" + year2;
 
 // from https://www.w3schools.com/js/tryit.asp?filename=tryjs_cookie_username
 
-var response;
+var response = true;
 const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
     "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
     "socialsecurity3"];
@@ -93,7 +93,7 @@ function openModal(message) {
             </div>`;
         modal.style.display = "block";
         window.handleModalResponse = function (response) {
-            removeModal(); // Close the modal
+            removeModal();
             if (typeof callback === "function") {
                 callback(response);
             }
@@ -131,5 +131,4 @@ function getLocalStorage(name) {
 function removeLocalStorage(name) {
     localStorage.removeItem(name);
 }
-
 

@@ -20,25 +20,6 @@ const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
     "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
     "socialsecurity3"];
 
-function setCookie(cname, cvalue, exdays) {
-    let checkbox = document.getElementById("remember");
-    if (checkbox.checked == false) {
-        document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        removeLocalStorage(cname);
-    } else if (cvalue == "") {
-        document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        removeLocalStorage(cname);
-    } else {
-        const d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        let expires = "expires=" + d.toUTCString();
-        if (cname == "firstname") {
-            document.cookie = cname + "=" + cvalue + "; " + expires + "; path=/;";
-        }
-        setLocalStorage(cname, cvalue);
-    }
-}
-
 function getCookie(cname) {
     let name = cname + "=";
     let decodedCookie = decodeURIComponent(document.cookie);

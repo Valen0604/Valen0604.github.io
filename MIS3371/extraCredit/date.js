@@ -77,9 +77,9 @@ function openModal(message) {
         div.innerHTML = `<p id="content">${message}</p>`;
         div.innerHTML += `
             <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-                <input type="button" id="modalClose" value="No" class="btn-close-popup" onclick="updateResponse(this.id)">
+                <input type="button" id="modalClose" value="No" class="btn-close-popup" onclick="updateResponse(this.id); removeModal()">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" id="modalAccept" value="Yes" class="btn-accept-popup" onclick="updateResponse(this.id)">
+                <input type="button" id="modalAccept" value="Yes" class="btn-accept-popup" onclick="updateResponse(this.id); removeModal()">
             </div>`;
         modal.style.display = "block";
     }

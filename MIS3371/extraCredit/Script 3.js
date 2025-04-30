@@ -201,12 +201,17 @@ function validate() {
 const overlay = document.getElementById('popupOverlay');
 function preview() {
     let formContents = document.getElementById("signup");
-    let formOutput = '<div class="popup-box">';
+    let formOutput = '<div class="modal-content" id="previewModalContent">';
     formOutput = formOutput + "<table class='table-container'><th>Field</th><th>Value</th>";
     let dataType;
     let i;
     for (i = 0; i < formContents.length; i++) {
         dataType = formContents.elements[i].type;
+        const fieldID = formContents.elements[i].id;
+        if (fieldID == "remember" || fieldID == "socialsecurity" || fieldID == "socialsecurity2" || fieldID == "socialsecurity3" || fieldID == "password" || fieldID == "password2") {
+            continue;
+        }
+
         switch (dataType) {
             case "checkbox":
                 if (formContents.elements[i].checked) {
@@ -232,12 +237,25 @@ function preview() {
         }
     }
     if (formOutput.length > 0) {
-        formOutput = formOutput + '</table> <input type="button" value="Close" class="btn-close-popup" onclick="togglePopup()"</div>';
-        overlay.innerHTML = formOutput
+        formOutput += '</table>';
+        formOutput += '<div style="text-align: center; margin-top: 20px;">';
+        formOutput += '<input type="button" value="Close" class="btn-close-popup" onclick="closeModal()">';
+        formOutput += '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+        formOutput += '<input type="submit" value="Submit" class="btn-submit-popup" onclick="validate(); closeModal()">';
+        formOutput += '</div>';
+        formOutput += '</div>';
     }
-    document.getElementById('popupOverlay').classList.toggle('show');
+
+    const modal = document.getElementById("previewModal");
+    const modalContent = document.getElementById("previewModalContent");
+    modalContent.innerHTML = formOutput;
+    modal.style.display = "block";
 }
 
+function closeModal() {
+    const modal = document.getElementById("previewModal");
+    modal.style.display = "none";
+}
 
 function togglePopup() {
     overlay.classList.remove("show");
@@ -475,6 +493,8 @@ function removeLocalStorage(name) {
     localStorage.removeItem(name);
 }
 //from Google
+
+// If reCAPTCHA is still loading, grecaptcha will be undefined.
 grecaptcha.ready(function () {
     grecaptcha.render("container", {
         sitekey: "6Lfl7ygrAAAAAHtSLQeUqtAkCmsMJWrvXctqaNcu"

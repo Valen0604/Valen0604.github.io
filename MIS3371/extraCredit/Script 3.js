@@ -479,7 +479,4 @@ grecaptcha.ready(function () {
     grecaptcha.render("container", {
         sitekey: "6Lfl7ygrAAAAAHtSLQeUqtAkCmsMJWrvXctqaNcu"
     });
-
-    const token = document.querySelector('textarea[name="g-recaptcha-response"]').value;
-    console.log("reCAPTCHA token:", token);
 });

@@ -353,7 +353,7 @@ function checkCookie() {
     let user = getCookie("firstname");
     console.log("cookie: " + user);
     if (user != "") {
-        openModal("Welcome again " + user + ", do you want to continue from where you left off?");  
+        openModal("Welcome again " + user + ", do you want to continue from where you left off?");
     } else {
         openModal("Welcome to the form! Please fill out the fields and click on submit when you are done.");
     }
@@ -378,9 +378,9 @@ function getCookie(cname) {
 function openModal(message) {
     var modal = document.getElementById("myModal");
     var modalContent = document.getElementById("content");
-    if(message == "Welcome to the form! Please fill out the fields and click on submit when you are done."){
-    modalContent.innerHTML = message;
-    modal.style.display = "block";
+    if (message == "Welcome to the form! Please fill out the fields and click on submit when you are done.") {
+        modalContent.innerHTML = message;
+        modal.style.display = "block";
     } else {
         var div = document.getElementById("modalContent");
         div.innerHTML = ""; // Clear existing content
@@ -451,7 +451,8 @@ function updateResponse(caller) {
         for (i = 0; i < IDs.length; i++) {
             let value = getLocalStorage(IDs[i]);
             if (value) {
-            setCookie(IDs[i], value, 1);
+                document.getElementById(IDs[i]).value = value;
+                setCookie(IDs[i], value, 1);
             }
         }
     }

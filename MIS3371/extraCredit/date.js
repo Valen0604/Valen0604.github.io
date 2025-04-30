@@ -59,18 +59,7 @@ function checkCookie() {
     let user = getCookie("firstname");
     console.log("cookie: " + user);
     if (user != "") {
-        openModal("Welcome again " + user + ", do you want to continue from where you left off?");
-        if (response == true) {
-            for (i = 0; i < IDs.length; i++) {
-                value = getLocalStorage(IDs[i]);
-                document.getElementById(IDs[i]).value = value;
-            }
-        } else {
-            for (let i = 0; i < IDs.length; i++) {
-                document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                removeLocalStorage(IDs[i]);
-            }
-        }
+        openModal("Welcome again " + user + ", do you want to continue from where you left off?");  
     } else {
         openModal("Welcome to the form! Please fill out the fields and click on submit when you are done.");
     }
@@ -88,9 +77,9 @@ function openModal(message) {
         div.innerHTML = `<p id="content">${message}</p>`;
         div.innerHTML += `
             <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-                <input type="button" value="No" class="btn-close-popup" onclick="handleModalResponse(false)">
+                <input type="button" id="modalClose" value="No" class="btn-close-popup" onclick="updateResponse(this.id)">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <input type="button" value="Yes" class="btn-accept-popup" onclick="handleModalResponse(true)">
+                <input type="button" id="modalAccept" value="Yes" class="btn-accept-popup" onclick="updateResponse(this.id)">
             </div>`;
         modal.style.display = "block";
     }
@@ -104,11 +93,15 @@ function removeModal() {
 function updateResponse(caller) {
     var whoCalled = caller;
     if (whoCalled == "modalClose") {
-        response = false;
-        checkCookie();
+        for (let i = 0; i < IDs.length; i++) {
+            document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            removeLocalStorage(IDs[i]);
+        }
     } else if (whoCalled == "modalAccept") {
-        response = true;
-        checkCookie();
+        for (i = 0; i < IDs.length; i++) {
+            value = getLocalStorage(IDs[i]);
+            document.getElementById(IDs[i]).value = value;
+        }
     }
 }
 
@@ -128,4 +121,3 @@ function getLocalStorage(name) {
 function removeLocalStorage(name) {
     localStorage.removeItem(name);
 }
-

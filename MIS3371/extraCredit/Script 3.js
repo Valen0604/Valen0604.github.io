@@ -388,7 +388,6 @@ function moveCursor(from, to) {
 
 function checkCookie() {
     let user = getCookie("firstname");
-    console.log("cookie: " + user);
     if (user != "") {
         openModal("Welcome again " + user + ", do you want to continue from where you left off?");
     } else {
@@ -439,7 +438,7 @@ function removeModal() {
 
 function setCookie(cname, cvalue, exdays) {
     let checkbox = document.getElementById("remember");
-    if (checkbox.checked == false) {
+    if (checkbox.checked == false || getCookie("cookieAccepted") == "false") {
         document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         removeLocalStorage(cname);
     } else if (cvalue == "") {
@@ -587,5 +586,6 @@ var inactivityTime = function () {
     2. Added autotab on the phone number fields.
     3. Added a timeout so cookies are cleared and the form is 
     reset after 10 minutes of inactivity
+    4. Ask the user if they allow to collect cookies, on date.js.
 
 */

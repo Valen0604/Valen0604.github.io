@@ -12,3 +12,25 @@ let month2 = a.getMonth() + 1;
 let day2 = a.getDate();
 
 document.getElementById("date").innerHTML = day2 + "/" + month2 + "/" + year2;
+
+function removeModal(whoCalled) {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+
+    if(whoCalled == "modalAccept") {
+        document.cookie = "cookieAccepted=true; max-age=31536000; path=/";
+    } else {
+        document.cookie = "cookieAccepted=false; max-age=31536000; path=/";
+    }
+
+}
+
+function openModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "block";
+}
+
+function askCookie() {
+    openModal();
+
+}

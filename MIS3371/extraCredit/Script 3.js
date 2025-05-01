@@ -417,6 +417,14 @@ function openModal(message) {
     if (message == "Welcome to the form! Please fill out the fields and click on submit when you are done.") {
         modalContent.innerHTML = message;
         modal.style.display = "block";
+    } else if (message == "You have been inactive for 3 minutes. Please fill out the form or it will be closed.") {
+        var div = document.getElementById("modalContent");
+        div.innerHTML = ""; // Clear existing content
+        div.innerHTML = `<p id="content">${message}</p>`;
+        div.innerHTML += `<div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+                <input type="button" id="modalClose" value="No" class="btn-close-popup" onclick="removeModal()"></input>
+                </div`;
+        modal.style.display = "block";
     } else {
         var div = document.getElementById("modalContent");
         div.innerHTML = ""; // Clear existing content
@@ -560,9 +568,9 @@ window.onload = function () {
     inactivityTime();
 }
 
-function inactivityTime () {
+function inactivityTime() {
     var time;
-    
+    var audio = document.getElementById("audio");
     var events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'onclick'];
     events.forEach(function (name) {
         document.addEventListener(name, resetTimer, true);
@@ -578,7 +586,21 @@ function inactivityTime () {
 
     function resetTimer() {
         clearTimeout(time);
+
+        if (!audio.paused) {
+            audio.pause();
+            audio.currentTime = 0;
+        }
+
+        audioPlayed = false;
+
         time = setTimeout(logout, 1000 * 60 * 10); // 10 minutes
+
+        setTimeout(function () {
+            openModal("You have been inactive for 3 minutes. Please fill out the form or it will be closed.");
+            audio.play();
+            audioPlayed = true;
+        }, 1000 * 60 * 3); // 3 minutes
         // 1000 milliseconds = 1 second
     }
 };
@@ -590,5 +612,7 @@ function inactivityTime () {
     3. Added a timeout so cookies are cleared and the form is 
     reset after 10 minutes of inactivity
     4. Ask the user if they allow to collect cookies, on date.js.
+    5. Added a favicon to the page so the user can detect it easily if they have multiple tabs open.
+    6. Play audio after 3 minutes of inactivity to remind the user the form is still open.
 
 */

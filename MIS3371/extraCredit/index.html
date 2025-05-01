@@ -19,7 +19,20 @@
     <script defer src="date.js"></script>
 </head>
 
-<body>
+<body onload="askCookie()">
+
+    <div id="myModal" class="modal">
+        <div class="modal-content" id="modalContent">
+            <p id="content">This website uses cookies.</p>
+            <p>By clicking "Yes", you consent to the use of cookies. If you do not want to accept cookies, please click "No".</p>
+            <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
+                <input type="button" id="modalClose" value="No" class="btn-close-popup" onclick="removeModal(this.id)">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <input type="button" id="modalAccept" value="Yes" class="btn-accept-popup" onclick="removeModal(this.id)">
+            </div>
+        </div>
+    </div>
+
     <span id="header">
         <table width="100%" border="0">
             <tbody>

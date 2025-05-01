@@ -441,6 +441,7 @@ function setCookie(cname, cvalue, exdays) {
     if (checkbox.checked == false || getCookie("cookieAccepted") == "false") {
         document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         removeLocalStorage(cname);
+        document.getElementById(cname).value = "";
     } else if (cvalue == "") {
         document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         removeLocalStorage(cname);

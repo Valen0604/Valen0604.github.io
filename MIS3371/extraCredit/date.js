@@ -31,6 +31,7 @@ function openModal() {
 }
 
 function askCookie() {
-    openModal();
-
+    if (document.cookie.indexOf("cookieAccepted") == -1) {
+        openModal();
+    }
 }

@@ -560,9 +560,9 @@ window.onload = function () {
     inactivityTime();
 }
 
-var inactivityTime = function () {
+function inactivityTime () {
     var time;
-    window.addEventListener('load', resetTimer, true);
+    
     var events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'onclick'];
     events.forEach(function (name) {
         document.addEventListener(name, resetTimer, true);

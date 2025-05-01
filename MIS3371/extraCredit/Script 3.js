@@ -447,17 +447,16 @@ function removeModal() {
 function setCookie(cname, cvalue, exdays) {
     let checkbox = document.getElementById("remember");
     if (checkbox.checked == false) {
+
         document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         removeLocalStorage(cname);
         document.getElementById(cname).value = "";
-    } else if (getCookie("CookieAccepted") == "false") {
-        document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        removeLocalStorage(cname);
-        document.getElementById(cname).value = "";
-    } else if (cvalue == "") {
+    }  else if (cvalue == "") {
+
         document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         removeLocalStorage(cname);
     } else {
+
         const d = new Date();
         d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
         let expires = "expires=" + d.toUTCString();
@@ -467,6 +466,7 @@ function setCookie(cname, cvalue, exdays) {
         setLocalStorage(cname, cvalue);
     }
 }
+
 
 function expireCookie() {
     let checkbox = document.getElementById("remember");

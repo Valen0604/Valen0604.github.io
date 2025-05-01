@@ -17,13 +17,18 @@ function removeModal(whoCalled) {
     var modal = document.getElementById("myModal");
     modal.style.display = "none";
 
-    if(whoCalled == "modalAccept") {
+    if (whoCalled == "modalAccept") {
         document.cookie = "cookieAccepted=true; max-age=31536000; path=/";
     } else {
         document.cookie = "cookieAccepted=false; max-age=31536000; path=/";
+        expireCookie();
     }
 
 }
+
+const IDs = ["firstname", "lastname", "socialsecurity", "zip", "email",
+    "userID", "password", "password2", "city", "address1", "phone", "socialsecurity2",
+    "socialsecurity3", "phone2", "phone3"];
 
 function openModal() {
     var modal = document.getElementById("myModal");
@@ -34,4 +39,15 @@ function askCookie() {
     if (document.cookie.indexOf("cookieAccepted") == -1) {
         openModal();
     }
+}
+
+function expireCookie() {
+    for (i = 0; i < IDs.length; i++) {
+        document.cookie = IDs[i] + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        removeLocalStorage(IDs[i]);
+    }
+}
+
+function removeLocalStorage(name) {
+    localStorage.removeItem(name);
 }

@@ -442,6 +442,8 @@ function setCookie(cname, cvalue, exdays) {
         document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         removeLocalStorage(cname);
         document.getElementById(cname).value = "";
+        removeModal();
+        openModal("Welcome to the form! Please fill out the fields and click on submit when you are done.");
     } else if (cvalue == "") {
         document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         removeLocalStorage(cname);

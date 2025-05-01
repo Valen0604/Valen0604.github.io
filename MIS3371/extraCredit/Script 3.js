@@ -444,19 +444,12 @@ function removeModal() {
     modal.style.display = "none";
 }
 
-let modalShown = false;
 function setCookie(cname, cvalue, exdays) {
     let checkbox = document.getElementById("remember");
-    if (checkbox.checked == false || getCookie("cookieAccepted") == "false") {
+    if (checkbox.checked == false) {
         document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         removeLocalStorage(cname);
         document.getElementById(cname).value = "";
-
-        if (modalShown == false) {
-        removeModal();
-        openModal("Welcome to the form! Please fill out the fields and click on submit when you are done.");
-        modalShown = true;
-        }
     } else if (cvalue == "") {
         document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         removeLocalStorage(cname);

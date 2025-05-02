@@ -465,7 +465,12 @@ function setCookie(cname, cvalue, exdays) {
         }
         setLocalStorage(cname, cvalue);
     }
+    if (getCookie("cookieAccepted") == "false") {
+        document.cookie = cname + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        removeLocalStorage(cname);
+    }
 }
+
 
 
 function expireCookie() {

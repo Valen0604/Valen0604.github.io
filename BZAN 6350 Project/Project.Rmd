@@ -1,0 +1,158 @@
+---
+title: "Project"
+author: "Valentino Salerni"
+date: "2026-04-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Libraries
+```{r}
+library(dplyr)
+library(ggplot2)
+library(broom)
+library(scales)
+library(tidyr)
+```
+
+# Load Data
+```{r}
+univExpenses <- read.csv("Expenses_All_Sports_and_Men's_Women's_and_Coed_Teams_2023.csv")
+univFinance <- read.csv("f2223_f1a_rv.csv")
+univGrad <- read.csv("gr2023_RV.csv")
+```
+
+# Clean Data
+```{r}
+univExpensesCleaned <- univExpenses %>%
+  select(UNITID, Classification.Name, Grand.Total.Expenses, Institution.Name) %>%
+  mutate(sportsExpenses = Grand.Total.Expenses) %>%
+  select(-Grand.Total.Expenses)
+
+univFinanceCleaned <- univFinance %>%
+  select(UNITID, F1C191) %>%
+  mutate(totalExp = F1C191) %>%
+  select(-F1C191)
+
+univGradCleaned <- univGrad %>%
+  filter(GRTYPE %in% c(8, 9)) %>%
+  select(UNITID, GRTYPE, GRTOTLT) %>%
+  pivot_wider(names_from = GRTYPE,
+              values_from = GRTOTLT,
+              names_prefix = "grtype_") %>%
+  rename(cohortSize = grtype_8, completed = grtype_9)
+
+univData <- univExpensesCleaned %>%
+  inner_join(univFinanceCleaned, by = "UNITID") %>%
+  inner_join(univGradCleaned, by = "UNITID") %>%
+  mutate(gradRate = completed / cohortSize,
+         spendRate = sportsExpenses / totalExp) %>%
+  filter(grepl("^NCAA", Classification.Name)) %>%
+  mutate(division = case_when(
+    Classification.Name == "NCAA Division I-FBS" ~ "D-I FBS",
+    Classification.Name == "NCAA Division I-FCS" ~ "D-I FCS",
+    Classification.Name == "NCAA Division I without football" ~ "D-I no football",
+    grepl("Division II", Classification.Name) ~ "D-II",
+    grepl("Division III", Classification.Name) ~ "D-III"
+  ))
+
+```
+
+# EDA
+```{r}
+univData %>%
+  group_by(division) %>%
+  summarise(
+    n = n(),
+    mean_spend = mean(spendRate),
+    median_spend = median(spendRate),
+    sd_spend = sd(spendRate),
+    mean_grad = mean(gradRate),
+    median_grad = median(gradRate),
+    sd_grad = sd(gradRate),
+    correlation = cor(spendRate, gradRate)
+  )
+
+ggplot(univData, aes(spendRate, gradRate, color = division)) + 
+  geom_point(alpha = 0.6) + geom_smooth(method = "lm", se = F) +
+  scale_x_continuous(labels = percent) +scale_y_continuous(labels = percent) +
+  labs(x = "Athletic Spending Share",
+       y = "6-year Graduation Rate",
+       color = "Division",
+       title = "Athletic Spending Share vs. Graduation Rate by Division")
+
+ggplot(univData, aes(spendRate, gradRate)) + 
+  geom_point(alpha = 0.6) + geom_smooth(method = "lm", se = F) +
+  scale_x_continuous(labels = percent) +scale_y_continuous(labels = percent) +
+  labs(x = "Athletic Spending Share",
+       y = "6-year Graduation Rate",
+       title = "Athletic Spending Share vs. Graduation Rate")
+
+ggplot(univData, aes(x = division, y = spendRate)) +
+  geom_boxplot() +
+  coord_flip() +
+  labs(y = "Athletic spending / Total expenses", x = NULL)
+
+ggplot(univData, aes(x = division, y = gradRate)) +
+  geom_boxplot() +
+  coord_flip()
+
+# Coefficient plot: within-division slopes with 95% CI
+coef_data <- univData %>%
+  group_by(division) %>%
+  do(tidy(lm(gradRate ~ spendRate, data = .), conf.int = TRUE)) %>%
+  filter(term == "spendRate")
+
+coef_data <- univData %>%
+  group_by(division) %>%
+  do(tidy(lm(gradRate ~ spendRate, data = .), conf.int = TRUE)) %>%
+  filter(term == "spendRate")
+
+ggplot(coef_data, aes(x = estimate, y = division, color = division)) +
+  geom_vline(xintercept = 0, linetype = "dashed", color = "gray50") +
+  geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height = 0, linewidth = 1.5) +
+  geom_point(size = 4) +
+  labs(x = "Slope: Δ Graduation Rate per Unit Δ in Spending Share",
+       y = NULL,
+       title = "Within-Division Regression Slopes (95% Confidence Interval)") +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+# Tests
+```{r}
+univData %>%
+  group_by(division) %>%
+  do(tidy(lm(gradRate ~ spendRate, data = .))) %>%
+  filter(term == "spendRate")
+
+univData %>%
+  group_by(division) %>%
+  do(glance(lm(gradRate ~ spendRate, data = .)))
+
+# Pooled
+summary(lm(gradRate ~ spendRate, data = univData))
+
+# Additive model: same slope, different intercepts by division
+mod_additive <- lm(gradRate ~ spendRate + division, data = univData)
+summary(mod_additive)
+
+# Interaction model: slopes differ by division  
+mod_interaction <- lm(gradRate ~ spendRate * division, data = univData)
+summary(mod_interaction)
+
+# F-test: do the slopes actually differ across divisions?
+anova(mod_additive, mod_interaction)
+
+# One-way ANOVAs for completeness
+summary(aov(gradRate ~ division, data = univData))
+summary(aov(spendRate ~ division, data = univData))
+
+par(mfrow = c(2,2))
+plot(mod_interaction)
+```
+

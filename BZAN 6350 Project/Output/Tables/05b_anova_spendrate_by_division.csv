@@ -1,0 +1,2 @@
+test,F,p_value,decision_alpha_05
+spendRate ~ division,16.9725,1.8927907756632455e-10,Reject H0

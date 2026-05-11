@@ -1,0 +1,2 @@
+comparison,df_difference,F_statistic,p_value,decision_alpha_05
+Additive vs Interaction,3,1.5578,0.199,Fail to reject H0 (slopes do not differ)

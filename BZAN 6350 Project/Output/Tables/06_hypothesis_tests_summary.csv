@@ -1,0 +1,9 @@
+test,statistic,p_value,decision_alpha_05,interpretation
+Within-division: D-I FBS,β = -1.07,0.0008,Reject H0,Negative slope
+Within-division: D-I FCS,β = -0.99,0.061,Marginal,"Negative, p just above 0.05"
+Within-division: D-I no football,β = -2.55,0.001,Reject H0,Steepest negative slope
+Within-division: D-II,β = -1.03,< 0.001,Reject H0,Negative slope
+Pooled (no controls),β = -0.60,< 0.001,Reject H0,Attenuated by between-division variation
+Interaction F-test (slopes differ?),F = 1.56,0.199,Fail to reject H0,Slopes are similar across divisions
+ANOVA: gradRate ~ division,F = 42.3,< 0.001,Reject H0,Divisions differ in mean grad rate
+ANOVA: spendRate ~ division,F = 17.0,< 0.001,Reject H0,Divisions differ in mean spend share

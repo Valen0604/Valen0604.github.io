@@ -1,0 +1,2 @@
+test,F,p_value,decision_alpha_05
+gradRate ~ division,42.2641,5.042417849330675e-24,Reject H0

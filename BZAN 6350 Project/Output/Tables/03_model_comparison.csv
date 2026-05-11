@@ -1,0 +1,4 @@
+model,n_params,r2,adj_r2,spendRate_coef
+Pooled,2,0.0242,0.022,-0.6048
+Additive (+ division),5,0.2983,0.2919,-1.1236
+Interaction (spendRate × division),8,0.3057,0.2946,-1.0734

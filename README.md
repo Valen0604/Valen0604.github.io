@@ -1,12 +1,12 @@
-# Valentino Salerni — Coursework Portfolio
+# Valentino Salerni — Portfolio
 
-A collection of academic projects spanning finance, statistics, and information systems coursework at the University of Houston. Each project lives in its own subdirectory with its own documentation.
+A collection of academic projects spanning finance, statistics, and information systems coursework. Each project lives in its own subdirectory with its own documentation.
 
 ---
 
 ## About
 
-I'm an undergraduate SCM & MIS student at the University of Houston. This repository serves as a portfolio of class projects that demonstrate the methods and tools I work with.
+I'm an MS in Business Analytics and Artificial Intelligence student at the University of Minnesota. My undergraduate coursework was in SCM & MIS at the University of Houston. This repository serves as a portfolio of projects that demonstrate the methods and tools I work with.
 
 ---
 
@@ -14,7 +14,7 @@ I'm an undergraduate SCM & MIS student at the University of Houston. This reposi
 
 ### Athletic Spending and Academic Outcomes at NCAA Institutions
 
-📂 [`/BZAN 6350 Project`](./BZAN%206350%20Project)
+📂 [atheltic-spending-outcomes](./athlertic-spending-outcomes)
 
 A cross-sectional analysis examining whether the share of institutional spending allocated to athletics correlates with 6-year graduation rates across NCAA Division I and II public institutions in the 2023 academic year. Built in R, drawing on three federal data sources (EADA, IPEDS Finance F1A, IPEDS Graduation Rates) merged on a common institutional identifier.
 
@@ -28,7 +28,7 @@ A cross-sectional analysis examining whether the share of institutional spending
 
 ### Seer Medical Web Form (MIS 3371)
 
-🌐 [Live page](https://valen0604.github.io/MIS3371/extraCredit/)
+🌐 [Live page](https://valen0604.github.io/medical-web-form/extraCredit/)
 
 A multi-page medical-services website with HTML form built incrementally across four homework assignments for MIS 3371. The repository contains all four versions; the link above points to the final (extra credit) version with cookie consent functionality. Demonstrates HTML5, CSS, form validation, and basic client-side scripting. Hosted via GitHub Pages.
 
@@ -45,7 +45,7 @@ A multi-page medical-services website with HTML form built incrementally across 
 │   ├── data/                      # Source data files
 │   ├── output/                    # Plots, tables, deck
 │   └── README.md                  # Project-specific documentation
-├── mis3371/             # Seer Medical web form
+├── medical-web-form/             # Seer Medical web form
     ├── extraCredit/               # Final Version of the website with all features
     ├── homework2/                 # V1 of the website
     ├── homework3/                 # V2
@@ -59,11 +59,11 @@ Each project folder contains its own README with setup instructions, data source
 
 ## Tools and Languages
 
-R · Python · SQL · HTML/CSS · Git · ggplot2 · pptxgenjs
+R · Python · SQL · HTML/CSS · Git · ggplot2
 
 ---
 
 ## Contact
 
-University of Houston · SCM & MIS
+University of Minnesota | Business Analytics
 GitHub: [@Valen0604](https://github.com/Valen0604)

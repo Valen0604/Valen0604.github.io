@@ -14,7 +14,7 @@ I'm an MS in Business Analytics and Artificial Intelligence student at the Unive
 
 ### Athletic Spending and Academic Outcomes at NCAA Institutions
 
-📂 [atheltic-spending-outcomes](./athlertic-spending-outcomes)
+📂 [atheltic-spending-outcomes](./athletic-spending-outcomes)
 
 A cross-sectional analysis examining whether the share of institutional spending allocated to athletics correlates with 6-year graduation rates across NCAA Division I and II public institutions in the 2023 academic year. Built in R, drawing on three federal data sources (EADA, IPEDS Finance F1A, IPEDS Graduation Rates) merged on a common institutional identifier.
 

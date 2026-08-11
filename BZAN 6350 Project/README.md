@@ -151,4 +151,4 @@ Full reference list with data source citations in [Athletic_Spending_Outcomes.md
 
 ## Author
 
-Valentino Salerni · University of Houston · Finance & MIS · April 2026
+Valentino Salerni · University of Houston · SCM & MIS · April 2026

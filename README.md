@@ -26,6 +26,20 @@ A cross-sectional analysis examining whether the share of institutional spending
 
 ---
 
+### Macroeconomic Policy and Sector ETF Returns (PURS)
+
+📂 [macro-sectors-etf](./macro-sectors-etf)
+
+Tests whether macroeconomic policy variables explain U.S. sector ETF returns beyond the Fama-French three-factor model, using 11 SPDR sector ETFs from 1998–2025 at monthly and quarterly frequency. Funded by the University of Houston Provost Undergraduate Research Scholarship.
+
+**Methods:** Time-series regression, Fama-French factor models, Newey-West standard errors, multi-frequency robustness checks, influence diagnostics.
+
+**Headline finding:** Sector returns are dominated by market and value/growth loadings. Energy is the only sector with robust macro exposure, rising with inflation and federal spending growth; interest-rate and tariff effects are weak and unstable across frequencies.
+
+**Deliverables:** R analysis script, results tables, coefficient plots.
+
+---
+
 ### Seer Medical Web Form (MIS 3371)
 
 🌐 [Live page](https://valen0604.github.io/medical-web-form/extraCredit/)
@@ -46,10 +60,15 @@ A multi-page medical-services website with HTML form built incrementally across 
 │   ├── output/                    # Plots, tables, deck
 │   └── README.md                  # Project-specific documentation
 ├── medical-web-form/             # Seer Medical web form
-    ├── extraCredit/               # Final Version of the website with all features
-    ├── homework2/                 # V1 of the website
-    ├── homework3/                 # V2
-    ├── homework4/                 # V3
+│   ├── extraCredit/               # Final Version of the website with all features
+│   ├── homework2/                 # V1 of the website
+│   ├── homework3/                 # V2
+│   ├── homework4/                 # V3
+├── macro-sectors-etf/            # PURS macroeconomic policy effects on industry ETF returns (R)
+│   ├── code/PURS.R
+│   ├── data/PURS Data.xlsx
+│   ├── output/            
+│   └── README.md        
 └── README.md                      # This file
 ```
 

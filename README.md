@@ -65,8 +65,8 @@ A multi-page medical-services website with HTML form built incrementally across 
 │   ├── homework3/                 # V2
 │   ├── homework4/                 # V3
 ├── macro-sectors-etf/            # PURS macroeconomic policy effects on industry ETF returns (R)
-│   ├── code/PURS.R
-│   ├── data/PURS Data.xlsx
+│   ├── code/
+│   ├── data/
 │   ├── output/            
 │   └── README.md        
 └── README.md                      # This file

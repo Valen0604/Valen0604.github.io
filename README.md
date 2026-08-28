@@ -86,3 +86,5 @@ R · Python · SQL · HTML/CSS · Git · ggplot2
 
 University of Minnesota | Business Analytics
 GitHub: [@Valen0604](https://github.com/Valen0604)
+LinkedIn: [Valentino Salerni](https://www.linkedin.com/in/valentino-salerni/)
+Email: saler039@umn.edu

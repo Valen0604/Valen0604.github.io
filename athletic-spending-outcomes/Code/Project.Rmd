@@ -16,13 +16,14 @@ library(ggplot2)
 library(broom)
 library(scales)
 library(tidyr)
+library(readr)
 ```
 
 # Load Data
 ```{r}
-univExpenses <- read.csv("Expenses_All_Sports_and_Men's_Women's_and_Coed_Teams_2023.csv")
-univFinance <- read.csv("f2223_f1a_rv.csv")
-univGrad <- read.csv("gr2023_RV.csv")
+univExpenses <- read.csv("../Data/Raw/Expenses_All_Sports_and_Men_s_Women_s_and_Coed_Teams_2023.csv")
+univFinance  <- read.csv("../Data/Raw/f2223_f1a_rv.csv")
+univGrad     <- read.csv("../Data/Raw/gr2023_RV.csv")
 ```
 
 # Clean Data
@@ -55,9 +56,15 @@ univData <- univExpensesCleaned %>%
     Classification.Name == "NCAA Division I-FBS" ~ "D-I FBS",
     Classification.Name == "NCAA Division I-FCS" ~ "D-I FCS",
     Classification.Name == "NCAA Division I without football" ~ "D-I no football",
-    grepl("Division II", Classification.Name) ~ "D-II",
+    grepl("Division II\\b", Classification.Name) ~ "D-II",
     grepl("Division III", Classification.Name) ~ "D-III"
   ))
+
+  univData <- univData %>%
+  rename(ClassificationName = Classification.Name,
+         InstitutionName = Institution.Name)
+
+write_csv(univData, "../Data/Clean/univData.csv")
 
 ```
 
@@ -76,13 +83,31 @@ univData %>%
     correlation = cor(spendRate, gradRate)
   )
 
-ggplot(univData, aes(spendRate, gradRate, color = division)) + 
-  geom_point(alpha = 0.6) + geom_smooth(method = "lm", se = F) +
-  scale_x_continuous(labels = percent) +scale_y_continuous(labels = percent) +
-  labs(x = "Athletic Spending Share",
-       y = "6-year Graduation Rate",
+count(univData, division)
+
+summaryStats <- univData %>%
+  group_by(division) %>%
+  summarise(
+    n = n(),
+    mean_spend = mean(spendRate),
+    median_spend = median(spendRate),
+    sd_spend = sd(spendRate),
+    mean_grad = mean(gradRate),
+    median_grad = median(gradRate),
+    sd_grad = sd(gradRate),
+    correlation = cor(spendRate, gradRate)
+  )
+summaryStats
+write_csv(summaryStats, "../Output/Tables/01_summary_stats_by_division.csv")
+
+p1 <- ggplot(univData, aes(spendRate, gradRate, color = division)) + 
+  geom_point(alpha = 0.6) + geom_smooth(method = "lm", se = FALSE) +
+  scale_x_continuous(labels = percent) + scale_y_continuous(labels = percent) +
+  labs(x = "Athletic Spending Share", y = "6-year Graduation Rate",
        color = "Division",
        title = "Athletic Spending Share vs. Graduation Rate by Division")
+p1
+ggsave("../Output/Plots/01_scatter_main.png", p1, width = 8, height = 5, dpi = 300)
 
 ggplot(univData, aes(spendRate, gradRate)) + 
   geom_point(alpha = 0.6) + geom_smooth(method = "lm", se = F) +
@@ -91,30 +116,39 @@ ggplot(univData, aes(spendRate, gradRate)) +
        y = "6-year Graduation Rate",
        title = "Athletic Spending Share vs. Graduation Rate")
 
-ggplot(univData, aes(x = division, y = spendRate)) +
-  geom_boxplot() +
-  coord_flip() +
+p2 <- ggplot(univData, aes(x = division, y = spendRate)) +
+  geom_boxplot() + coord_flip() +
   labs(y = "Athletic spending / Total expenses", x = NULL)
+p2
+ggsave("../Output/Plots/02_boxplot_spending.png", p2, width = 8, height = 5, dpi = 300)
 
-ggplot(univData, aes(x = division, y = gradRate)) +
-  geom_boxplot() +
-  coord_flip()
+
+p3 <- ggplot(univData, aes(x = division, y = gradRate)) +
+  geom_boxplot() + coord_flip() +
+  labs(y = "6-year Graduation Rate", x = NULL)
+p3
+ggsave("../Output/Plots/03_boxplot_gradrate.png", p3, width = 8, height = 5, dpi = 300)
+
 
 # Coefficient plot: within-division slopes with 95% CI
+
 coef_data <- univData %>%
   group_by(division) %>%
-  do(tidy(lm(gradRate ~ spendRate, data = .), conf.int = TRUE)) %>%
+  group_modify(~ tidy(lm(gradRate ~ spendRate, data = .x), conf.int = TRUE)) %>%
   filter(term == "spendRate")
 
-ggplot(coef_data, aes(x = estimate, y = division, color = division)) +
+write_csv(coef_data, "../Output/Tables/02_within_division_regressions.csv")
+
+p4 <- ggplot(coef_data, aes(x = estimate, y = division, color = division)) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "gray50") +
   geom_errorbarh(aes(xmin = conf.low, xmax = conf.high), height = 0, linewidth = 1.5) +
   geom_point(size = 4) +
-  labs(x = "Slope: Δ Graduation Rate per Unit Δ in Spending Share",
-       y = NULL,
+  labs(x = "Slope: Δ Graduation Rate per Unit Δ in Spending Share", y = NULL,
        title = "Within-Division Regression Slopes (95% Confidence Interval)") +
-  theme_minimal() +
-  theme(legend.position = "none")
+  theme_minimal() + theme(legend.position = "none")
+p4
+ggsave("../Output/Plots/04_coefficient_plot.png", p4, width = 8, height = 5, dpi = 300)
+
 
 ```
 
@@ -130,7 +164,8 @@ univData %>%
   do(glance(lm(gradRate ~ spendRate, data = .)))
 
 # Pooled
-summary(lm(gradRate ~ spendRate, data = univData))
+mod_pooled <- lm(gradRate ~ spendRate, data = univData)
+summary(mod_pooled)
 
 # Additive model: same slope, different intercepts by division
 mod_additive <- lm(gradRate ~ spendRate + division, data = univData)
@@ -140,14 +175,31 @@ summary(mod_additive)
 mod_interaction <- lm(gradRate ~ spendRate * division, data = univData)
 summary(mod_interaction)
 
+# 03: model comparison via glance
+modelComparison <- bind_rows(
+  glance(mod_pooled)      %>% mutate(model = "pooled", .before = 1),
+  glance(mod_additive)    %>% mutate(model = "additive", .before = 1),
+  glance(mod_interaction) %>% mutate(model = "interaction", .before = 1)
+)
+write_csv(modelComparison, "../Output/Tables/03_model_comparison.csv")
+
+
+
 # F-test: do the slopes actually differ across divisions?
-anova(mod_additive, mod_interaction)
+ftest <- tidy(anova(mod_additive, mod_interaction))
+ftest
+write_csv(ftest, "../Output/Tables/04_ftest_additive_vs_interaction.csv")
 
 # One-way ANOVAs for completeness
 summary(aov(gradRate ~ division, data = univData))
 summary(aov(spendRate ~ division, data = univData))
 
-par(mfrow = c(2,2))
+write_csv(tidy(aov(gradRate ~ division, data = univData)),  "../Output/Tables/05a_anova_gradrate_by_division.csv")
+write_csv(tidy(aov(spendRate ~ division, data = univData)), "../Output/Tables/05b_anova_spendrate_by_division.csv")
+
+png("../Output/Plots/06_diagnostic_plots.png", width = 2400, height = 1800, res = 300)
+par(mfrow = c(2, 2))
 plot(mod_interaction)
+dev.off()
 ```
 

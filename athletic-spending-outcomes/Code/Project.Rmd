@@ -68,19 +68,6 @@ univData <- univExpensesCleaned %>%
 
 # EDA
 ```{r}
-univData %>%
-  group_by(division) %>%
-  summarise(
-    n = n(),
-    mean_spend = mean(spendRate),
-    median_spend = median(spendRate),
-    sd_spend = sd(spendRate),
-    mean_grad = mean(gradRate),
-    median_grad = median(gradRate),
-    sd_grad = sd(gradRate),
-    correlation = cor(spendRate, gradRate)
-  )
-
 count(univData, division)
 
 summaryStats <- univData %>%

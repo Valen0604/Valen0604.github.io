@@ -34,8 +34,10 @@ univExpensesCleaned <- univExpenses %>%
   select(-Grand.Total.Expenses)
 
 univFinanceCleaned <- univFinance %>%
-  select(UNITID, F1C191) %>%
-  mutate(totalExp = F1C191) %>%
+  select(UNITID, F1C191, F1C011, F1C071) %>%
+  mutate(totalExp = F1C191,
+         instrExp = F1C011,
+         adminExp = F1C071) %>%
   select(-F1C191)
 
 univGradCleaned <- univGrad %>%
@@ -50,7 +52,9 @@ univData <- univExpensesCleaned %>%
   inner_join(univFinanceCleaned, by = "UNITID") %>%
   inner_join(univGradCleaned, by = "UNITID") %>%
   mutate(gradRate = completed / cohortSize,
-         spendRate = sportsExpenses / totalExp) %>%
+         spendRate = sportsExpenses / totalExp,
+         instrShare = instrExp / totalExp,
+         adminShare = adminExp / totalExp) %>%
   filter(grepl("^NCAA", Classification.Name)) %>%
   mutate(division = case_when(
     Classification.Name == "NCAA Division I-FBS" ~ "D-I FBS",

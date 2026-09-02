@@ -35,6 +35,7 @@ univData  = pd.read_csv(DATA / "Clean" / "univData.csv")
 univData2 = pd.merge(univData, univAdmitClean, on="UNITID", how="left")
 
 univData2["testScoreMissing"] = univData2["testScore"].isna().astype(int)
+univData2["admRateMissing"] = univData2["admRate"].isna().astype(int)
 
 univFinAid = pd.read_csv(DATA / "Raw" / "sfa2223_RV.csv")
 

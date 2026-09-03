@@ -1,9 +1,11 @@
 test,statistic,p_value,decision_alpha_05,interpretation
-Within-division: D-I FBS,β = -1.07,0.0008,Reject H0,Negative slope
-Within-division: D-I FCS,β = -0.99,0.061,Marginal,"Negative, p just above 0.05"
-Within-division: D-I no football,β = -2.55,0.001,Reject H0,Steepest negative slope
-Within-division: D-II,β = -1.03,< 0.001,Reject H0,Negative slope
-Pooled (no controls),β = -0.60,< 0.001,Reject H0,Attenuated by between-division variation
-Interaction F-test (slopes differ?),F = 1.56,0.199,Fail to reject H0,Slopes are similar across divisions
-ANOVA: gradRate ~ division,F = 42.3,< 0.001,Reject H0,Divisions differ in mean grad rate
-ANOVA: spendRate ~ division,F = 17.0,< 0.001,Reject H0,Divisions differ in mean spend share
+Within-division: D-I FBS,β = -1.10,0.001,Reject H0,Negative slope
+Within-division: D-I FCS,β = -0.94,0.083,Marginal,Negative slope
+Within-division: D-I no football,β = -2.57,0.001,Reject H0,Negative slope
+Within-division: D-II,β = -0.58,0.013,Reject H0,Negative slope
+Within-division: D-III,β = 0.66,0.495,Fail to reject H0,Positive slope
+Pooled (no controls),β = -0.48,0.010,Reject H0,No division controls
+Additive (+ division),β = -0.88,< 0.001,Reject H0,Division-adjusted slope; see Python extension for composition controls
+Interaction F-test (slopes differ?),F = 2.59,0.036,Reject H0,Slopes differ across divisions
+ANOVA: gradRate ~ division,F = 42.4,< 0.001,Reject H0,Divisions differ in mean grad rate
+ANOVA: spendRate ~ division,F = 36.8,< 0.001,Reject H0,Divisions differ in mean spend share

@@ -12,31 +12,17 @@ I'm an MS in Business Analytics and Artificial Intelligence student at the Unive
 
 ## Projects
 
-### Athletic Spending and Academic Outcomes at NCAA Institutions
+### Athletic Spending and Academic Outcomes at NCAA Public Institutions
 
 📂 [athletic-spending-outcomes](./athletic-spending-outcomes)
 
-A cross-sectional analysis examining whether the share of institutional spending allocated to athletics correlates with 6-year graduation rates across NCAA Division I and II public institutions in the 2023 academic year. Built in R, drawing on three federal data sources (EADA, IPEDS Finance F1A, IPEDS Graduation Rates) merged on a common institutional identifier.
+Does the share of institutional expenses going to athletics predict 6-year graduation rates once student composition is accounted for? A cross-sectional analysis of 445 NCAA public institutions (Divisions I–III, 2022–23) built from five federal data files (EADA athletic expenses; IPEDS Finance, Admissions, Financial Aid, and Graduation Rates) merged on a common institutional identifier. Hospital and independent-operations expenses are removed from institutional totals. An initial R analysis established the descriptive picture; a Python extension added weighted regression, gradient boosting, feature ablation, and partial dependence analysis.
 
-**Methods:** Linear regression, multi-source data harmonization, fixed-effects modeling, ANOVA, regression diagnostics, ggplot2 visualization.
+**Methods:** Multi-source data harmonization, weighted least squares with HC3 robust errors, gradient boosting with repeated cross-validation, recursive feature elimination, drop-column ablation with paired-fold uncertainty, partial dependence plots.
 
-**Headline finding:** Within NCAA division groups, schools allocating a higher share of total expenses to athletics have lower graduation rates. The within-division slope of approximately −1.1 percentage points of graduation rate per percentage point of spending share is consistent across divisions. An F-test fails to reject the hypothesis of uniform slopes across divisions, despite large baseline differences in graduation rates.
+**Headline finding:** Athletic spending share has no robust association with graduation rates. The unadjusted estimate is null; adjusting for division alone makes it look strongly negative and adjusting for size alone makes it look positive — the signature of confounding. With student composition controlled (Pell share, test scores, enrollment, selectivity) the estimate is small and negative (≈ −0.25, borderline significance, sensitive to weighting), and a gradient-boosting model finds no predictive value in any spending measure. Graduation rates are driven by who a school enrolls; division differences are almost entirely composition. FBS and FCS schools spend nearly identical shares on athletics and differ by 14 points in graduation rate.
 
-**Deliverables:** R Markdown analysis pipeline, PowerPoint presentation, and a full written report.
-
----
-
-### Macroeconomic Policy and Sector ETF Returns (PURS)
-
-📂 [macro-sectors-etf](./macro-sectors-etf)
-
-Tests whether macroeconomic policy variables explain U.S. sector ETF returns beyond the Fama-French three-factor model, using 11 SPDR sector ETFs from 1998–2025 at monthly and quarterly frequency. Funded by the University of Houston Provost Undergraduate Research Scholarship.
-
-**Methods:** Time-series regression, Fama-French factor models, Newey-West standard errors, multi-frequency robustness checks, influence diagnostics.
-
-**Headline finding:** Sector returns are dominated by market and value/growth loadings. Energy is the only sector with robust macro exposure, rising with inflation and federal spending growth; interest-rate and tariff effects are weak and unstable across frequencies.
-
-**Deliverables:** R analysis script, results tables, coefficient plots.
+**Deliverables:** R Markdown pipeline (data construction, exploratory regressions), Python notebook (weighted models, ML, ablation, PDPs), written report, presentation deck.
 
 ---
 
@@ -54,21 +40,22 @@ A multi-page medical-services website with HTML form built incrementally across 
 
 ```
 .
-├── athletic-spending-outcomes/    # NCAA spending analysis (R)
-│   ├── code/                      # R Markdown source
-│   ├── data/                      # Source data files
-│   ├── output/                    # Plots, tables, deck
+├── athletic-spending-outcomes/    # NCAA spending analysis (R + Python)
+│   ├── Code/                      # R Markdown source (data construction, EDA, initial regressions)
+│   ├── Python_Extension/          # Feature engineering, weighted models, ML, ablation, PDPs
+│   ├── Data/                      # Raw federal files and cleaned analytical datasets
+│   ├── Output/                    # Plots and tables from both pipelines
 │   └── README.md                  # Project-specific documentation
-├── medical-web-form/             # Seer Medical web form
-│   ├── extraCredit/               # Final Version of the website with all features
-│   ├── homework2/                 # V1 of the website
-│   ├── homework3/                 # V2
-│   ├── homework4/                 # V3
 ├── macro-sectors-etf/            # PURS macroeconomic policy effects on industry ETF returns (R)
 │   ├── code/
 │   ├── data/
 │   ├── output/            
-│   └── README.md        
+│   └── README.md  
+├── medical-web-form/              # Seer Medical web form
+│   ├── extraCredit/               # Final version of the website with all features
+│   ├── homework2/                 # V1 of the website
+│   ├── homework3/                 # V2
+│   └── homework4/                 # V3
 └── README.md                      # This file
 ```
 
@@ -78,7 +65,7 @@ Each project folder contains its own README with setup instructions, data source
 
 ## Tools and Languages
 
-R · Python · SQL · HTML/CSS · Git · ggplot2
+R · Python · SQL · HTML/CSS · Git · ggplot2 · scikit-learn · statsmodels · pandas
 
 ---
 
@@ -86,5 +73,3 @@ R · Python · SQL · HTML/CSS · Git · ggplot2
 
 University of Minnesota | Business Analytics
 GitHub: [@Valen0604](https://github.com/Valen0604)
-LinkedIn: [Valentino Salerni](https://www.linkedin.com/in/valentino-salerni/)
-Email: saler039@umn.edu

@@ -211,6 +211,58 @@ write_csv(tidy(aov(gradRate ~ division, data = univData)),  "../Output/Tables/05
 write_csv(tidy(aov(spendRate ~ division, data = univData)), "../Output/Tables/05b_anova_spendrate_by_division.csv")
 write_csv(coef_data, "../Output/Tables/02_within_division_regressions.csv")
 
+# 06 — hypothesis tests summary (regenerated from current fits, no hardcoded numbers)
+fmt_p <- function(p) ifelse(p < 0.001, "< 0.001", formatC(p, digits = 3, format = "f"))
+decide <- function(p) ifelse(p < 0.05, "Reject H0", ifelse(p < 0.10, "Marginal", "Fail to reject H0"))
+
+within_rows <- coef_data %>%
+  ungroup() %>%
+  transmute(test = paste0("Within-division: ", division),
+            statistic = sprintf("β = %.2f", estimate),
+            p_value = fmt_p(p.value),
+            decision_alpha_05 = decide(p.value),
+            interpretation = ifelse(estimate < 0, "Negative slope", "Positive slope"))
+
+pooled_row <- tidy(mod_pooled) %>% filter(term == "spendRate") %>%
+  transmute(test = "Pooled (no controls)",
+            statistic = sprintf("β = %.2f", estimate),
+            p_value = fmt_p(p.value),
+            decision_alpha_05 = decide(p.value),
+            interpretation = "No division controls")
+
+additive_row <- tidy(mod_additive) %>% filter(term == "spendRate") %>%
+  transmute(test = "Additive (+ division)",
+            statistic = sprintf("β = %.2f", estimate),
+            p_value = fmt_p(p.value),
+            decision_alpha_05 = decide(p.value),
+            interpretation = "Division-adjusted slope; see Python extension for composition controls")
+
+ftest_row <- ftest %>% filter(!is.na(statistic)) %>%
+  transmute(test = "Interaction F-test (slopes differ?)",
+            statistic = sprintf("F = %.2f", statistic),
+            p_value = fmt_p(p.value),
+            decision_alpha_05 = decide(p.value),
+            interpretation = ifelse(p.value < 0.05, "Slopes differ across divisions",
+                                    "Slopes are similar across divisions"))
+
+anova_row <- function(f, label, interp) {
+  tidy(aov(f, data = univData)) %>% filter(term == "division") %>%
+    transmute(test = label,
+              statistic = sprintf("F = %.1f", statistic),
+              p_value = fmt_p(p.value),
+              decision_alpha_05 = decide(p.value),
+              interpretation = interp)
+}
+
+hypothesisTests <- bind_rows(
+  within_rows, pooled_row, additive_row, ftest_row,
+  anova_row(gradRate ~ division,  "ANOVA: gradRate ~ division",  "Divisions differ in mean grad rate"),
+  anova_row(spendRate ~ division, "ANOVA: spendRate ~ division", "Divisions differ in mean spend share")
+)
+
+write_csv(hypothesisTests, "../Output/Tables/06_hypothesis_tests_summary.csv")
+hypothesisTests
+
 png("../Output/Plots/06_diagnostic_plots.png", width = 2400, height = 1800, res = 300)
 par(mfrow = c(2, 2))
 plot(mod_interaction)

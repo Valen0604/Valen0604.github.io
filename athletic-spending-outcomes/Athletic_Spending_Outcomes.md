@@ -1,156 +1,213 @@
-# Athletic Spending and Academic Outcomes at NCAA Institutions
-
-**A cross-sectional analysis of the 2023 academic year**
-
+# Athletic Spending and Graduation Rates at NCAA Public Institutions
+ 
+**A cross-sectional analysis of the 2022-23 academic year**
+ 
 Valentino Salerni
 September 2026
-
+ 
 ---
-
+ 
 ## 1. Objectives
-
-This project examines whether the share of institutional spending allocated to athletics correlates with academic outcomes — specifically, 6-year graduation rates — across U.S. universities, and whether this relationship varies across NCAA divisions.
-
-The motivation is both topical and methodological. College athletics has come under increased public scrutiny following the post-2021 NIL era and ongoing conference realignment, both of which have intensified athletic spending pressures across all divisions. Beyond the policy relevance, the question itself is an instructive empirical exercise: a univariate relationship that appears straightforward at first glance turns out to depend heavily on how the sample is structured and which institutional characteristics are controlled for. The analysis below illustrates how a single statistical finding can carry very different interpretations depending on the comparison being made.
-
-The scope of the project is cross-sectional and descriptive. All findings are correlational rather than causal, a distinction returned to throughout the analysis.
-
+ 
+Question: does the share of a university's budget that goes to athletics predict its 6-year graduation rate, once we account for who the school enrolls and what it has to spend?
+ 
+The motivation is partly topical. Athletic budgets have grown fast since the NIL era and conference realignment, and the standard worry is that money going to athletics is money not going to students. But the more interesting part is methodological. The raw relationship between athletic share and graduation rate looks negative, looks worse once you control for division, flips positive once you control for size, and disappears once you control for student composition and resources per student. Which of those you report depends entirely on what you compare a school against. The project is built to walk through that path one control at a time and end up with the estimate that survives all of them.
+ 
+Everything here is cross-sectional and correlational. Nothing is causal.
+ 
 ---
-
-## 2. Data Collection and Understanding
-
-The analysis draws on three federal data sources, merged at the institutional level using the standardized UNITID identifier maintained by the National Center for Education Statistics (NCES).
-
-The first source is the Equity in Athletics Disclosure Act (EADA) database, maintained by the U.S. Department of Education's Office of Postsecondary Education. EADA requires all postsecondary institutions receiving Title IV federal aid and offering athletic programs to report detailed expense data by sport and gender. The variable of interest is `Grand Total Expenses`, representing total athletic department expenditure across all programs. The 2023 file contained 1,319 institutions with athletic programs.
-
-The second source is the Integrated Postsecondary Education Data System (IPEDS) Finance Survey, specifically the F1A form (2022–23, revised), which covers public institutions reporting under Governmental Accounting Standards Board (GASB) standards. The relevant variable is `F1C191`, defined as "Total expenses and deductions — current year total." This serves as the denominator for computing athletic spending share.
-
-The third source is the IPEDS Graduation Rates Survey (GR2023, revised), which tracks the 2017 entering cohort through six years. The file is structured in long format, with each row representing a school × cohort-type × line-item combination. Filtering to GRTYPE 8 (adjusted bachelor's cohort) and GRTYPE 9 (completers within 150% of normal time) yields the standard 6-year graduation rate calculation used across the higher education literature.
-
-A material limitation arises from the choice of IPEDS F1A. Private nonprofit institutions report on a separate form (F2) under FASB accounting standards, with different variable names and reporting conventions that complicate harmonization. Restricting the analysis to F1A excludes virtually all NCAA Division III institutions (which are heavily private) and approximately 45% of EADA filers. The resulting sample of 445 institutions consists primarily of public NCAA Division I and Division II schools. While this constraint reduces the scope of the analysis, the public-only sample remains a coherent population and includes nearly every major D-I athletic program.
-
+ 
+## 2. Data
+ 
+Five federal files, all merged on the NCES UNITID.
+ 
+**EADA 2023** (Office of Postsecondary Education). Every Title IV school with an athletic program reports expenses by sport. The variable used is `Grand Total Expenses`, total athletic department spending. 1,319 institutions. The `Classification Name` field gives the NCAA division.
+ 
+**IPEDS Finance, F1A 2022-23 (revised).** Public institutions reporting under GASB. `F1C191` is total expenses and deductions and is the denominator for spending share. `F1C011` (instruction) and `F1C071` (institutional support) give instructional and administrative shares. `F1C121` (hospital services) and `F1C131` (independent operations) are subtracted from the total so that schools with a medical center don't look like they spend three times as much per student as everyone else.
+ 
+**IPEDS Graduation Rates, GR2023 (revised).** The 2017 entering cohort tracked six years. Rows for GRTYPE 8 (adjusted bachelor's cohort) and GRTYPE 9 (completers within 150% of normal time) give the standard 6-year rate. The cohort size is also kept as the regression weight.
+ 
+**IPEDS Admissions, ADM2023 (revised).** Applicants and admits give the admission rate. SAT 50th-percentile verbal and math are summed; ACT composite 50th percentile is converted to the SAT scale using the College Board concordance; the two are averaged, weighted by the number of students submitting each. Schools with no test data or no admissions data (open admission, test-optional with no reporting) get a missing flag rather than being dropped.
+ 
+**IPEDS Student Financial Aid, SFA2223 (revised).** `SCUGRAD` is the undergraduate headcount, used for enrollment size and for per-student spending. `UPGRNTP` is the percent of undergraduates receiving Pell grants, the composition variable that turns out to matter most.
+ 
+The F1A restriction is the main limitation. Private nonprofits file F2 under FASB and the variable definitions don't line up, so the sample is public institutions only. That excludes roughly 45% of EADA filers and most of D-III, which is heavily private. What's left is 445 public schools: 108 D-I FBS, 75 D-I FCS, 46 D-I no football, 143 D-II, 73 D-III. It's a coherent population and it includes nearly every major D-I program.
+ 
 ---
-
+ 
 ## 3. Hypotheses
-
-Two pairs of hypotheses guide the analysis.
-
-The primary hypothesis tests whether athletic spending share has any linear relationship with graduation rate. Under the null, the slope coefficient on spending share in a regression of graduation rate on spending share is zero. Under the alternative, the slope differs from zero in either direction.
-
-The secondary hypothesis tests whether this relationship is uniform across NCAA divisions. Under the null, the slope is the same across all four NCAA division groups (D-I FBS, D-I FCS, D-I no football, D-II). Under the alternative, slopes differ across divisions. This is tested through an F-test comparing nested regression models with and without spending share × division interaction terms.
-
-All tests use a significance level of α = 0.05.
-
+ 
+Three questions, tested at α = 0.05.
+ 
+**H1.** Does athletic spending share have a linear relationship with graduation rate, holding division, size, student composition and per-student resources fixed? Null: the coefficient on `spendRate` is zero.
+ 
+**H2.** Is that relationship the same across divisions? Null: the slope on `spendRate` is equal for all five division groups. Tested with an F-test on nested models with and without `spendRate × division` interactions.
+ 
+**H3.** Is a linear model adequate? Not a hypothesis test but a model comparison: if flexible nonlinear learners can't beat a linear regression out of sample, the linear coefficients are the right summary of the data and not a simplification of something more complicated.
+ 
 ---
-
+ 
 ## 4. Data Cleaning and Preparation
-
-The cleaning process produced a single analytical dataset of 445 institutions from approximately 1,319 raw EADA records. Several steps were required.
-
-The EADA file required selection of three columns (`UNITID`, `Classification Name`, `Grand Total Expenses`) and renaming for clarity. The IPEDS Finance file required selection of `UNITID` and `F1C191` only. The IPEDS Graduation Rates file required substantially more processing: filtering to bachelor's-seeking cohort rows (GRTYPE 8 and 9), then pivoting from long to wide format using `pivot_wider`, producing one row per school with both adjusted cohort size and completer count as columns.
-
-The three cleaned tables were merged via inner joins on UNITID. The largest attrition occurred at the finance merge, where the F1A-only restriction eliminated all private nonprofit and for-profit institutions. A small further reduction occurred at the graduation rates merge, primarily affecting institutions without bachelor's-seeking cohorts (a few specialized public institutions).
-
-The merged dataset was then filtered to NCAA-classified institutions only, excluding NAIA, NCCAA, NWAC, USCAA, and unclassified independents. These non-NCAA categories represent small, structurally different competitive systems whose inclusion would have introduced noise without contributing to the research question. The "with football" and "without football" subdivisions within D-II were collapsed, since the football/no-football distinction adds complexity without analytical payoff for the questions at hand.
-
-Two computed variables anchor the analysis: `spendRate`, defined as athletic expenses divided by total institutional expenses, and `gradRate`, defined as bachelor's completers within 150% of normal time divided by the adjusted bachelor's cohort.
-
-Outliers were examined and retained. Several D-II institutions report athletic spending shares above 15%, with one near 21%. These reflect schools where athletics represents a disproportionate fraction of a relatively small total budget. They are substantively meaningful (not data errors) and were retained in the analysis with a note that future work might examine them as a separate group.
-
-The final sample contains 108 D-I FBS, 75 D-I FCS, 46 D-I no football, and 216 D-II institutions.
-
+ 
+The build runs in two stages. `Project.Rmd` produces the base dataset from EADA, Finance and Graduation Rates and does the unweighted exploratory analysis. `dataProcess.py` adds admissions and financial aid and writes `features.csv`, which `main.ipynb` uses for everything else.
+ 
+EADA needs only UNITID, classification, institution name and total expenses. The Finance file needs the five expense lines listed above. Graduation Rates is in long format (one row per school × cohort type × line item) and is filtered to GRTYPE 8 and 9 and pivoted wide, one row per school with cohort size and completers as columns.
+ 
+The three are inner-joined on UNITID. Almost all attrition is at the finance merge, where F1A drops every private and for-profit school. A handful more go at the graduation merge, specialized publics with no bachelor's cohort.
+ 
+The merged file is filtered to `Classification Name` starting with "NCAA", dropping NAIA, NCCAA, NWAC, USCAA and unclassified independents. These are small, structurally different systems and add noise without adding to the question. D-II with and without football is collapsed to D-II; D-III with and without football to D-III. The five groups are D-I FBS, D-I FCS, D-I no football, D-II, D-III.
+ 
+Computed variables:
+ 
+`spendRate` = athletic expenses / total expenses (after removing hospital and independent operations)
+`gradRate` = completers within 150% / adjusted bachelor's cohort
+`instrShare`, `adminShare` = instruction and institutional support as shares of the same total
+`expPerStudent` = total expenses / undergraduate headcount
+`admRate` = admits / applicants
+`testScore` = SAT-scale composite, SAT and concorded ACT averaged by submitter count
+`upPell` = Pell recipients as a fraction of undergraduates (the IPEDS percent divided by 100)
+`testScoreMissing`, `admRateMissing` = 1 where the source value is absent
+ 
+Admissions and aid are left-joined so schools without them are kept. In the notebook, remaining NAs are filled with the column median and the missing flags carry the information that a value was imputed. The two flags end up meaningful in their own right: schools that don't report test scores graduate more than their other characteristics predict, schools with no admission rate graduate much less.
+ 
+Outliers are kept. A few D-II schools have athletic shares above 15%, one near 21%. These are small budgets where athletics is a real fraction of the whole, not data errors.
+ 
 ---
-
+ 
 ## 5. Exploratory Data Analysis
-
-Three exploratory views establish baseline patterns in the data.
-
-**Distribution of athletic spending share by division.** Athletic spending share varies meaningfully across divisions. D-I FCS schools have the highest median share (7.7%), followed closely by D-I FBS (6.7%). D-II schools have the lowest median spending share (3.9%) but the widest right tail, with several institutions above 15%. D-I no football schools sit between these extremes, with a median of 4.4% and tighter distribution. These differences are formally significant under a one-way ANOVA (F = 17.0, p < 0.001).
-
-**Distribution of graduation rates by division.** Graduation rates vary even more dramatically. D-I FBS schools have a median 6-year graduation rate of 67.6% — roughly 17 percentage points higher than the D-II median of 50.4%. D-I FCS (53.4%) and D-I no football (55.5%) fall between these poles. The one-way ANOVA confirms these differences are highly significant (F = 42.3, p < 0.001).
-
-**The joint relationship.** The headline scatterplot of spending share against graduation rate, colored by division, reveals that within each division group, schools with higher athletic spending shares tend to have lower graduation rates. The negative slope is visible across all four divisions. However, the level differences between divisions are substantial: an FBS school spending 10% of its budget on athletics still typically graduates more students than a D-II school spending 3%.
-
-Within-division Pearson correlations between spending share and graduation rate are: D-I FBS −0.32, D-I FCS −0.22, D-I no football −0.47, and D-II −0.32. All are negative; the strongest correlation is among D-I no football schools, the weakest among D-I FCS.
-
+ 
+Medians by division from the final sample:
+ 
+| Division | n | Test score | Pell share | Undergrads | Adm. rate | Athletic share | Exp. per student | Grad rate |
+|---|---|---|---|---|---|---|---|---|
+| D-I FBS | 108 | 1199 | 26% | 22,674 | 77% | 7.2% | $49,213 | 67.2% |
+| D-I FCS | 75 | 1080 | 33% | 8,215 | 86% | 7.7% | $32,650 | 53.1% |
+| D-I no football | 46 | 1114 | 33% | 11,962 | 81% | 4.3% | $35,168 | 55.5% |
+| D-II | 143 | 1075 | 37% | 5,265 | 87% | 5.7% | $25,448 | 47.3% |
+| D-III | 73 | 1173 | 34% | 4,859 | 81% | 2.2% | $33,766 | 58.4% |
+ 
+Three things stand out. Divisions differ enormously on graduation rate, 20 points between FBS and D-II. They differ just as much on everything that predicts graduation rate: FBS schools are three to four times larger, admit a smaller share of applicants, have 120 points higher test scores, a lower Pell share and about twice the spending per student. And athletic share does not line up with graduation rate across divisions at all. FBS and FCS spend almost the same share (7.2% vs 7.7%) and are 14 graduation points apart; D-III spends the least share of anyone and graduates more than D-II, FCS or no-football.
+ 
+The unweighted R pass (`Output/Plots/01` to `05`, `Output/Tables/01` to `06`) shows the within-division picture: inside each division, schools with a higher athletic share graduate fewer students, and the slope is negative in all five groups. That is the starting point. The rest of the project is about whether it holds up.
+ 
 ---
-
+ 
 ## 6. Modeling and Analysis
-
-Five regression specifications are estimated, each addressing a different aspect of the research question.
-
-**Specification 1: Pooled OLS.** Regressing graduation rate on spending share without any controls produces a slope of −0.60 (SE = 0.18, p < 0.001) with R² = 2.4%. The negative relationship is statistically significant but explains very little variation in the outcome.
-
-**Specification 2: Within-division regressions.** Running the same regression separately for each NCAA division group yields slopes of −1.07 (FBS, p = 0.0008), −0.99 (FCS, p = 0.061), −2.55 (D-I no football, p = 0.001), and −1.03 (D-II, p < 0.001). All four are negative; three are statistically significant at conventional levels, with D-I FCS marginally above the 5% threshold.
-
-**Specification 3: Additive model (division fixed effects).** Adding division as a categorical control in a single pooled regression produces a slope of −1.12 (SE = 0.16, p < 0.001) with R² = 29.8%. This is a striking result. Compared with the pooled specification, the slope nearly doubles in magnitude and the model's explanatory power increases by an order of magnitude. The interpretation is that division effects were attenuating, not creating, the spending–graduation rate relationship in the pooled model.
-
-**Specification 4: Interaction model.** Allowing the slope to vary across divisions (rather than just the intercept) yields an R² of 30.6%. An F-test comparing this model to the additive model produces F = 1.56 with p = 0.199. The null hypothesis of equal slopes across divisions cannot be rejected. The simpler additive model is preferred.
-
-**Specification 5: One-way ANOVAs.** Confirming the descriptive observation that divisions differ on both variables: graduation rates differ across divisions (F = 42.3, p < 0.001), and spending shares differ across divisions (F = 17.0, p < 0.001).
-
-Diagnostic checks on the additive model show that standard linear regression assumptions are reasonably satisfied. Residuals show constant variance across fitted values, are approximately normally distributed based on quantile-quantile plots, and no individual observations exceed Cook's distance thresholds for influential outliers.
-
-The combined result of these specifications is that athletic spending share is negatively associated with graduation rate within all NCAA division groups, with a magnitude that does not differ statistically across divisions. What differs across divisions is the baseline graduation rate, not the slope.
-
+ 
+All regressions in `main.ipynb` are weighted least squares with cohort size as the weight (a graduation rate from 5,000 students is far more precise than one from 80) and HC3 robust standard errors.
+ 
+### 6.1 The spendRate coefficient, one control at a time
+ 
+| Specification | spendRate | p |
+|---|---|---|
+| Pooled | −0.20 | 0.37 |
+| + division | −1.19 | < 0.001 |
+| + log total expenses | +0.73 | < 0.001 |
+| + Pell, test score, enrollment, admission rate (no resource control) | −0.35 | 0.002 |
+| + log per-student spending, instruction and admin shares, test-score flag | +0.11 | 0.32 |
+ 
+Three sign changes. That's confounding, not an effect.
+ 
+The interaction model (`spendRate × division`) doesn't improve on the additive one (F = 1.88 on 4 df, p = 0.11), so H2 is not rejected: whatever the slope is, it's the same across divisions.
+ 
+The size step is the one to understand. `spendRate` is athletic spending divided by total expenses. Total expenses is strongly and positively related to graduation rate. So without a size control, a high athletic share partly just means a small denominator, a small budget, and small budgets graduate fewer students. The coefficient inherits a negative sign through its denominator. Controlling for log total expenses removes that and the sign flips. A levels check confirms it isn't a ratio artifact: with log athletic spending and log total spending as separate terms, both are positive and significant.
+ 
+The −0.35 row is the trap. Adding student composition (Pell share, test score, admission rate, enrollment) but dropping the resource control brings the negative sign back, and it's significant. That is the estimate that looks like a finding. It isn't: enrollment is in the model but per-student spending is not, so at a fixed enrollment a higher athletic share again means a poorer school. Put per-student spending in and the coefficient is +0.11 with a 95% CI of −0.11 to +0.33. Given athletic share ranges over roughly 12 percentage points in this sample, even the ends of that interval are small: a 5-point increase in share corresponds to about half a graduation point, with the interval spanning ±1 point.
+ 
+H1 is not rejected. With composition and resources controlled there is no detectable association between athletic spending share and graduation rate in either direction.
+ 
+Trimming the top 5% of cohorts (the schools carrying the most weight) doesn't move the estimate (+0.12, p = 0.34).
+ 
+### 6.2 The full model
+ 
+Everything else in the final specification behaves as expected. Pell share is the largest effect: 20% to 50% Pell costs about 11 graduation points, everything else fixed. Higher admission rates and a missing admission rate are strongly negative. Test scores, enrollment and per-student spending are positive: doubling per-student spending is worth about 3.5 points, doubling enrollment about 4. D-III sits 7 points above FBS; the other three divisions are 2 to 3 points above FBS and marginal, so football status does nothing once composition is controlled. Neither instructional share nor administrative share matters. Resources matter; how they're divided between athletics, instruction and administration does not.
+ 
+### 6.3 Is linear enough (H3)
+ 
+Four models on the same 14 encoded columns, 80% training split stratified by division, 5×5 repeated cross-validation, cohort-weighted RMSE. Gradient boosting and random forest are tuned by grid search; ridge picks its own penalty.
+ 
+| Model | CV RMSE | CV R² |
+|---|---|---|
+| Linear | 0.063 | 0.82 |
+| Ridge (cross-validated α) | 0.063 | 0.82 |
+| Gradient boosting (tuned) | 0.065 | 0.81 |
+| Random forest (tuned) | 0.067 | 0.79 |
+ 
+The linear model wins. Ridge selected effectively no regularization and matched it to three decimals, so the linear model isn't overfit at this sample size. The tuned GBM chose the shallowest, slowest configuration in the grid (depth 2, learning rate 0.01, 1000 trees), which is boosting's way of approximating an additive function. On the 20% held-out test set the linear model scores RMSE 0.060 (R² 0.85) and the GBM 0.065 (R² 0.83), in line with CV.
+ 
+The GBM's job after that is diagnostic.
+ 
+**Feature selection.** Recursive elimination on the GBM flattens at 8 of 14 encoded features; the six it would drop are the four division dummies and the two missing flags, all binary. That ranking uses impurity importance, which favors continuous variables with many split points, so it's checked against a drop-column ablation on the raw columns with paired CV differences. The ablation says: Pell share is the one feature the model can't do without (12% of baseline RMSE, 5.5 SE). Admission rate is second. Test score, enrollment and per-student spending are individually weak because they substitute for each other. Division is nothing. Athletic share is nothing: the model predicts slightly better without it. This is the same answer the WLS gave, from a method that makes no linearity assumption.
+ 
+**Partial dependence.** For each feature, the GBM's partial dependence is overlaid on the linear model's. They agree over the central 80% of the data for every feature but one. Athletic share is flat under both. The exception is enrollment, where the GBM is flat below roughly 3,000 undergraduates and rising above. Most of that turns out to be per-student spending doing the work in the WLS; a residual plot against log enrollment bends only in the bottom decile, and hinge terms at 3,000 and 8,000 undergraduates don't significantly improve the fit (HC3 p = 0.06 and 0.09). The linear form is kept. On the categorical features the GBM agrees with the WLS on direction but shrinks every effect, a known weakness of shallow trees with binary splits, so the WLS coefficients are the better estimates.
+ 
 ---
-
+ 
 ## 7. Visualization and Reporting
-
-Five visualizations support the analysis. The first two are boxplots showing the distribution of spending share and graduation rate respectively, by division, establishing that divisions differ on both axes. The third is a scatterplot of spending share against graduation rate colored by division, with separate regression lines for each division. This is the primary visualization and tells most of the story at a glance. The fourth juxtaposes the pooled regression against the by-division regression, making visually concrete why controlling for division strengthens rather than weakens the relationship. The fifth is a coefficient plot showing the four within-division slopes with their 95% confidence intervals, with a reference line at zero — the visual analog of the regression results table.
-
-The University of Houston, the author's home institution, is highlighted on the headline scatterplot. It sits at approximately 8% spending share and 65% graduation rate, near the FBS regression line and consistent with the FBS-conditional mean. Its position is illustrative rather than anomalous.
-
+ 
+R phase (`Output/Plots/01` to `06`): scatter of athletic share against graduation rate with per-division lines, boxplots of share and graduation rate by division, a coefficient plot of within-division slopes with 95% CIs, pooled fit against the division-adjusted fit, and standard diagnostic plots.
+ 
+Python phase (`Output/Plots/07` to `12`): the RFECV curve with the one-standard-error choice, the ablation bar chart with paired SEs, predicted-versus-actual on the test set for both models with points sized by cohort, partial dependence for the eight numeric features (GBM and linear overlaid) and for the three categoricals, and WLS residuals against log enrollment.
+ 
+Tables (`Output/Tables/01` to `12`) hold the summary statistics, every regression and test from both phases, the CV comparison, the feature ranking, the ablation deltas, test-set metrics, division composition and the full WLS coefficient table.
+ 
 ---
-
-## 8. Insights and Recommendations
-
-Four observations follow from the analysis.
-
-The first is the headline finding itself. Within NCAA division groups, schools that allocate a higher share of their budget to athletics tend to graduate a lower share of their students. The relationship is statistically significant, consistent in magnitude across divisions, and survives the addition of division fixed effects. A one percentage point increase in athletic spending share is associated with roughly a one percentage point decrease in 6-year graduation rate.
-
-The second observation is the critical caveat: these estimates are descriptive, not causal. The most plausible alternative explanation is not that athletic spending causes lower graduation rates, but that institutions with weaker academic profiles — for reasons of student SES, first-generation enrollment share, urban commuter populations, or institutional resources per student — both rely more heavily on athletic spending (as an enrollment and branding lever) and produce lower graduation rates (for reasons unrelated to the athletic budget itself). Under this interpretation, spending share is a symptom rather than a cause. Untangling these channels would require panel data exploiting within-school variation, or natural experiments such as conference reclassifications or unexpected athletic success.
-
-The third observation concerns implications for institutional decision-making. The findings do not justify a strong recommendation that universities reduce athletic spending. They do, however, caution against the assumption that athletic spending is academically neutral. The descriptive correlation suggests that institutions considering substantial increases in athletic spending share should examine the channels through which that spending affects, or fails to affect, academic outcomes — rather than assuming that athletic revenue or branding effects will be neutral or positive for graduation rates.
-
-The fourth observation is methodological. The pooled regression and the division-controlled regression produced markedly different slope estimates (−0.60 vs. −1.12) and R² values (2.4% vs. 29.8%). This is not Simpson's paradox in the strict sense — both slopes have the same sign — but it illustrates how a single regression coefficient can substantially understate or overstate the underlying relationship depending on the comparison group. Within-group analysis with appropriate fixed effects is essential when working with heterogeneous populations.
-
-A natural extension of this work would assemble a multi-year panel of EADA and IPEDS data, allowing for institution-level fixed effects that eliminate time-invariant confounders. A further extension would exploit specific exogenous events — FCS-to-FBS reclassifications, conference realignments, or stadium construction shocks — using difference-in-differences designs to approach causal identification. Both are beyond the scope of this project but represent the appropriate next steps for the question.
-
+ 
+## 8. Insights
+ 
+**Athletic spending share has no detectable association with graduation rate once total resources are in the model.** It looks negative and significant with partial controls, and that's a denominator artifact: without per-student spending in the model a high share just means a small budget. With it, the coefficient is +0.11 and the interval covers zero comfortably. Three independent checks agree: the nonlinear models find no predictive value in athletic share, the ablation finds the model does better without it, and the partial dependence is flat.
+ 
+**Graduation rates are driven by who a school enrolls and what it has per student.** Pell share, admission selectivity, test scores, enrollment size and per-student spending explain about 85% of the weighted variance. Division differences are almost entirely composition: FBS and FCS spend the same share on athletics and sit 14 points apart on graduation, tracking a 120-point gap in test scores, a threefold gap in size and a 50% gap in spending per student. Adjusted, D-III is 7 points above FBS and everyone else is within 3.
+ 
+**The negative associations that show up between athletic spending and graduation are, in this data, what omitted-variable bias looks like.** The pooled, division-adjusted and composition-adjusted specifications each tell a different story, and each is wrong for the same reason: the denominator of the spending share is doing the work. Anyone reporting a spending-share coefficient without a resource control is reporting the size of the school.
+ 
+**What this doesn't say.** None of this shows athletic spending is harmless. It shows that in a cross-section of public schools, share of budget going to athletics doesn't predict graduation once you know the school's size, wealth and student body. Whether a given school moving money from instruction to athletics would change its graduation rate is a within-school question and needs panel data. A multi-year EADA and IPEDS panel with school fixed effects is the natural next step; FCS-to-FBS reclassifications and conference moves would give a difference-in-differences design. Extending to private schools requires harmonizing the F2 finance form. Both are outside this project.
+ 
 ---
-
+ 
 ## 9. References
-
+ 
 **Data Sources**
-
+ 
 U.S. Department of Education. (2024). *Equity in Athletics Disclosure Act (EADA) Database, 2023*. Office of Postsecondary Education. https://ope.ed.gov/athletics/
-
-National Center for Education Statistics. (2024). *Integrated Postsecondary Education Data System (IPEDS) Finance Survey, F1A 2022–23 (Final/revised)*. U.S. Department of Education. https://nces.ed.gov/ipeds/
-
-National Center for Education Statistics. (2024). *IPEDS Graduation Rates Survey (GR2023, Final/revised)*. U.S. Department of Education. https://nces.ed.gov/ipeds/
-
+ 
+National Center for Education Statistics. (2024). *IPEDS Finance Survey, F1A 2022-23 (Final/revised)*. U.S. Department of Education. https://nces.ed.gov/ipeds/
+ 
+National Center for Education Statistics. (2024). *IPEDS Graduation Rates Survey, GR2023 (Final/revised)*. U.S. Department of Education. https://nces.ed.gov/ipeds/
+ 
+National Center for Education Statistics. (2024). *IPEDS Admissions and Test Scores, ADM2023 (Final/revised)*. U.S. Department of Education. https://nces.ed.gov/ipeds/
+ 
+National Center for Education Statistics. (2024). *IPEDS Student Financial Aid, SFA2223 (Final/revised)*. U.S. Department of Education. https://nces.ed.gov/ipeds/
+ 
+College Board and ACT. (2018). *Guide to the 2018 ACT/SAT Concordance*. https://www.act.org/content/dam/act/unsecured/documents/ACT-SAT-Concordance-Tables.pdf
+ 
 **Academic Literature**
-
-Anderson, M. L. (2017). The benefits of college athletic success: An application of the propensity score design. *Review of Economics and Statistics*, 99(1), 119–134.
-
-Pope, D. G., & Pope, J. C. (2009). The impact of college sports success on the quantity and quality of student applications. *Southern Economic Journal*, 75(3), 750–780.
-
-Hoffer, A., Humphreys, B. R., Lacombe, D. J., & Ruseski, J. E. (2015). Trends in NCAA athletic spending: Arms race or rising tide? *Journal of Sports Economics*, 16(6), 576–596.
-
+ 
+Anderson, M. L. (2017). The benefits of college athletic success: An application of the propensity score design. *Review of Economics and Statistics*, 99(1), 119-134.
+ 
+Pope, D. G., & Pope, J. C. (2009). The impact of college sports success on the quantity and quality of student applications. *Southern Economic Journal*, 75(3), 750-780.
+ 
+Hoffer, A., Humphreys, B. R., Lacombe, D. J., & Ruseski, J. E. (2015). Trends in NCAA athletic spending: Arms race or rising tide? *Journal of Sports Economics*, 16(6), 576-596.
+ 
 Knight Commission on Intercollegiate Athletics. (2024). *College Athletic Financial Information (CAFI) Database*. https://cafidatabase.knightcommission.org/
-
-**Code References**
-
+ 
+**Software and Code References**
+ 
 Anthropic. (2026). *Claude (Opus 4.7) [Large language model]*. Used for code structure, debugging, and analytical guidance throughout the project. https://claude.ai
-
+ 
 R Core Team. (2024). *R: A Language and Environment for Statistical Computing*. R Foundation for Statistical Computing. https://www.R-project.org
-
-R Documentation, *Linear Models*. https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html
-
+ 
 Wickham, H. (2017). *R for Data Science*. O'Reilly Media. https://r4ds.hadley.nz
-
+ 
+Seabold, S., & Perktold, J. (2010). statsmodels: Econometric and statistical modeling with Python. *Proceedings of the 9th Python in Science Conference*. https://www.statsmodels.org
+ 
+Pedregosa, F., et al. (2011). Scikit-learn: Machine learning in Python. *Journal of Machine Learning Research*, 12, 2825-2830. https://scikit-learn.org
+ 
+R Documentation, *Linear Models*. https://stat.ethz.ch/R-manual/R-devel/library/stats/html/lm.html
+ 
 STHDA. *ggplot2 scatter plot with regression line*. http://www.sthda.com/english/wiki/ggplot2-scatter-plots-quick-start-guide-r-software-and-data-visualization
-
+ 
 Bobbitt, Z. *How to perform multiple linear regression in R*. Statology. https://www.statology.org/multiple-linear-regression-r/
-
+ 
 Wong, K. *Tidy Regression Output with broom*. RPubs. https://rpubs.com/aaronsc32/regression-with-broom
+ 

@@ -1,0 +1,5 @@
+model,rmse_mean,rmse_sd,r2_mean,r2_sd
+linear,0.08,0.009,0.7,0.076
+ridge,0.08,0.009,0.7,0.076
+randomForest,0.083,0.008,0.682,0.074
+gbm,0.079,0.008,0.708,0.058

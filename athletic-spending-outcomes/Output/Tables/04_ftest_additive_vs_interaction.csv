@@ -1,3 +1,3 @@
 term,df.residual,rss,df,sumsq,statistic,p.value
-gradRate ~ spendRate + division,439,7.010848420934642,NA,NA,NA,NA
-gradRate ~ spendRate * division,435,6.847502722998547,4,0.1633456979360952,2.5942077526873186,0.03598883930860537
+gradRate ~ spendRate + division,439,7.0425724663200215,NA,NA,NA,NA
+gradRate ~ spendRate * division,435,6.878964864178671,4,0.16360760214135084,2.586483153231843,0.03644727065669737

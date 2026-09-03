@@ -1,0 +1,2 @@
+model,nFeatures,nTest,rmse,r2
+GBM (final),6,89,0.0679,0.8231

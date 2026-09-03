@@ -1,0 +1,15 @@
+feature,rank
+cat__division_D-I FCS,14
+cat__division_D-I no football,13
+ind__testScoreMissing,12
+cat__division_D-III,11
+cat__division_D-II,10
+ind__admRateMissing,9
+num__adminShare,8
+num__instrShare,7
+num__spendRate,6
+num__expPerStudent,5
+num__admRate,4
+num__upPell,3
+num__ugTotal,2
+num__testScore,1

@@ -47,4 +47,4 @@ univData2 = pd.merge(univData2, univFinAidClean, on="UNITID", how="left")
 univData2["expPerStudent"] = univData2["totalExp"] / univData2["ugTotal"]
 univData2["upPell"] = univData2["upPell"] / 100
 
-univData2.to_csv(DATA / "Clean" / "features.csv")
+univData2.to_csv(DATA / "Clean" / "features.csv", index= False)

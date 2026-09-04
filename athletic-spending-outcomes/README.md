@@ -3,7 +3,6 @@
 A cross-sectional analysis of whether the share of institutional expenses allocated to athletics is associated with 6-year graduation rates, and whether that association survives controls for student composition. 445 NCAA public institutions (Divisions I–III), 2022–23 academic year.
  
 📄 [Full writeup (Markdown)](./Athletic_Spending_Outcomes.md)
-📊 [Presentation deck (PPTX)](./Athletic_Spending_Outcomes.pptx)
 🐍 [Python extension (notebook)](./Python_Extension/main.ipynb)
  
 ---

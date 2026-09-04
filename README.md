@@ -6,7 +6,7 @@ A collection of academic projects spanning finance, statistics, and information 
 
 ## About
 
-I'm an MS in Business Analytics and Artificial Intelligence student at the University of Minnesota. My undergraduate coursework was in SCM & MIS at the University of Houston. This repository serves as a portfolio of projects that demonstrate the methods and tools I work with.
+I'm an MS in Business Analytics student at the University of Minnesota. My undergraduate coursework was in SCM & MIS at the University of Houston. This repository serves as a portfolio of projects that demonstrate the methods and tools I work with.
 
 ---
 
@@ -16,13 +16,15 @@ I'm an MS in Business Analytics and Artificial Intelligence student at the Unive
 
 📂 [athletic-spending-outcomes](./athletic-spending-outcomes)
 
-Does the share of institutional expenses going to athletics predict 6-year graduation rates once student composition is accounted for? A cross-sectional analysis of 445 NCAA public institutions (Divisions I–III, 2022–23) built from five federal data files (EADA athletic expenses; IPEDS Finance, Admissions, Financial Aid, and Graduation Rates) merged on a common institutional identifier. Hospital and independent-operations expenses are removed from institutional totals. An initial R analysis established the descriptive picture; a Python extension added weighted regression, gradient boosting, feature ablation, and partial dependence analysis.
+Does the share of institutional expenses going to athletics predict 6-year graduation rates once student composition and total resources are accounted for? Cross-sectional analysis of 445 NCAA public institutions (Divisions I–III, 2022–23) built from five federal files (EADA athletic expenses; IPEDS Finance, Admissions, Financial Aid, Graduation Rates). Hospital and independent-operations expenses are removed from totals; SAT/ACT medians are concorded to one scale, with missing-value flags for test scores and admission rates. An R pass built the dataset and ran unweighted exploratory regressions; the Python extension is the primary analysis.
 
-**Methods:** Multi-source data harmonization, weighted least squares with HC3 robust errors, gradient boosting with repeated cross-validation, recursive feature elimination, drop-column ablation with paired-fold uncertainty, partial dependence plots.
+**Methods:** Cohort-weighted least squares with HC3 robust SEs and stepwise controls; OLS, ridge, tuned gradient boosting and random forest compared under 5×5 repeated CV with a held-out 20% test split; RFECV (one-SE rule); drop-column ablation with paired-fold SEs; partial dependence plots; hinge tests for nonlinearity in enrollment.
 
-**Headline finding:** Athletic spending share has no robust association with graduation rates. The unadjusted estimate is null; adjusting for division alone makes it look strongly negative and adjusting for size alone makes it look positive — the signature of confounding. With student composition controlled (Pell share, test scores, enrollment, selectivity) the estimate is small and negative (≈ −0.25, borderline significance, sensitive to weighting), and a gradient-boosting model finds no predictive value in any spending measure. Graduation rates are driven by who a school enrolls; division differences are almost entirely composition. FBS and FCS schools spend nearly identical shares on athletics and differ by 14 points in graduation rate.
+**Headline finding:** Athletic spending share has no detectable association with graduation rate once total per-student resources are in the model. The coefficient changes sign three times as controls are added — pooled −0.20 (p = 0.37), + division −1.19 (p < 0.001), + size +0.73 (p < 0.001), + student composition −0.35 (p = 0.002), + per-student spending +0.11 (p = 0.32, CI −0.11 to +0.33). The −0.35 is a denominator artifact: spendRate is athletic ÷ total spending, so without per-student spending in the model a high share proxies a small budget. Graduation rates are driven by Pell share (largest effect), selectivity, test scores, enrollment and per-student spending; division differences are almost entirely composition — FBS and FCS spend near-identical shares on athletics and differ by 14 points in graduation rate. The tuned GBM assigns spending share no predictive value and its partial dependence is flat.
 
-**Deliverables:** R Markdown pipeline (data construction, exploratory regressions), Python notebook (weighted models, ML, ablation, PDPs), written report, presentation deck.
+**Model performance:** Linear model best under CV (weighted RMSE 0.063, R² 0.82); tuned GBM 0.065 / 0.81; held-out test RMSE 0.060 / R² 0.85 (linear), 0.065 / 0.83 (GBM).
+
+**Deliverables:** R Markdown (data construction, EDA, exploratory regressions), Python notebook (weighted models, ML benchmark, ablation, PDPs), 12 output tables and plots, written report.
 
 ---
 

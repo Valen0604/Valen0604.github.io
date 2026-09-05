@@ -1,0 +1,12 @@
+name: NCAAExtension
+channels:
+  - defaults
+dependencies:
+  - python=3.14
+  - ipykernel
+  - scikit-learn
+  - statsmodels
+  - numpy
+  - matplotlib
+  - pandas
+

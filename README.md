@@ -12,6 +12,20 @@ I'm an MS in Business Analytics student at the University of Minnesota. My under
 
 ## Projects
 
+### Food-Shelf Need vs. Recorded Demand in Minnesota (MinneMUDAC 2026)
+
+📂 [minnemudac-food-shelf](./minnemudac-food-shelf)
+
+Graduate-division entry to MinneMUDAC 2026 with team Data Detectors, for sponsor The Food Group. Do the monthly reports from Minnesota's food shelves (households served, pounds distributed, individuals served) track food insecurity across the state's 87 counties, and where they do not, why? My part: the shared data pipeline, Question 1 (need vs. recorded activity) and Question 6 (a falsifiable measure of need). The folder holds the scripts, write-ups, figures and model tables; the sponsor's data is not redistributed, so the scripts are shown, not runnable.
+
+**Methods:** Log-log OLS with clustered errors across county-years; spatial tests (Moran's I, join counts, permutation p-values); a pre-registered need definition and an equal-weight index of seven public inputs (Census ACS, USDA Food Access Atlas, Urban Institute); stability under random weightings; barrier regressions; nested models against Feeding America's Map the Meal Gap.
+
+**Headline finding:** In raw counts activity rises faster than need (log-log slope 1.15–1.24, R² 0.84–0.88), but per resident it is uncorrelated with the food-insecurity rate. County population alone explains 85% of recorded activity and neither measure of need adds more than a point. The counties where need outranks activity are far from a site and offline: households without home internet (+0.41 SD, p = 0.005) and distance to the nearest site (p = 0.025) explain 17% of the divergence.
+
+**Deliverables:** Python pipeline modules, two analysis scripts that rebuild every reported number, the graduate addendum (definition and rejection criteria written before the index existed), figures and model tables, the team presentation (PDF).
+
+---
+
 ### Athletic Spending and Academic Outcomes at NCAA Public Institutions
 
 📂 [athletic-spending-outcomes](./athletic-spending-outcomes)
@@ -56,6 +70,13 @@ A multi-page medical-services website with HTML form built incrementally across 
 
 ```
 .
+├── minnemudac-food-shelf/         # MinneMUDAC 2026: food-shelf need vs. demand (Python)
+│   ├── questions/                 # Q1 and Q6: READMEs with the answers, analysis scripts, graduate addendum
+│   ├── src/                       # Shared data pipeline modules
+│   ├── docs/                      # Glossary and public data-source registry
+│   ├── figures/, tables/          # Charts and model summary tables
+│   ├── notebooks/                 # Q6 working notebook (outputs cleared)
+│   └── README.md                  # Project-specific documentation
 ├── athletic-spending-outcomes/    # NCAA spending analysis (R + Python)
 │   ├── Code/                      # R Markdown source (data construction, EDA, initial regressions)
 │   ├── Python_Extension/          # Feature engineering, weighted models, ML, ablation, PDPs
@@ -81,7 +102,7 @@ Each project folder contains its own README with setup instructions, data source
 
 ## Tools and Languages
 
-R · Python · SQL · HTML/CSS · Git · ggplot2 · scikit-learn · statsmodels · pandas
+R · Python · SQL · HTML/CSS · Git · ggplot2 · scikit-learn · statsmodels · pandas · geopandas
 
 ---
 

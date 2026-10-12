@@ -1,0 +1,10 @@
+year,metric,n_counties,spearman_counts_vs_fi_persons,spearman_per_1k_vs_fi_rate,spearman_per_fi_vs_fi_rate
+2022,households,87,0.895,0.093,-0.164
+2022,pounds,87,0.918,0.167,-0.145
+2022,individuals,87,0.896,0.073,-0.195
+2023,households,87,0.891,0.057,-0.163
+2023,pounds,87,0.909,0.05,-0.219
+2023,individuals,87,0.893,0.047,-0.173
+2024,households,87,0.903,-0.029,-0.293
+2024,pounds,87,0.919,0.003,-0.285
+2024,individuals,87,0.907,0.001,-0.262

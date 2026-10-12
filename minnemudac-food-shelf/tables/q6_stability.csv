@@ -1,0 +1,11 @@
+variant,top10_kept,spearman_with_baseline,wilkin_rank,enters_top10
+drop SNAP and debt,7,0.958,38,"Aitkin, Grant, Todd"
+LILA vehicle definition,8,0.9569,23,"Benton, Chippewa"
+rank scaling,9,0.9839,33,Benton
+without pct_hh_snap,9,0.9853,28,Grant
+without pct_no_vehicle,9,0.976,27,Grant
+without senior_poverty_rate,8,0.9719,47,"Chippewa, Mower"
+without pct_hh_housing_burden,9,0.965,12,Koochiching
+without pct_no_hs_diploma,8,0.9831,24,"Clay, Grant"
+without lila_share_1and10,9,0.9646,15,Clay
+without pct_debt_collections,9,0.9817,34,Lyon

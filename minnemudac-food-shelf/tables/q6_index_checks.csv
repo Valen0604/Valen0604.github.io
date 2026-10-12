@@ -1,0 +1,21 @@
+check,value
+R2 of index on poverty rate (revise if ~0.9+),0.6013
+top ten shared with poverty top ten,4.0
+top ten shared with MMG fi_rate top ten,5.0
+"Spearman, index vs poverty rate",0.7618
+"Spearman, index vs MMG fi_rate",0.7709
+share of input variance on first component,0.4135
+loading on first component: pct_hh_snap,0.489
+loading on first component: pct_no_vehicle,0.4406
+loading on first component: senior_poverty_rate,0.2694
+loading on first component: pct_hh_housing_burden,0.2016
+loading on first component: pct_no_hs_diploma,0.367
+loading on first component: lila_share_1and10,0.2944
+loading on first component: pct_debt_collections,0.4819
+correlation with index: pct_hh_snap,0.7858
+correlation with index: pct_no_vehicle,0.7294
+correlation with index: senior_poverty_rate,0.4965
+correlation with index: pct_hh_housing_burden,0.413
+correlation with index: pct_no_hs_diploma,0.608
+correlation with index: lila_share_1and10,0.5476
+correlation with index: pct_debt_collections,0.7868

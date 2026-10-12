@@ -1,0 +1,2 @@
+n_counties,morans_i,expected_if_no_pattern,permutation_p,permutations
+86,0.0629,-0.0118,0.367,999

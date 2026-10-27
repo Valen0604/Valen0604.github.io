@@ -1,0 +1,23 @@
+# Secrets. Never commit these.
+.env
+.env.*
+!.env.example
+
+# The project's own Python
+.venv/
+venv/
+
+# Uploaded data, charts and trained models from chat sessions
+workspace/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+~$*

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Data Scientist</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232563eb'/%3E%3Cpath d='M7 22l6-7 4 4 8-10' stroke='white' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+<aside class="side" id="side">
+  <div class="brand">
+    <h1>AI Data Scientist</h1>
+    <p>Upload data. Ask a question. Check the work.</p>
+    <span class="mode" id="mode">starting</span>
+  </div>
+
+  <div class="side-scroll">
+    <h2 class="h-row">Chats <button class="link-btn" id="new-chat" title="Start another chat with its own data">+ New chat</button></h2>
+    <div id="chats"><div class="empty">Starting</div></div>
+    <p class="muted tiny">Each chat holds its own datasets. Nothing crosses between chats unless you bring a dataset over.</p>
+
+    <label class="drop" id="drop" for="file">
+      <strong>Choose files</strong> or drop them anywhere
+      <small id="formats">CSV, Excel, JSON, Parquet</small>
+    </label>
+    <input type="file" id="file" multiple hidden>
+
+    <h2 class="h-row">Datasets <button class="link-btn" id="import-open" title="Copy a dataset from another chat into this one" hidden>From another chat</button></h2>
+    <div id="datasets"><div class="empty">Nothing loaded yet.</div></div>
+
+    <h2>About your data</h2>
+    <div class="ctx-box" id="ctx-box">
+      <p class="muted small" id="ctx-summary">Tell the agent what the data is and what you want to decide, so it does not suggest what you cannot do.</p>
+      <button class="btn" id="ctx-open">Add context</button>
+    </div>
+
+    <h2>Answer detail</h2>
+    <div class="seg" id="level" role="radiogroup" aria-label="Answer detail">
+      <button type="button" data-level="brief" title="A few sentences, no method names">Brief</button>
+      <button type="button" data-level="standard" class="on" title="The answer, the evidence, the caveats">Standard</button>
+      <button type="button" data-level="technical" title="Methods, assumptions, intervals">Technical</button>
+    </div>
+
+    <h2>Chart colours</h2>
+    <div class="seg" id="palette" role="radiogroup" aria-label="Chart colours">
+      <button type="button" data-palette="single" class="on" title="One hue for a chart with one series">One blue</button>
+      <button type="button" data-palette="varied" title="A different hue per category, and a new hue for each chart">Varied</button>
+    </div>
+
+    <h2>Sample data</h2>
+    <div id="samples"></div>
+  </div>
+
+  <div class="side-foot">
+    <div class="row"><span>Model</span><b id="model">...</b></div>
+    <div class="row"><span>Tokens in / out</span><b id="tokens">0 / 0</b></div>
+    <div class="row"><span>Estimated cost</span><b id="cost">$0.000</b></div>
+    <div class="actions">
+      <button class="btn primary" id="export-open" disabled title="Save chosen answers as a PDF or a slide deck">Export PDF / slides</button>
+      <button class="btn" id="print" disabled title="Open the full report and print it">Print</button>
+      <button class="btn" id="report" disabled title="Save the whole conversation as one HTML file">HTML</button>
+    </div>
+  </div>
+</aside>
+
+<main class="main" id="main">
+  <div class="topbar">
+    <button class="icon-btn menu-btn" id="menu" aria-label="Show datasets">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <nav class="tabs" id="tabs" role="tablist">
+      <button type="button" class="tab on" data-tab="chat" role="tab">Chat</button>
+      <button type="button" class="tab" data-tab="dashboard" role="tab">Dashboard</button>
+      <button type="button" class="tab" data-tab="relations" role="tab">Relationships <span class="tab-badge" id="rel-badge" hidden></span></button>
+      <button type="button" class="tab" data-tab="quality" role="tab">Data quality <span class="tab-badge" id="quality-badge" hidden></span></button>
+    </nav>
+    <span class="chat-title" id="chat-title" title="Rename this chat" role="button" tabindex="0"></span>
+    <select id="ds-pick" class="ds-pick" aria-label="Dataset" hidden></select>
+  </div>
+
+  <div class="panel on" id="panel-chat">
+    <div class="chat-scroll" id="scroll">
+      <div id="banner"></div>
+      <div class="chat" id="chat" aria-live="polite">
+        <div class="welcome" id="welcome">
+          <h2>What would you like to know about your data?</h2>
+          <p>Upload one file or several, or load a sample from the left, then ask in plain language.
+             Every answer comes from code that ran on your data, and you can open the code.</p>
+          <div class="steps">
+            <div class="step"><b>1. Upload</b><span>CSV, Excel, JSON or Parquet. Each file gets a dashboard and a data-quality report; several files get a map of how they relate.</span></div>
+            <div class="step"><b>2. Tell it what you know</b><span>What the data is, what you want to decide, what is off limits. The agent will not suggest what you cannot do.</span></div>
+            <div class="step"><b>3. Ask, check, export</b><span>See the charts, the scores against a baseline, the warnings, and the code. Save any answer as a PDF or slides.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="composer-wrap">
+      <div class="composer-inner">
+        <div class="suggest" id="suggest"></div>
+        <form class="composer" id="form">
+          <button type="button" class="icon-btn" id="attach" aria-label="Attach files" title="Attach files">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.4 11.05l-9.2 9.2a6 6 0 01-8.5-8.5l9.2-9.2a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+          </button>
+          <textarea id="input" rows="1" placeholder="Ask about your data" aria-label="Message"></textarea>
+          <button type="submit" class="icon-btn send" id="send" aria-label="Send" disabled>
+            <svg id="send-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            <svg id="stop-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" hidden><rect x="4" y="4" width="16" height="16" rx="3"/></svg>
+          </button>
+        </form>
+        <div class="hint">Enter to send, Shift+Enter for a new line. The agent can be wrong: read the warnings and open the code.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel-dashboard">
+    <div class="panel-scroll"><div class="panel-inner" id="dashboard">
+      <div class="empty-panel">Upload a dataset to see its dashboard.</div>
+    </div></div>
+  </div>
+
+  <div class="panel" id="panel-relations">
+    <div class="panel-scroll"><div class="panel-inner wide" id="relations">
+      <div class="empty-panel">Upload two or more datasets to see how they relate.</div>
+    </div></div>
+  </div>
+
+  <div class="panel" id="panel-quality">
+    <div class="panel-scroll"><div class="panel-inner" id="quality">
+      <div class="empty-panel">Upload a dataset to see its data-quality report.</div>
+    </div></div>
+  </div>
+
+  <div class="overlay" id="overlay">Drop files to upload</div>
+</main>
+
+<dialog id="dialog">
+  <div class="dlg-head"><strong id="dlg-title">Dataset</strong>
+    <button class="btn" id="dlg-close">Close</button></div>
+  <div class="dlg-body" id="dlg-body"></div>
+</dialog>
+
+<dialog id="ctx-dialog">
+  <form method="dialog" id="ctx-form">
+    <div class="dlg-head"><strong>About your data</strong>
+      <button type="button" class="btn" id="ctx-close">Close</button></div>
+    <div class="dlg-body ctx-body">
+      <p class="muted small">Everything here is optional. The agent reads it before every analysis and will not suggest what you say cannot be done. You can change it at any time.</p>
+      <label>What is this data?
+        <textarea name="description" rows="2" placeholder="e.g. One row per customer of our broadband service, exported from the CRM in March. Prices are in dollars per month."></textarea></label>
+      <label>What are you trying to find out or decide?
+        <textarea name="goal" rows="2" placeholder="e.g. Which customers to call before they cancel. We can offer a discount, not change the contract."></textarea></label>
+      <label>What cannot be done, or must not be recommended?
+        <textarea name="constraints" rows="2" placeholder="e.g. We cannot change contract types. Region is fixed. Do not use age for targeting."></textarea></label>
+      <label>Known problems, columns to ignore, anything else
+        <textarea name="notes" rows="2" placeholder="e.g. monthly_charge is missing for legacy accounts. customer_id is an internal key."></textarea></label>
+      <div class="ctx-actions">
+        <button type="button" class="btn" id="ctx-skip">Skip for now</button>
+        <button type="submit" class="btn primary" id="ctx-save">Save</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="export-dialog">
+  <form method="dialog" id="export-form">
+    <div class="dlg-head"><strong>Export the report</strong>
+      <button type="button" class="btn" id="export-close">Close</button></div>
+    <div class="dlg-body ctx-body">
+      <p class="muted small">Just the answers, without the chat around them. A PDF keeps the full text, tables and charts. Slides keep the main points, one slide per answer plus one per chart.</p>
+      <label>Title <input name="title" type="text" placeholder="Analysis report"></label>
+      <div class="export-row">
+        <label class="inline"><input type="radio" name="format" value="pdf" checked> PDF</label>
+        <label class="inline"><input type="radio" name="format" value="pptx"> Slides (.pptx)</label>
+      </div>
+      <div class="export-head">
+        <span>Answers to include</span>
+        <span><button type="button" class="link-btn" id="export-all">all</button> · <button type="button" class="link-btn" id="export-last">last only</button></span>
+      </div>
+      <div id="export-turns" class="export-turns"></div>
+      <div class="export-row">
+        <label class="inline"><input type="checkbox" name="with_overview"> Add the first look at the data (highlights, how the files relate)</label>
+      </div>
+      <div class="export-row">
+        <label class="inline"><input type="checkbox" name="with_code"> Include the Python code (PDF only)</label>
+      </div>
+      <div class="ctx-actions">
+        <button type="button" class="btn" id="export-cancel">Cancel</button>
+        <button type="submit" class="btn primary" id="export-go">Download</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="import-dialog">
+  <div class="dlg-head"><strong>Bring a dataset from another chat</strong>
+    <button type="button" class="btn" id="import-close">Close</button></div>
+  <div class="dlg-body ctx-body">
+    <p class="muted small">A copy of the dataset as it is in that chat right now, including any changes made there. The two chats stay separate afterwards.</p>
+    <div id="import-list"></div>
+  </div>
+</dialog>
+
+<script src="/static/render.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+store,city,opened,floor_space_m2,staff,parking,manager,rent_per_month
+Downtown,Minneapolis,2015-03-02,420,14,No,A. Lind,10466.0
+Mall,Bloomington,2017-11-20,610,19,Yes,R. Osei,15154.0
+Suburb,Maple Grove,2019-06-10,350,9,Yes,M. Chen,8571.0
+Airport,Minneapolis,2023-09-01,180,7,No,J. Novak,3616.0
+Harbor,Duluth,2025-08-15,390,11,Yes,S. Patel,7261.0

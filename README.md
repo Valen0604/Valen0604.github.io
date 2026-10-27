@@ -26,6 +26,21 @@ Graduate-division entry to MinneMUDAC 2026 with team Data Detectors, for sponsor
 
 ---
 
+### AI Data Scientist: an LLM Analytics Agent (Carlson, Fall 2026)
+
+📂 [ai-data-scientist](./ai-data-scientist)
+
+Course project, team of five. How much of a data scientist's job can be handed to an LLM, and what is left for the person? A chat application that runs on a laptop: upload a file, ask a question in plain language, and an agent decides which analysis answers it, runs it as code on the data, and explains the result. The model never computes a number; every figure in an answer comes from code that ran, and the code is one click away. My part: I specified the features, reviewed and tested each weekly build, and directed the fixes. The code was written with Claude Code, Anthropic's coding agent, as the course encouraged. The folder is a snapshot of the team repository.
+
+**Design:** FastAPI server with an explicit agent loop (Claude via the Anthropic API, 11 tools: profile, preview, charts, statistical tests, model training and scoring, free-form Python, dataset and report export); one sandboxed analysis worker process per chat that holds the data and never receives the API key; results streamed to a vanilla-JS front end. A dashboard and a data-quality report on upload with no model call; a Relationships tab that finds join keys between files from value overlap; PDF and slide export. An offline keyword-matching mode exercises every tool without a key, which makes the model's contribution visible: whatever the matcher cannot do is what the LLM adds.
+
+**Evidence:** 128 automated tests against synthetic data with planted answers (seven data-quality flaws, a known ranking of churn drivers, three kinds of leakage); a 50-point hand evaluation of the live agent's judgment on the same data, passed at about $0.20 for the whole set; run live in the in-class presentation on 26 October 2026.
+
+**What could not be automated** (the graded write-up, [LIMITATIONS.md](./ai-data-scientist/LIMITATIONS.md)): deciding what question is worth asking, knowing what the data means, telling cause from correlation, noticing what it was not told to look for, knowing when its own answer is wrong, and being accountable for the result.
+
+**Deliverables:** the application (Python back end, JavaScript front end), the test suite and evaluation rubric, the limitations document, setup and run scripts for Windows and macOS.
+
+---
 ### Athletic Spending and Academic Outcomes at NCAA Public Institutions
 
 📂 [athletic-spending-outcomes](./athletic-spending-outcomes)
@@ -77,6 +92,15 @@ A multi-page medical-services website with HTML form built incrementally across 
 │   ├── figures/, tables/          # Charts and model summary tables
 │   ├── notebooks/                 # Q6 working notebook (outputs cleared)
 │   └── README.md                  # Project-specific documentation
+├── ai-data-scientist/             # LLM analytics agent: chat app that runs analyses as code (Python, FastAPI)
+│   ├── app/agent/                 # Agent loop, 11 tool definitions, prompts, offline keyword mode
+│   ├── app/analytics/             # Sandboxed worker: loading, profiling, charts, tests, models, leakage guard
+│   ├── app/export/                # PDF, slide and markdown reports
+│   ├── app/static/                # Vanilla-JS front end
+│   ├── tests/                     # 128 tests and the 50-point hand evaluation rubric
+│   ├── data/sample/               # Synthetic data with planted answers
+│   ├── LIMITATIONS.md             # What could not be automated
+│   └── README.md                  # Project-specific documentation
 ├── athletic-spending-outcomes/    # NCAA spending analysis (R + Python)
 │   ├── Code/                      # R Markdown source (data construction, EDA, initial regressions)
 │   ├── Python_Extension/          # Feature engineering, weighted models, ML, ablation, PDPs
@@ -102,7 +126,7 @@ Each project folder contains its own README with setup instructions, data source
 
 ## Tools and Languages
 
-R · Python · SQL · HTML/CSS · Git · ggplot2 · scikit-learn · statsmodels · pandas · geopandas
+R · Python · SQL · HTML/CSS · Git · ggplot2 · scikit-learn · statsmodels · pandas · geopandas · FastAPI · Anthropic API · pytest
 
 ---
 

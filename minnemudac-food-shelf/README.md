@@ -5,7 +5,7 @@ run by MinneAnalytics. The sponsor, The Food Group, provided 55 months (January 
 July 2026) of monthly reports from every food shelf in its Minnesota network and asked
 six questions about need, demand, prices, SNAP, forecasting and food access.
 
-Team **Data Detectors**: Valentino Salerni, Dhyan and Uddam. This folder holds
+Team **Data Detectors**, three students. This folder holds
 **my part of the work**: the shared data pipeline, Question 1 (does recorded activity
 track need?) and Question 6 (a falsifiable measure of need and where it diverges from
 recorded activity). The team's full repository is private because it contains the

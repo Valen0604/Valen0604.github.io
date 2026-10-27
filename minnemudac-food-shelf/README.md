@@ -76,7 +76,7 @@ barely moves it.*
 | here | not here |
 |---|---|
 | `questions/q1_need_vs_activity/`: README with the answers, `analysis.py` that rebuilds every number | the sponsor's site-level data and anything derived from it at county level (`data/`, residual rankings, per-county activity) |
-| `questions/q6_divergence_measure/`: README, `analysis.py`, the graduate addendum written before the index existed | the team's Q4, Q5, Q7 and Q8 work (Dhyan and Uddam) |
+| `questions/q6_divergence_measure/`: README, `analysis.py`, the graduate addendum written before the index existed | the team's Q4, Q5, Q7 and Q8 work (teammates) |
 | `src/`: the pipeline modules I wrote | the August 2026 forecast submission |
 | `docs/`: glossary and the public data-source registry | |
 | `figures/`, `tables/`: model summaries (fits, correlations, covariate and barrier models, stability, index vs. Feeding America) and the need index built from public inputs | |

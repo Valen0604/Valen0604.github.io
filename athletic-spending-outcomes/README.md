@@ -144,6 +144,7 @@ Pell share is the one feature the model cannot do without. Test score, enrollmen
 │   ├── Plots/                       # 01–06 from R, 07–12 from Python
 │   └── Tables/                      # 01–06 from R, 07–12 from Python
 ├── Athletic_Spending_Outcomes.md    # Full writeup
+├── environment.yml                  # Conda environment for the Python extension
 └── README.md                        # This file
 ```
  
@@ -161,6 +162,12 @@ install.packages(c("dplyr", "tidyr", "ggplot2", "broom", "scales", "readr"))
 Python 3.10+:
 ```
 pip install pandas numpy "scikit-learn>=1.4" statsmodels matplotlib joblib
+```
+ 
+Or, with conda, create the environment the Python extension was built in (Python 3.14) from `environment.yml`:
+```
+conda env create -f environment.yml
+conda activate NCAAExtension
 ```
  
 **Steps** — run in order; each stage reads the previous one's output:

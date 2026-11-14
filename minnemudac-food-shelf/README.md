@@ -5,11 +5,12 @@ run by MinneAnalytics. The sponsor, The Food Group, provided 55 months (January 
 July 2026) of monthly reports from every food shelf in its Minnesota network and asked
 six questions about need, demand, prices, SNAP, forecasting and food access.
 
-Team **Data Detectors**, three students. This folder holds
-**my part of the work**: the shared data pipeline, Question 1 (does recorded activity
-track need?) and Question 6 (a falsifiable measure of need and where it diverges from
-recorded activity). The team's full repository is private because it contains the
-sponsor's data. Submitted 17 October 2026.
+Team **Data Detectors**, three students. The team won the **Serendipitous Discovery
+Award** in the graduate division. This folder holds **my part of the work**: the shared
+data pipeline, Question 1 (does recorded activity track need?), Question 6 (a falsifiable
+measure of need and where it diverges from recorded activity), an independent leakage
+audit of the team's August forecast (Question 7), and the follow-up analysis behind the
+award (Question 8). The sponsor's data is not reproduced here. Submitted 17 October 2026.
 
 ## The question in one sentence
 
@@ -53,6 +54,21 @@ barely moves it.*
 
 ![Two measures of need, and where activity is recorded](figures/q6_three_maps.png)
 
+**An audit of a forecast I did not write (Q7).** The organisers disqualify any entry that
+uses August 2026 data. Before submission I audited the teammate-built forecast with 19
+scripted checks, including an empirical test that no backtest fold can see its own
+future; 17 passed and the two failures were clerical, not leakage. Benchmarking
+alternative baselines alongside the audit, a pooled May-to-July base cut county-level
+backtest error (sMAPE) on households from 16% to 12%, improved all five scored outcomes,
+and was adopted for the submission. Details in `questions/q7_leakage_audit/`.
+
+**The nearest store is a dollar store (Q8, the award).** A teammate showed that the
+nearest SNAP store to rural low-income, low-access residents is twelve miles away if only
+supermarkets count and six if smaller stores count. I asked what those closer stores are.
+For 45% of rural low-access residents the nearest SNAP store is a dollar store, and in 29
+of the 31 tracts involved it is a Dollar General, while only 37% live within five miles of
+a food shelf. Details in `questions/q8_nearest_store/`.
+
 ## Methods
 
 - **Pipeline** (`src/`): cleaning of the sponsor's site-level file into site-month and
@@ -68,6 +84,12 @@ barely moves it.*
   within-year z-scores, equal weights; divergence as need rank minus activity rank;
   stability under alternative weightings and random (Dirichlet) weights; barrier
   regression with clustered errors; nested models against Feeding America's rate.
+- **Q7 audit**: scripted PASS/FAIL checks on panel end dates, column lineage, what the
+  forecast script reads, and fold isolation tested by recomputing each backtest from a
+  truncated panel; reproduction of reported scores from saved predictions.
+- **Q8 follow-up**: nearest SNAP-authorised store to each tract's population centre under
+  four widening store definitions (USDA SNAP Retailer Locator, Census CenPop 2020),
+  population-weighted by tract group.
 - **Discipline**: a prediction written before every result; the organizers' leakage rule
   (nothing dated August 2026 enters the repository) enforced at download time.
 
@@ -76,10 +98,12 @@ barely moves it.*
 | here | not here |
 |---|---|
 | `questions/q1_need_vs_activity/`: README with the answers, `analysis.py` that rebuilds every number | the sponsor's site-level data and anything derived from it at county level (`data/`, residual rankings, per-county activity) |
-| `questions/q6_divergence_measure/`: README, `analysis.py`, the graduate addendum written before the index existed | the team's Q4, Q5, Q7 and Q8 work (teammates) |
-| `src/`: the pipeline modules I wrote | the August 2026 forecast submission |
+| `questions/q6_divergence_measure/`: README, `analysis.py`, the graduate addendum written before the index existed | the team's Q4 and Q5 work, the Q7 forecast and the main Q8 analysis (teammates) |
+| `questions/q7_leakage_audit/`: the audit script, the signed write-up and the baseline benchmark | the August 2026 forecast submission and its county-level predictions |
+| `questions/q8_nearest_store/`: the award follow-up script and write-up, plus my cleaning notes on the USDA Atlas | |
+| `src/`: the pipeline modules I wrote, including the first-look EDA and the SNAP caseload builder | |
 | `docs/`: glossary and the public data-source registry | |
-| `figures/`, `tables/`: model summaries (fits, correlations, covariate and barrier models, stability, index vs. Feeding America) and the need index built from public inputs | |
+| `figures/`, `tables/`: model summaries (fits, correlations, covariate and barrier models, stability, index vs. Feeding America), the need index built from public inputs, and the nearest-store tables built from public data | |
 | `notebooks/q6_exploration.ipynb`: the Q6 working notebook, outputs cleared | |
 | `deck_MinneMUDAC_2026_Data_Detectors.pdf`: the team's presentation | |
 
@@ -88,4 +112,5 @@ They are here to show how the numbers were produced.
 
 ## Tools
 
-Python (pandas, statsmodels, geopandas, matplotlib), Census API, Git.
+Python (pandas, NumPy, statsmodels, geopandas, matplotlib), Census API, USDA SNAP
+Retailer Locator API, Git.

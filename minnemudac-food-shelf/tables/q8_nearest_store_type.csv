@@ -1,0 +1,17 @@
+definition,stores_in_definition,lila_class,urban_rural,tracts,population,weighted_mean_nearest_miles,population_within_5_mi_pct,nearest_is_dollar_store_pct,nearest_is_supermarket_pct,nearest_is_super_store_pct,nearest_is_grocery_store_pct,nearest_is_other_pct,nearest_is_convenience_store_pct
+1 supermarkets,680,LILA,Rural,65,171240,12.1,12.0,0.0,55.4,44.6,0.0,0.0,0.0
+1 supermarkets,680,LILA,Urban,328,1244690,0.92,98.8,0.0,50.3,49.7,0.0,0.0,0.0
+1 supermarkets,680,Non-LILA,Rural,423,1471953,5.46,54.8,0.0,42.1,57.9,0.0,0.0,0.0
+1 supermarkets,680,Non-LILA,Urban,685,2818611,1.04,99.2,0.0,48.4,51.6,0.0,0.0,0.0
+2 + grocery stores of any size,1117,LILA,Rural,65,171240,7.3,34.5,0.0,24.2,22.9,53.0,0.0,0.0
+2 + grocery stores of any size,1117,LILA,Urban,328,1244690,0.67,99.5,0.0,31.4,25.3,43.3,0.0,0.0
+2 + grocery stores of any size,1117,Non-LILA,Rural,423,1471953,4.06,66.4,0.0,31.8,39.8,28.4,0.0,0.0
+2 + grocery stores of any size,1117,Non-LILA,Urban,685,2818611,0.96,99.2,0.0,37.8,40.6,21.6,0.0,0.0
+"3 + other stores selling groceries (dollar, pharmacy, general)",1776,LILA,Rural,65,171240,5.99,49.0,44.9,9.1,9.3,34.4,47.3,0.0
+"3 + other stores selling groceries (dollar, pharmacy, general)",1776,LILA,Urban,328,1244690,0.55,100.0,8.5,18.1,15.1,33.9,33.0,0.0
+"3 + other stores selling groceries (dollar, pharmacy, general)",1776,Non-LILA,Rural,423,1471953,3.35,78.7,32.8,19.1,22.1,16.0,42.7,0.0
+"3 + other stores selling groceries (dollar, pharmacy, general)",1776,Non-LILA,Urban,685,2818611,0.8,99.9,3.3,22.5,27.5,16.7,33.3,0.0
+4 + convenience stores,3190,LILA,Rural,65,171240,5.15,56.8,26.6,3.2,7.3,24.0,27.7,37.8
+4 + convenience stores,3190,LILA,Urban,328,1244690,0.38,100.0,3.8,6.3,5.9,15.8,14.0,58.0
+4 + convenience stores,3190,Non-LILA,Rural,423,1471953,2.83,84.1,17.3,8.5,7.7,10.7,20.3,52.8
+4 + convenience stores,3190,Non-LILA,Urban,685,2818611,0.61,100.0,1.2,9.9,12.0,9.8,14.4,53.8
